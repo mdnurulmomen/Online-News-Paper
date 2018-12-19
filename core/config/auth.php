@@ -36,6 +36,22 @@ return [
     */
 
     'guards' => [
+
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
+
+        'editor' => [
+            'driver' => 'session',
+            'provider' => 'editors',
+        ],
+
+        'report' => [
+            'driver' => 'session',
+            'provider' => 'reporters',
+        ],
+
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
@@ -45,6 +61,7 @@ return [
             'driver' => 'token',
             'provider' => 'users',
         ],
+
     ],
 
     /*
@@ -65,11 +82,26 @@ return [
     */
 
     'providers' => [
+
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Admin::class,
+        ],
+
+        'editors' => [
+            'driver' => 'eloquent',
+            'model' => App\Editor::class,
+        ],
+
+        'reporters' => [
+            'driver' => 'eloquent',
+            'model' => App\Reporter::class,
+        ],
+
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
         ],
-
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
