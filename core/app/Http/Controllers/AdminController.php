@@ -84,7 +84,12 @@ class AdminController extends Controller
     }
 
     public function showCreateCategoryForm(){
-        return view('admin.category');
+        $allCategories = Category::all();
+        foreach ($allCategories as $category){
+            $categoryNames[] = $category->name;
+        }
+
+        return view('admin.category', $categoryNames);
     }
 
     public function submitCreateCategoryForm(Request $request){
@@ -100,6 +105,8 @@ class AdminController extends Controller
         $request->has('categoryParent') ? $newCategory->parent = $request->categoryParent : $newCategory->parent = 0;
         $request->has('color') ? $newCategory->color = $request->color : $newCategory->color = null;
         $newCategory->save();
+
+        return redirect()->back()->with('updateMsg', 'New Category is Added');
     }
 
     public function showCreateEditorForm(){

@@ -20,13 +20,18 @@
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Choose URL:</label>
                     <div class="col-sm-10">
-                        <input type="url" name="categoryURl" class="form-control" placeholder="Browsing URL" required>
+                        <input type="text" name="categoryURl" class="form-control" placeholder="Browsing URL" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputPassword3" class="col-sm-2 col-form-label">Choose Sub Category:</label>
                     <div class="col-sm-10">
-                        <input type="text" name="categoryParent" class="form-control" placeholder="Parent Name">
+                        <select class="form-control" name="categoryParent">
+                            <option disabled selected value> -- select a parent name -- </option>
+                            @for ($i = 0; $i < $categoryNames->count; $i++)
+                            <option>{{ $categoryNames[$i] }}</option>
+                            @endfor
+                        </select>
                     </div>
                 </div>
                 <div class="form-group row">
