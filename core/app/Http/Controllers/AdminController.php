@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Admin;
+use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use \Intervention\Image\Facades\Image;
 
 //use Intervention\Image\Facades\Image;
@@ -61,19 +63,43 @@ class AdminController extends Controller
     }
 
     public function showPasswordForm(){
-        return 'Show Password';
+        return view('admin.password');
     }
 
-    public function submitPasswordForm(){
-        return 'Submit Password';
+    public function submitPasswordForm(Request $request){
+        $request->validate([
+            'currentPassword' => 'required',
+            'password' => 'required|confirmed',
+        ]);
+
+        $profileToUpdate = Auth::guard('admin')->user();
+
+        if(Hash::check($request->currentPassword, $profileToUpdate->password))
+        {
+            Auth::guard('admin')->user()->password = Hash::make($request->password);
+            return redirect()->back()->with('updateMsg', 'Password Successfully Changed');
+        }
+
+        return redirect()->back()->withErrors('Current Password is not Correct');
     }
 
     public function showCreateCategoryForm(){
         return view('admin.category');
     }
 
-    public function submitCreateCategoryForm(){
-        return 'Submit Password';
+    public function submitCreateCategoryForm(Request $request){
+        $request->validate([
+            'categoryName' => 'required|unique:categories,name',
+            'categoryURl' => 'required|unique:categories,url',
+            'categoryParent' => 'nullable',
+            'color' => 'nullable',
+        ]);
+        $newCategory = new Category();
+        $newCategory->name = $request->categoryName;
+        $newCategory->url = $request->categoryURl;
+        $request->has('categoryParent') ? $newCategory->parent = $request->categoryParent : $newCategory->parent = 0;
+        $request->has('color') ? $newCategory->color = $request->color : $newCategory->color = null;
+        $newCategory->save();
     }
 
     public function showCreateEditorForm(){

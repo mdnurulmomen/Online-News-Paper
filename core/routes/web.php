@@ -7,10 +7,11 @@ Route::group(['prefix'=>'admin', 'middleware'=>'guest:admin'], function (){
 
 Route::group(['prefix'=>'admin', 'middleware'=>'auth:admin'], function (){
     Route::get('/home', 'AdminController@homeMethod')->name('admin.home');
+
     Route::get('/profile', 'AdminController@showProfileForm')->name('admin.profileUpdateForm');
     Route::put('/profile', 'AdminController@submitProfileForm')->name('admin.updatedProfileSubmit');
     Route::get('/password', 'AdminController@showPasswordForm')->name('admin.passwordUpdateForm');
-    Route::put('/password', 'AdminController@submitPasswordForm')->name('admin.updatedPasswordSubmit');
+    Route::post('/password', 'AdminController@submitPasswordForm')->name('admin.updatedPasswordSubmit');
 
     Route::get('/category', 'AdminController@showCreateCategoryForm')->name('admin.createCategory');
     Route::put('/category', 'AdminController@submitCreateCategoryForm')->name('admin.createdCategorySubmit');

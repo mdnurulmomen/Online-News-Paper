@@ -23,6 +23,7 @@
                 <a href="#" id="dd_user" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Doe</a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd_user">
                     <a href="{{ route('admin.profileUpdateForm') }}" class="dropdown-item">Profile</a>
+                    <a href="{{ route('admin.passwordUpdateForm') }}" class="dropdown-item">Change Password</a>
                     <a href="{{ route('admin.logout') }}" class="dropdown-item">Logout</a>
                 </div>
             </li>

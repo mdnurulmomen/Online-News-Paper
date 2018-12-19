@@ -20,7 +20,7 @@
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Choose URL:</label>
                     <div class="col-sm-10">
-                        <input type="text" name="categoryURl" class="form-control" placeholder="Browsing URL" required>
+                        <input type="url" name="categoryURl" class="form-control" placeholder="Browsing URL" required>
                     </div>
                 </div>
                 <div class="form-group row">
