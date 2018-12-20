@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="{{asset('assets/admin/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{asset('assets/user/css/toastr.min.css') }}">
+    <link rel="stylesheet" href="{{asset('assets/admin/css/toastr.min.css') }}">
     <link rel="stylesheet" href="{{asset('assets/admin/css/custom.css') }}">
 
     <title>Login | Admin</title>
@@ -60,14 +60,13 @@
     </div>
 </div>
 <script src="{{asset('assets/admin/js/jquery.min.js') }}"></script>
-<script src="{{asset('assets/user/js/toastr.min.js') }}"></script>
+<script src="{{asset('assets/admin/js/toastr.min.js') }}"></script>
 <script>
     (function ($) {
         $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
             @if($errors->any())
             @foreach($errors->all() as $error)
-            toastr.error("{{ $error }}", "Opps")
+            toastr.error("{{ $error }}", "Whoops")
             @endforeach
             @endif
         });

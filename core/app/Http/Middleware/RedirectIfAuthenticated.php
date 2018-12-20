@@ -21,6 +21,9 @@ class RedirectIfAuthenticated
             if($request->is('admin/*')){
                 return redirect()->route('admin.home');
             }
+            if($request->is('editor/*')){
+                return redirect()->route('editor.home');
+            }
 //            return redirect('/home');
         }
 
