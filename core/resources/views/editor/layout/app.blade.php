@@ -22,9 +22,9 @@
             <li class="nav-item dropdown">
                 <a href="#" id="dd_user" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{$username}}</a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd_user">
-                    <a href="{{ route('admin.profileUpdateForm') }}" class="dropdown-item">Profile</a>
-                    <a href="{{ route('admin.passwordUpdateForm') }}" class="dropdown-item">Change Password</a>
-                    <a href="{{ route('admin.logout') }}" class="dropdown-item">Logout</a>
+                    <a href="{{ route('editor.profileUpdateForm') }}" class="dropdown-item">Profile</a>
+                    <a href="{{ route('editor.passwordUpdateForm') }}" class="dropdown-item">Change Password</a>
+                    <a href="{{ route('editor.logout') }}" class="dropdown-item">Logout</a>
                 </div>
             </li>
         </ul>
@@ -34,36 +34,15 @@
 <div class="d-flex">
     <div class="sidebar sidebar-dark bg-dark">
         <ul class="list-unstyled">
-            <li class="active"><a href="https://bootadmin.net/demo"><i class="fa fa-fw fa-tachometer-alt"></i> Dashboard</a></li>
-            <li>
-                <a href="#settings" data-toggle="collapse">
-                    <i class="fa fa-fw fa-cube"></i> Settings
-                </a>
-                <ul id="settings" class="list-unstyled collapse">
-                    <li><a href="">General Settings</a></li>
-                    <li><a href="">Other Settings</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#create" data-toggle="collapse">
-                    <i class="fa fa-fw fa-cube"></i> Create
-                </a>
-                <ul id="create" class="list-unstyled collapse">
-                    <li><a href="{{ route('admin.createCategory') }}">Category</a></li>
-                    <li><a href="{{ route('admin.createEditor') }}">Editors</a></li>
-                    <li><a href="{{ route('admin.createReporter') }}">Reporters</a></li>
-                </ul>
-            </li>
+            <li class="active"><a href="{{route('editor.home')}}"><i class="fa fa-fw fa-tachometer-alt"></i> Dashboard</a></li>
             <li>
                 <a href="#view" data-toggle="collapse">
                     <i class="fa fa-fw fa-cube"></i> View
                 </a>
                 <ul id="view" class="list-unstyled collapse">
-                    <li><a href="">Employees</a></li>
                     <li><a href="">Posts</a></li>
                 </ul>
             </li>
-            <li><a href="#"><i class="fa fa-fw fa-edit"></i> Forms</a></li>
             <li><a href="#"><i class="fa fa-fw fa-table"></i> Datatables</a></li>
         </ul>
     </div>

@@ -24,20 +24,14 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inputPassword3" class="col-sm-2 col-form-label">Choose Sub Category:</label>
+                    <label for="inputCategory" class="col-sm-2 col-form-label">Choose Parent Name:</label>
                     <div class="col-sm-10">
-                        <select class="form-control" name="categoryParent">
-                            <option disabled selected value> -- select a parent name -- </option>
-                            @for ($i = 0; $i < $categoryNames->count; $i++)
-                            <option>{{ $categoryNames[$i] }}</option>
-                            @endfor
+                        <select class="form-control" name="categoryParent" required>
+                            <option selected value="0"> -- select a parent name -- </option>
+                            @foreach($allCategories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
                         </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inputPassword3" class="col-sm-2 col-form-label">Color:</label>
-                    <div class="col-sm-1">
-                        <input type="color" name="color" value="" class="form-control" required>
                     </div>
                 </div>
                 <div class="form-group row">

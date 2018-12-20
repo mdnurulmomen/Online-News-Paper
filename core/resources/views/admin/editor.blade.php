@@ -1,4 +1,3 @@
-
 @extends('admin.layout.app')
 @section('contents')
 <div class="content p-4">
@@ -12,9 +11,12 @@
                 @method('PUT')
                 @csrf
                 <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Editor Name:</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="editorName" class="form-control" placeholder="Full Name" required>
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Full Name:</label>
+                    <div class="col-sm-5">
+                        <input type="text" name="editorFirstName" class="form-control" placeholder="First Name">
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" name="editorLastName" class="form-control" placeholder="Last Name">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -39,27 +41,22 @@
                     <div class="row">
                         <legend class="col-form-label col-sm-2 pt-0">Categories Selection:</legend>
                         <div class="col-sm-10">
+                            @foreach($allCategories as $category)
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="international"  value="option1" checked>
                                 <label class="form-check-label" for="gridRadios1">
-                                    First Category
+                                    <input type="checkbox" class="form-check-input" name="editorCategories[]" value="{{$category->id}}">{{$category->name}}
                                 </label>
                             </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="country" value="option2">
-                                <label class="form-check-label" for="gridRadios2">
-                                    Second Category
-                                </label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sports" value="option3">
-                                <label class="form-check-label" for="gridRadios3">
-                                    Third Category
-                                </label>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </fieldset>
+                <div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Picture:</label>
+                    <div class="col-sm-10">
+                        <input type="file" name="editorPic" class="form-control" accept="image/*">
+                    </div>
+                </div>
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Phone / Mobile:</label>
                     <div class="col-sm-10">

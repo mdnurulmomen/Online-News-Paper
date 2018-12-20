@@ -1,46 +1,66 @@
-
 @extends('admin.layout.app')
 @section('contents')
-<div class="content p-4">
-    <h2 class="mb-4"> Profile Setting </h2>
-    <div class="card mb-4">
-        <div class="card-header bg-white font-weight-bold">
-            Profile Updating Form
-        </div>
+
+    <h2 class=""> Profile Setting </h2>
+    <div class="card">
+        <legend class="text-center">
+            <img src="{{ asset('assets/admin/images/'.$picpath) }}" class="img-thumbnail" alt="No Image">
+        </legend>
         <div class="card-body">
             <form method="POST" action = "{{ route('admin.updatedProfileSubmit') }}" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">First Name:</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="adminFirstName" class="form-control"  value="{{ $firstname }}" style="text-transform: capitalize;" required>
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Full Name:</label>
+                    <div class="col-sm-5">
+                        <input type="text" name="firstName" value="{{ $firstname }}" class="form-control">
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" name="lastName" value="{{ $lastname }}" class="form-control">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Last Name:</label>
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">User Name:</label>
                     <div class="col-sm-10">
-                        <input type="text" name="adminLastName" class="form-control"  value="{{ $lastname }}" style="text-transform: capitalize;">
+                        <input type="text" name="userName" value="{{ $username }}" class="form-control" placeholder="Username" required>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inputPassword3" class="col-sm-2 col-form-label">Username:</label>
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Email:</label>
                     <div class="col-sm-10">
-                        <input type="text" name="adminUserName" class="form-control"  value="{{ $username }}" style="text-transform: capitalize;" required>
+                        <input type="email" name="email" value="{{ $email }}" class="form-control">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inputPassword3" class="col-sm-2 col-form-label">Email:</label>
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Upload New Picture:</label>
                     <div class="col-sm-10">
-                        <input type="text" name="adminEmail" class="form-control"  value="{{ $email }}" style="text-transform: capitalize;">
+                        <input type="file" name="profilePic" class="form-control" accept="image/*">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inputPassword3" class="col-sm-2 col-form-label">Profile Picture:</label>
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Phone / Mobile:</label>
                     <div class="col-sm-10">
-                        <!--asset path always counts from index.php (usually inside public) -->
-                        <img src="{{ asset('assets/admin/images/'.$picpath) }}" class="img-thumbnail" alt="No Image">
-                        <input type="file" name="adminPic" accept="image/*">
+                        <input type="tel" name="phone" value="{{ $phone }}" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputAddress2" class="col-sm-2 col-form-label">Address</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="address" value="{{ $address }}" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="form-group col-md-4">
+                        <label for="inputCity" class="col-sm-2 col-form-label">City</label>
+                        <input type="text" name="city" value="{{ $city }}" class="form-control">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputState" class="col-sm-2 col-form-label">State</label>
+                        <input type="text" name="state" value="{{ $state }}" class="form-control">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputZip" class="col-sm-2 col-form-label">Country</label>
+                        <input type="text" name="country" value="{{ $country }}" class="form-control">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -51,5 +71,5 @@
             </form>
         </div>
     </div>
-</div>
+
 @stop

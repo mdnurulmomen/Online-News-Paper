@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Admin;
 use App\Category;
+use App\Editor;
+use App\Reporter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -25,50 +27,63 @@ class AdminController extends Controller
     }
 
     public function homeMethod(){
-        return view('admin.layout.app');
+        $username = Auth::guard('admin')->user()->username;
+        return view('admin.layout.app', compact('username'));
     }
 
     public function showProfileForm(){
-        $admin =  Auth::guard('admin')->user();
-        $profileData = array('firstname'=>$admin->firstname, 'lastname'=>$admin->lastname, 'username'=>$admin->username, 'email'=>$admin->email, 'picpath'=>$admin->picpath);
+        $currentAdmin =  Auth::guard('admin')->user();
+//        $profileData = array('firstname'=>$admin->firstname, 'lastname'=>$admin->lastname, 'username'=>$admin->username, 'email'=>$admin->email, 'picpath'=>$admin->picpath);
+        $profileData = array('firstname'=>$currentAdmin->firstname, 'lastname'=>$currentAdmin->lastname, 'username'=>$currentAdmin->username, 'email'=>$currentAdmin->email, 'picpath'=>$currentAdmin->picpath, 'phone'=>$currentAdmin->phone, 'address'=>$currentAdmin->address, 'city'=>$currentAdmin->city, 'state'=>$currentAdmin->state, 'country'=>$currentAdmin->country);
+
         return view('admin.profile', $profileData);
     }
 
-    public function submitProfileForm(Request $request)
-    {
+    public function submitProfileForm(Request $request){
         $request->validate([
-            'adminFirstName'=>'required',
-            'adminLastName'=>'nullable',
-            'adminUserName'=>'required',
-            'adminEmail'=>'nullable',
-            'adminPic'=>'nullable|image',
+            'firstName'=>'required',
+            'lastName'=>'nullable',
+            'userName'=>'required',
+            'email'=>'nullable',
+            'profilePic'=>'nullable|image',
+            'phone'=>'nullable|numeric',
+            'address'=>'nullable',
+            'city'=>'nullable',
+            'state'=>'nullable',
+            'country'=>'nullable',
         ]);
 
         $profileToUpdate = Auth::guard('admin')->user();
 
-        $profileToUpdate->firstname = $request->adminFirstName;
-        $profileToUpdate->lastname = $request->adminLastName;
-        $profileToUpdate->username = $request->adminUserName;
-        $profileToUpdate->email = $request->adminEmail;
+        $profileToUpdate->firstname = $request->firstName;
+        $profileToUpdate->lastname = $request->lastName;
+        $profileToUpdate->username = $request->userName;
+        $profileToUpdate->email = $request->email;
 
-        if($request->has('adminPic')){
-            $originImageFile = $request->file('adminPic');
+        if($request->has('profilePic')){
+            $originImageFile = $request->file('profilePic');
             $imageObject = Image::make($originImageFile);
             $imageObject->resize(200, 200)->save('assets/admin/images/'.$originImageFile->hashname());
-            Auth::guard('admin')->user()->picpath = $originImageFile->hashName();
+            $profileToUpdate->picpath = $originImageFile->hashName();
         }
 
+        $profileToUpdate->phone = $request->phone;
+        $profileToUpdate->address = $request->address;
+        $profileToUpdate->city = $request->city;
+        $profileToUpdate->state = $request->state;
+        $profileToUpdate->country = $request->country;
+
         $profileToUpdate->save();
+        return redirect()->back()->with('updateMsg', 'Profile Successfully Updated')->with('username', $request->userName);
 //        Auth::guard('admin')->user()->update(['firstname'=>$request->adminFirstName, 'lastName'=>$request->adminLastName, 'username'=>$request->adminUserName, 'email'=>$request->adminEmail, 'picpath'=>$originImageFile->hashname()]);
-        return redirect()->back()->with('updateMsg', 'Profile Successfully Updated');
     }
 
     public function showPasswordForm(){
-        return view('admin.password');
+        $username = Auth::guard('admin')->user()->username;
+        return view('admin.password', compact('username'));
     }
 
-    public function submitPasswordForm(Request $request)
-    {
+    public function submitPasswordForm(Request $request){
         $request->validate([
             'currentPassword' => 'required',
             'password' => 'required|confirmed',
@@ -79,20 +94,16 @@ class AdminController extends Controller
         if(Hash::check($request->currentPassword, $profileToUpdate->password))
         {
             Auth::guard('admin')->user()->password = Hash::make($request->password);
-            return redirect()->back()->with('updateMsg', 'Password Successfully Changed');
+            return redirect()->back()->with('updateMsg', 'Password Successfully Changed')->with('username', $profileToUpdate->username);
         }
 
-        return redirect()->back()->withErrors('Current Password is not Correct');
+        return redirect()->back()->withErrors('Current Password is not Correct')->with('username', $profileToUpdate->username);
     }
 
-    public function showCreateCategoryForm()
-    {
-        $allCategories = Category::all();
-        foreach ($allCategories as $category){
-            $categoryNames[] = $category->name;
-        }
-
-        return view('admin.category', $categoryNames);
+    public function showCreateCategoryForm(){
+        $username = Auth::guard('admin')->user()->username;
+        $allCategories = Category::all('id', 'name');
+        return view('admin.category', compact('allCategories', 'username'));
     }
 
     public function submitCreateCategoryForm(Request $request){
@@ -100,32 +111,111 @@ class AdminController extends Controller
             'categoryName' => 'required|unique:categories,name',
             'categoryURl' => 'required|unique:categories,url',
             'categoryParent' => 'nullable',
-            'color' => 'nullable',
         ]);
+
         $newCategory = new Category();
         $newCategory->name = $request->categoryName;
         $newCategory->url = $request->categoryURl;
         $request->has('categoryParent') ? $newCategory->parent = $request->categoryParent : $newCategory->parent = 0;
-        $request->has('color') ? $newCategory->color = $request->color : $newCategory->color = null;
-        $newCategory->save();
 
-        return redirect()->back()->with('updateMsg', 'New Category is Added');
+        $newCategory->save();
+        $currentUserName = Auth::guard('admin')->user()->username;
+
+        return redirect()->back()->with('updateMsg', 'New Category is Added')->with('username', $currentUserName);
     }
 
     public function showCreateEditorForm(){
-        return view('admin.editor');
+        $username = Auth::guard('admin')->user()->username;
+        $allCategories = Category::all(['id', 'name']);
+        return view('admin.editor', compact('allCategories', 'username'));
     }
 
-    public function submitCreateEditorForm(){
-        return 'Submit Editor';
+    public function submitCreateEditorForm(Request $request){
+        $request->validate([
+            'editorFirstName' => 'nullable|max:255',
+            'editorLastName' => 'nullable|max:255',
+            'editorUserName' => 'required||unique:editors,username|max:255',
+            'editorPassword' => 'required',
+            'editorEmail' => 'nullable|email|unique:editors,email',
+            'editorCategories' => 'required',
+            'editorPic' => 'nullable|image',
+            'editorPhone' => 'nullable',
+            'editorAddress' => 'nullable',
+            'editorCity' => 'nullable',
+            'editorState' => 'nullable',
+            'editorCountry' => 'nullable',
+        ]);
+
+        $newEditor = new Editor();
+        $newEditor->firstname = $request->editorFirstName;
+        $newEditor->lastname = $request->editorLastName;
+        $newEditor->username = $request->editorUserName;
+        $newEditor->password = Hash::make($request->editorPassword);
+        $newEditor->email = $request->editorEmail;
+
+        $newEditor->categories = json_encode($request->editorCategories);
+
+        if($request->has('editorPic')){
+            $originalImageFile = $request->editorPic;
+            $imageObject = Image::make($originalImageFile);
+            $imageObject->resize(200, 200)->save('assets/editor/images/'.$originalImageFile->hashname());
+            $newEditor->picpath = $originalImageFile->hashname();
+        }
+
+        $newEditor->phone = $request->editorPhone;
+        $newEditor->address= $request->editorAddress;
+        $newEditor->city = $request->editorCity;
+        $newEditor->state = $request->editorState;
+        $newEditor->country = $request->editorCountry;
+        $newEditor->save();
+
+        $currentUserName = Auth::guard('admin')->user()->username;
+        return redirect()->back()->with('updateMsg', 'New Editor has been Created')->with('username', $currentUserName);
     }
 
     public function showCreateReporterForm(){
-        return view('admin.reporter');
+        $username = Auth::guard('admin')->user()->username;
+        return view('admin.reporter', compact('username'));
     }
 
-    public function submitCreateReporterForm(){
-        return 'Submit Reporter';
+    public function submitCreateReporterForm(Request $request){
+        $request->validate([
+            'reporterFirstName' => 'nullable|max:255',
+            'reporterLastName' => 'nullable|max:255',
+            'reporterUserName' => 'required||unique:editors,username|max:255',
+            'reporterPassword' => 'required',
+            'reporterEmail' => 'nullable|email|unique:editors,email',
+            'reporterPic' => 'nullable|image',
+            'reporterPhone' => 'nullable',
+            'reporterAddress' => 'nullable',
+            'reporterCity' => 'nullable',
+            'reporterState' => 'nullable',
+            'reporterCountry' => 'nullable',
+        ]);
+
+        $newReporter = new Reporter();
+        $newReporter->firstname = $request->reporterFirstName;
+        $newReporter->lastname = $request->reporterLastName;
+        $newReporter->username = $request->reporterUserName;
+        $newReporter->password = Hash::make($request->reporterPassword);
+        $newReporter->email = $request->editorEmail;
+
+        if($request->has('editorPic')){
+            $originalImageFile = $request->reporterPic;
+            $imageObject = Image::make($originalImageFile);
+            $imageObject->resize(200, 200)->save('assets/editor/images/'.$originalImageFile->hashname());
+            $newReporter->picpath = $originalImageFile->hashname();
+        }
+
+        $newReporter->phone = $request->reporterPhone;
+        $newReporter->address= $request->reporterAddress;
+        $newReporter->city = $request->reporterCity;
+        $newReporter->state = $request->reporterState;
+        $newReporter->country = $request->reporterCountry;
+        $newReporter->save();
+
+        $currentUserName = Auth::guard('admin')->user()->username;
+        return redirect()->back()->with('updateMsg', 'New Reporter has been Created')->with('username', $currentUserName);
     }
 
     public function logout(){
