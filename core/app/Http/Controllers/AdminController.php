@@ -34,7 +34,8 @@ class AdminController extends Controller
         return view('admin.profile', $profileData);
     }
 
-    public function submitProfileForm(Request $request){
+    public function submitProfileForm(Request $request)
+    {
         $request->validate([
             'adminFirstName'=>'required',
             'adminLastName'=>'nullable',
@@ -66,7 +67,8 @@ class AdminController extends Controller
         return view('admin.password');
     }
 
-    public function submitPasswordForm(Request $request){
+    public function submitPasswordForm(Request $request)
+    {
         $request->validate([
             'currentPassword' => 'required',
             'password' => 'required|confirmed',
@@ -83,7 +85,8 @@ class AdminController extends Controller
         return redirect()->back()->withErrors('Current Password is not Correct');
     }
 
-    public function showCreateCategoryForm(){
+    public function showCreateCategoryForm()
+    {
         $allCategories = Category::all();
         foreach ($allCategories as $category){
             $categoryNames[] = $category->name;
