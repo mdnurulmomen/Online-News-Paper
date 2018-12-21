@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Intervention\Image\Facades\Image;
 
 class EditorController extends Controller
 {
@@ -37,7 +39,7 @@ class EditorController extends Controller
         $request->validate([
             'firstName'=>'required',
             'lastName'=>'nullable',
-            'userName'=>'required',
+//            'userName'=>'required',
             'email'=>'nullable',
             'profilePic'=>'nullable|image',
             'phone'=>'nullable|numeric',
@@ -51,13 +53,13 @@ class EditorController extends Controller
 
         $profileToUpdate->firstname = $request->firstName;
         $profileToUpdate->lastname = $request->lastName;
-        $profileToUpdate->username = $request->userName;
+//        $profileToUpdate->username = $request->userName;
         $profileToUpdate->email = $request->email;
 
         if($request->has('profilePic')){
             $originImageFile = $request->file('profilePic');
             $imageObject = Image::make($originImageFile);
-            $imageObject->resize(200, 200)->save('assets/admin/images/'.$originImageFile->hashname());
+            $imageObject->resize(150, 150)->save('assets/editor/images/'.$originImageFile->hashname());
             $profileToUpdate->picpath = $originImageFile->hashName();
         }
 
@@ -73,12 +75,26 @@ class EditorController extends Controller
     }
 
     public function showPasswordForm(){
-        return 'SHow Password';
+        $username = Auth::guard('editor')->user()->username;
+        return view('editor.password', compact('username'));
     }
 
-    public function submitPasswordForm(){
-        return 'Submit Password';
+    public function submitPasswordForm(Request $request){
+        $request->validate([
+            'currentPassword' => 'required',
+            'password' => 'required|confirmed',
+        ]);
+
+        $profileToUpdate = Auth::guard('editor')->user();
+
+        if(Hash::check($request->currentPassword, $profileToUpdate->password)){
+            $profileToUpdate->password = Hash::make($request->password);
+            return redirect()->back()->with('updateMsg', 'Password is Updated')->with('username', $profileToUpdate->username);
+        }
+
+        return redirect()->back()->withErrors('Current Password is Wrong');
     }
+
     public function logout(){
         Auth::logout();
         return redirect()->route('editor.loginForm');

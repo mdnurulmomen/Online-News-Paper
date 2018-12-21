@@ -94,7 +94,7 @@ class AdminController extends Controller
         if(Hash::check($request->currentPassword, $profileToUpdate->password))
         {
             Auth::guard('admin')->user()->password = Hash::make($request->password);
-            return redirect()->back()->with('updateMsg', 'Password Successfully Changed')->with('username', $profileToUpdate->username);
+            return redirect()->back()->with('updateMsg', 'Password is Updated')->with('username', $profileToUpdate->username);
         }
 
         return redirect()->back()->withErrors('Current Password is not Correct')->with('username', $profileToUpdate->username);
@@ -182,9 +182,9 @@ class AdminController extends Controller
         $request->validate([
             'reporterFirstName' => 'nullable|max:255',
             'reporterLastName' => 'nullable|max:255',
-            'reporterUserName' => 'required||unique:editors,username|max:255',
+            'reporterUserName' => 'required||unique:reporters,username|max:255',
             'reporterPassword' => 'required',
-            'reporterEmail' => 'nullable|email|unique:editors,email',
+            'reporterEmail' => 'nullable|email|unique:reporters,email',
             'reporterPic' => 'nullable|image',
             'reporterPhone' => 'nullable',
             'reporterAddress' => 'nullable',
@@ -203,7 +203,7 @@ class AdminController extends Controller
         if($request->has('editorPic')){
             $originalImageFile = $request->reporterPic;
             $imageObject = Image::make($originalImageFile);
-            $imageObject->resize(200, 200)->save('assets/editor/images/'.$originalImageFile->hashname());
+            $imageObject->resize(150, 150)->save('assets/reporters/images/'.$originalImageFile->hashname());
             $newReporter->picpath = $originalImageFile->hashname();
         }
 

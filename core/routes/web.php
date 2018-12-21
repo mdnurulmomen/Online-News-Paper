@@ -38,3 +38,19 @@ Route::group(['prefix'=>'editor', 'middleware'=>'auth:editor'], function(){
 
    Route::get('logout', 'EditorController@logout')->name('editor.logout');
 });
+
+Route::group(['prefix'=>'reporter', 'middleware'=>'guest:reporter'], function (){
+    Route::get('/', 'ReporterController@showLoginForm')->name('reporter.loginForm');
+    Route::post('/', 'ReporterController@login')->name('reporter.loginFormSubmit');
+});
+
+Route::group(['prefix'=>'reporter', 'middleware'=>'auth:reporter'], function(){
+   Route::get('home', 'ReporterController@homeMethod')->name('reporter.home');
+
+   Route::get('profile', 'ReporterController@showProfileForm')->name('reporter.profileUpdateForm');
+   Route::put('profile', 'ReporterController@submitProfileForm')->name('reporter.updatedProfileSubmit');
+   Route::get('password', 'ReporterController@showPasswordForm')->name('reporter.passwordUpdateForm');
+   Route::post('password', 'ReporterController@submitPasswordForm')->name('reporter.updatedPasswordSubmit');
+
+   Route::get('logout', 'ReporterController@logout')->name('reporter.logout');
+});

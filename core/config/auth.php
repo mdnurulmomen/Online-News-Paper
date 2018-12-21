@@ -47,7 +47,7 @@ return [
             'provider' => 'editors',
         ],
 
-        'report' => [
+        'reporter' => [
             'driver' => 'session',
             'provider' => 'reporters',
         ],

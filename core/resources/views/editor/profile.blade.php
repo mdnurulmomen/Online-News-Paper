@@ -22,7 +22,7 @@
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">User Name:</label>
                     <div class="col-sm-10">
-                        <input type="text" name="userName" value="{{ $username }}" class="form-control" placeholder="Username" required>
+                        <input type="text" name="userName" value="{{ $username }}" class="form-control" placeholder="Username" readonly required>
                     </div>
                 </div>
                 <div class="form-group row">

@@ -1,5 +1,5 @@
 
-@extends('editor.layout.app')
+@extends('reporter.layout.app')
 @section('contents')
     <div class="content p-4">
         <h2 class="mb-4"> Password Setting </h2>
@@ -8,7 +8,7 @@
                 Password Form
             </div>
             <div class="card-body">
-                <form method="post" action = "{{ route('editor.updatedPasswordSubmit') }}">
+                <form method="post" action = "{{ route('reporter.updatedPasswordSubmit') }}">
                     @csrf
                     <div class="form-group row">
                         <label for="inputEmail3" class="col-sm-2 col-form-label"> Current Password: </label>

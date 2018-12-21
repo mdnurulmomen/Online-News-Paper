@@ -1,82 +1,75 @@
-
-@extends('admin.layout.app')
+@extends('reporter.layout.app')
 @section('contents')
-<div class="content p-4">
-    <h2 class="mb-4"> Profile Setting </h2>
-    <div class="card mb-4">
-        <div class="card-header bg-white font-weight-bold">
-            Profile Updating Form
-        </div>
+
+    <h2 class=""> Profile Setting </h2>
+    <div class="card">
+        <legend class="text-center">
+            <img src="{{ asset('assets/reporter/images/'.$picpath) }}" class="img-thumbnail text-right" alt="No Image">
+        </legend>
         <div class="card-body">
-            <form method="POST" action = "{{ route('admin.createdReporterSubmit') }}" enctype="multipart/form-data">
+            <form method="POST" action = "{{ route('reporter.updatedProfileSubmit') }}" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Full Name:</label>
                     <div class="col-sm-5">
-                        <input type="text" name="reporterFirstName" class="form-control" placeholder="First Name">
+                        <input type="text" name="firstName" value="{{ $firstname }}" class="form-control">
                     </div>
                     <div class="col-sm-5">
-                        <input type="text" name="reporterLastName" class="form-control" placeholder="Last Name">
+                        <input type="text" name="lastName" value="{{ $lastname }}" class="form-control">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">User Name:</label>
                     <div class="col-sm-10">
-                        <input type="text" name="reporterUserName" class="form-control" placeholder="Username" required>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Password:</label>
-                    <div class="col-sm-10">
-                        <input type="password" name="reporterPassword" class="form-control" placeholder="Chosse a Suitable Password" required>
+                        <input type="text" name="userName" value="{{ $username }}" class="form-control" placeholder="Username" readonly required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Email:</label>
                     <div class="col-sm-10">
-                        <input type="email" name="reporterEmail" class="form-control" placeholder="Email Address">
+                        <input type="email" name="email" value="{{ $email }}" class="form-control">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Picture:</label>
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Upload New Picture:</label>
                     <div class="col-sm-10">
-                        <input type="file" name="reporterPic" class="form-control" accept="image/*">
+                        <input type="file" name="profilePic" class="form-control" accept="image/*">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Phone / Mobile:</label>
                     <div class="col-sm-10">
-                        <input type="tel" name="reporterPhone" class="form-control" placeholder="Phone or Mobile Number">
+                        <input type="tel" name="phone" value="{{ $phone }}" class="form-control">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputAddress2" class="col-sm-2 col-form-label">Address</label>
                     <div class="col-sm-10">
-                        <input type="text" name="reporterAddress" class="form-control" placeholder="Apartment, studio, or floor">
+                        <input type="text" name="address" value="{{ $address }}" class="form-control">
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="form-group col-md-4">
                         <label for="inputCity" class="col-sm-2 col-form-label">City</label>
-                        <input type="text" name="reporterCity" class="form-control" placeholder="City Name">
+                        <input type="text" name="city" value="{{ $city }}" class="form-control">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="inputState" class="col-sm-2 col-form-label">State</label>
-                        <input type="text" name="reporterState" class="form-control" placeholder="State Name">
+                        <input type="text" name="state" value="{{ $state }}" class="form-control">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="inputZip" class="col-sm-2 col-form-label">Country</label>
-                        <input type="text" name="reporterCountry" class="form-control" placeholder="Country Name">
+                        <input type="text" name="country" value="{{ $country }}" class="form-control">
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-12">
-                        <button type="submit" class="btn btn-block btn-primary">Create</button>
+                        <button type="submit" class="btn btn-block btn-primary">Update</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-</div>
+
 @stop
