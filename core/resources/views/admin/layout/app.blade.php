@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="{{ asset('assets/admin/css/fontawesome-all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/bootadmin.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/toastr.min.css') }}">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+
 
     <title>Dashboard | Online News Admin Panel</title>
 </head>
@@ -40,7 +42,7 @@
                     <i class="fa fa-fw fa-cube"></i> Settings
                 </a>
                 <ul id="settings" class="list-unstyled collapse">
-                    <li><a href="">General Settings</a></li>
+                    <li><a href="{{route('admin.settingsGeneralForm')}}">General Settings</a></li>
                     <li><a href="">Other Settings</a></li>
                 </ul>
             </li>
@@ -79,6 +81,7 @@
 <script src="{{ asset('assets/admin/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('assets/admin/js/bootadmin.min.js') }}"></script>
 <script src="{{ asset('assets/admin/js/toastr.min.js') }}"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script>
     (function ($) {
         $(document).ready(function () {

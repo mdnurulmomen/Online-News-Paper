@@ -6,6 +6,7 @@ use App\Admin;
 use App\Category;
 use App\Editor;
 use App\Reporter;
+use App\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -216,6 +217,18 @@ class AdminController extends Controller
 
         $currentUserName = Auth::guard('admin')->user()->username;
         return redirect()->back()->with('updateMsg', 'New Reporter has been Created')->with('username', $currentUserName);
+    }
+
+    public function showGeneralSettingsForm(){
+        $settings = Setting::first();
+        $settingsData = array('newsPaperName'=>$settings->name, 'color'=>$settings->color, 'postverification'=>$settings->postverification, 'userRegistration'=>$settings->userregistration, 'emailverification'=>$settings->emailverification, 'smsverification'=>$settings->smsverification);
+
+        $username = Auth::guard('admin')->user()->username;
+        return view('admin.general-settings', compact( 'username'))->with($settingsData);
+    }
+
+    public function submitGeneralSettingsForm(){
+        return 'Submited';
     }
 
     public function logout(){

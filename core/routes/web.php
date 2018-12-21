@@ -20,6 +20,10 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth:admin'], function (){
     Route::get('reporter', 'AdminController@showCreateReporterForm')->name('admin.createReporter');
     Route::put('reporter', 'AdminController@submitCreateReporterForm')->name('admin.createdReporterSubmit');
 
+
+    Route::get('general', 'AdminController@showGeneralSettingsForm')->name('admin.settingsGeneralForm');
+    Route::put('general', 'AdminController@submitGeneralSettingsForm')->name('admin.settingsGeneralSubmit');
+
     Route::get('logout', 'AdminController@logout')->name('admin.logout');
 });
 
