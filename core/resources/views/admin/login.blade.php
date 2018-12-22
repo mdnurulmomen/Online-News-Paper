@@ -26,7 +26,7 @@
             </div>
 
             <div class="card-body">
-                <form method="post" action="{{ route('admin.loginFormSubmit') }}" >
+                <form method="post" action="{{ route('admin.login.submit') }}" >
                     @csrf
                     <div class="input-group form-group">
                         <div class="input-group-prepend">

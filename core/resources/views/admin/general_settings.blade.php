@@ -7,13 +7,13 @@
                 Basic Information
             </div>
             <div class="card-body">
-                <form method="post" action = "{{ route('admin.settingsGeneralSubmit') }}">
+                <form method="post" action = "{{ route('admin.settings.general.submit') }}">
                     @csrf
                     @method('PUT')
                     <div class="form-group row">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">Title:</label>
                         <div class="col-sm-10">
-                            <input type="text" name="title" class="form-control" style="text-transform: capitalize;"  value="{{ $newsPaperName }}" required>
+                            <input type="text" name="name" class="form-control" value="{{ $newsPaperName }}" required>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -26,7 +26,7 @@
                         <div class="col-sm-2">Post Verification :</div>
                         <div class="col-sm-10">
                             <div class="form-check">
-                                <input type="checkbox" name="registration" @if($postverification==1) checked @endif  data-toggle="toggle" data-on="Allowed" data-off="Not Allowed" data-onstyle="success" data-offstyle="danger">
+                                <input type="checkbox" name="postverification" @if($postverification==1) checked @endif  data-toggle="toggle" data-on="Allowed" data-off="Not Allowed" data-onstyle="success" data-offstyle="danger">
                             </div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                         <div class="col-sm-2">User Registration :</div>
                         <div class="col-sm-10">
                             <div class="form-check">
-                                <input type="checkbox" name="registration" @if($userRegistration==1) checked @endif  data-toggle="toggle" data-on="Allowed" data-off="Not Allowed" data-onstyle="success" data-offstyle="danger">
+                                <input type="checkbox" name="userregistration" @if($userRegistration==1) checked @endif  data-toggle="toggle" data-on="Allowed" data-off="Not Allowed" data-onstyle="success" data-offstyle="danger">
                             </div>
                         </div>
                     </div>

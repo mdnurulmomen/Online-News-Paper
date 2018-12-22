@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Admin;
 use App\Category;
 use App\Editor;
+use App\Post;
 use App\Reporter;
 use App\Setting;
 use Illuminate\Http\Request;
@@ -99,6 +100,41 @@ class AdminController extends Controller
         }
 
         return redirect()->back()->withErrors('Current Password is not Correct')->with('username', $profileToUpdate->username);
+    }
+
+    public function showGeneralSettingsForm(){
+        $settings = Setting::first();
+        $settingsData = array('newsPaperName'=>$settings->name, 'color'=>$settings->color, 'postverification'=>$settings->postverification, 'userRegistration'=>$settings->userregistration, 'emailverification'=>$settings->emailverification, 'smsverification'=>$settings->smsverification);
+
+        $username = Auth::guard('admin')->user()->username;
+        return view('admin.general_settings', compact( 'username'))->with($settingsData);
+    }
+
+    public function submitGeneralSettingsForm(Request $request){
+        $request->validate([
+            'name'=>'nullable',
+            'color'=>'nullable',
+            'postverification'=>'nullable',
+            'userregistration'=>'nullable',
+            'emailverification'=>'nullable',
+            'smsverification'=>'nullable',
+        ]);
+
+//        return $request;
+        $settings = Setting::first();
+//        return $settings;
+        $settings->name = $request->name;
+        $settings->color = $request->color;
+
+        ($request->postverification == 'on') ? $settings->postverification = 1 : $settings->postverification = 0;
+        ($request->userregistration == 'on') ? $settings->userregistration = 1 : $settings->userregistration = 0;
+        ($request->emailverification == 'on') ? $settings->emailverification = 1 : $settings->emailverification = 0;
+        ($request->smsverification == 'on') ? $settings->smsverification = 1 : $settings->smsverification = 0;
+
+        $settings->save();
+
+        $currentUserName = Auth::guard('admin')->user()->username;
+        return redirect()->back()->with('updateMsg', 'Settings are Updated')->with('username', $currentUserName);
     }
 
     public function showCreateCategoryForm(){
@@ -219,20 +255,83 @@ class AdminController extends Controller
         return redirect()->back()->with('updateMsg', 'New Reporter has been Created')->with('username', $currentUserName);
     }
 
-    public function showGeneralSettingsForm(){
-        $settings = Setting::first();
-        $settingsData = array('newsPaperName'=>$settings->name, 'color'=>$settings->color, 'postverification'=>$settings->postverification, 'userRegistration'=>$settings->userregistration, 'emailverification'=>$settings->emailverification, 'smsverification'=>$settings->smsverification);
-
+    public function showAllPosts(){
+        $posts = Post::all();
         $username = Auth::guard('admin')->user()->username;
-        return view('admin.general-settings', compact( 'username'))->with($settingsData);
+        return view('admin.all_post', compact('posts', 'username'));
     }
 
-    public function submitGeneralSettingsForm(){
-        return 'Submited';
+    public function showPostEditForm($postid){
+        $post = Post::find($postid);
+        $categories = Category::all('id', 'name');
+        $username = Auth::guard('admin')->user()->username;
+        return view('admin.single_post', compact('post', 'username', 'categories'));
+    }
+
+    public function submitPostEditForm(Request $request, $postid){
+        $request->validate([
+            'categoryId'=> 'required',
+            'title' => 'required',
+            'description' => 'required',
+        ]);
+
+        $postToUpdate = Post::find($postid);
+        $postToUpdate->category_id = $request->categoryId;
+        $postToUpdate->title = $request->title;
+        $postToUpdate->description = $request->description;
+
+        ($request->status=='on') ? $postToUpdate->status = 1 : $postToUpdate->status = 0;
+        $postToUpdate->save();
+
+        $username = Auth::guard('admin')->user()->username;
+        return redirect()->route('admin.view.post')->with('updateMsg', 'Post has been Edited')->with('username', $username);
+    }
+
+    public function postDeleteMethod($postid){
+        Post::destroy($postid);
+//        $post = Post::find($postid);
+//        $post->delete();
+        $username = Auth::guard('admin')->user()->username;
+        return redirect()->route('admin.view.post')->with('updateMsg', 'Post has been Deleted')->with('username', $username);
+    }
+
+    public function showAllEmployees(){
+        $editors = Editor::all();
+        $reporters = Reporter::all();
+//        $posts = Post::all();
+//        $username = Auth::guard('admin')->user()->username;
+//        return view('admin.allpost', compact('posts', 'username'));
+        $username = Auth::guard('admin')->user()->username;
+        return view('admin.all_employee', compact('editors', 'reporters', 'username'));
+    }
+
+    public function showEmployeeEditForm($employeeid, $employeetype){
+//        $post = Post::find($postid);
+//        $categories = Category::all('id', 'name');
+//        $username = Auth::guard('admin')->user()->username;
+//        return view('admin.singlepost', compact('post', 'username', 'categories'));
+        $username = Auth::guard('admin')->user()->username;
+        return 'Show Edit Employees';
+    }
+
+    public function submitEmployeeEditForm($postid){
+//        $post = Post::find($postid);
+//        $categories = Category::all('id', 'name');
+//        $username = Auth::guard('admin')->user()->username;
+//        return view('admin.singlepost', compact('post', 'username', 'categories'));
+        return 'Submit Edit Employees';
+    }
+
+    public function employeeDeleteMethod($postid){
+//        $post = Post::find($postid);
+//        $categories = Category::all('id', 'name');
+//        $username = Auth::guard('admin')->user()->username;
+//        return view('admin.singlepost', compact('post', 'username', 'categories'));
+        return 'Delete Employees';
     }
 
     public function logout(){
         Auth::guard('admin')->logout();
-        return redirect()->route('admin.loginForm');
+        return redirect()->route('admin.login');
     }
 }

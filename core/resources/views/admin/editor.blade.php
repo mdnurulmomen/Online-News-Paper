@@ -7,7 +7,7 @@
             Profile Updating Form
         </div>
         <div class="card-body">
-            <form method="POST" action = "{{ route('admin.createdEditorSubmit') }}" enctype="multipart/form-data">
+            <form method="POST" action = "{{ route('admin.created.editor.submit') }}" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <div class="form-group row">
