@@ -1,14 +1,14 @@
 
-@extends('admin.layout.app')
+@extends('reporter.layout.app')
 @section('contents')
 <div class="content p-4">
-    <h2 class="mb-4"> Profile Setting </h2>
+    <h2 class="mb-4"> Post Edit </h2>
     <div class="card mb-4">
         <div class="card-header bg-white font-weight-bold">
-            Profile Updating Form
+            Post Updating Form
         </div>
         <div class="card-body">
-            <form method="POST" action = "{{ route('admin.edited.post.submit', $postToUpdate->id) }}" enctype="multipart/form-data">
+            <form method="POST" action = "{{ route('reporter.edited.post.submit', $postToUpdate->id) }}" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <fieldset class="form-group">
@@ -16,9 +16,12 @@
                         <legend class="col-form-label col-sm-2 pt-0">Categories Selection:</legend>
                         <div class="col-sm-10">
                             <select name="categoryId" class="form-control">
-                                @foreach($allCategories as $category)
-                                    <option value="{{ $category->id }}" @if($category->id==$postToUpdate->category_id) selected @endif>{{ $category->name }}</option>
-                                @endforeach
+                                {{--@foreach($categories as $category)
+                                    <option value="{{ $category->id }}" @if($category->id==$post->category_id) selected @endif>{{ $category->name }}</option>
+                                @endforeach--}}
+                            @foreach($allCategories as $category)
+                                <option value="{{$category->id}}" @if($category->id==$postToUpdate->category->id) selected @endif>{{$category->name}}
+                            @endforeach
                             </select>
                         </div>
                     </div>
@@ -38,7 +41,8 @@
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Status:</label>
                     <div class="col-sm-10">
-                        <input type="checkbox" name="status" @if($postToUpdate->status==1) checked @endif  data-toggle="toggle" data-on="Published" data-off="Unpublished" data-onstyle="success" data-offstyle="danger">
+                        <label class="checkbox-inline"><input type="checkbox" @if($postToUpdate->status==1) checked @endif disabled>Published</label>
+                        <label class="checkbox-inline"><input type="checkbox" @if($postToUpdate->status==0) checked @endif disabled>Unpublished</label>
                     </div>
                 </div>
                 <div class="form-group row">

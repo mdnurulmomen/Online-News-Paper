@@ -11,7 +11,7 @@ class Reporter extends Authenticatable
 {
     use Notifiable;
     protected $guard = 'reporter';
-
+    protected $fillable = ['firstname', 'lastname', 'email', 'picpath', 'phone', 'address', 'city', 'state', 'country'];
 }
 //class Reporter extends Model
 //{

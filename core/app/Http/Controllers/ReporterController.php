@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Post;
+use App\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -69,7 +71,6 @@ class ReporterController extends Controller
 
         $profileToUpdate->save();
         return redirect()->back()->with('updateMsg', 'Profile Successfully Updated')->with('username', $request->userName);
-//        Auth::guard('admin')->user()->update(['firstname'=>$request->adminFirstName, 'lastName'=>$request->adminLastName, 'username'=>$request->adminUserName, 'email'=>$request->adminEmail, 'picpath'=>$originImageFile->hashname()]);
     }
 
     public function showPasswordForm(){
@@ -93,8 +94,71 @@ class ReporterController extends Controller
         return redirect()->back()->withErrors('Current Password is Wrong');
     }
 
+    public function showCreatePostForm(){
+        $allCategories = Category::all('id', 'name');
+        $username = Auth::guard('reporter')->user()->username;
+        return view('reporter.create_post', compact('allCategories', 'username'));
+    }
+
+    public function submitCreatePostForm(Request $request){
+        $request->validate([
+            'categoryId'=>'required',
+            'title'=>'required',
+            'description'=>'required',
+        ]);
+
+        $currentUser = Auth::guard('reporter')->user();
+
+        $newPost = new Post();
+        $newPost->category_id = $request->categoryId;
+        $newPost->reporter_id = $currentUser->id;
+        $newPost->title = $request->title;
+        $newPost->description = $request->description;
+
+        $statusPermission = Setting::first()->postverification;
+        ($statusPermission==1) ? $newPost->status=0 : $newPost->status=1;
+
+        $newPost->save();
+        return redirect()->back()->with('updateMsg', 'Post is Added')->with('username', $currentUser->username);
+    }
+
+    public function showALlPost(){
+        $currentUser = Auth::guard('reporter')->user();
+        $username = $currentUser->username;
+        $posts = Post::all()->where('reporter_id', $currentUser->id);
+        return view('reporter.all_post', compact(['posts', 'username']));
+    }
+
+    public function showPostEditForm($postid){
+        $postToUpdate = Post::find($postid);
+        $allCategories = Category::all('id', 'name');
+        $username = Auth::guard('reporter')->user()->username;
+        return view('reporter.single_post', compact(['allCategories', 'postToUpdate', 'username']));
+    }
+
+    public function submitPostEditForm(Request $request, $postId){
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+        ]);
+
+        $postToUpdate = Post::find($postId);
+
+        $postToUpdate->category_id = $request->categoryId;
+        $postToUpdate->title = $request->title;
+        $postToUpdate->description = $request->description;
+
+        $settings = Setting::first();
+        ($settings->postverification==0) ? $postToUpdate->status = 1 :$postToUpdate->status =0;
+
+        $postToUpdate->save();
+
+        $currentUserName = Auth::guard('reporter')->user()->username;
+        return redirect()->back()->with('updateMsg', 'Post is Updated')->with('username', $currentUserName);
+    }
+
     public function logout(){
         Auth::logout();
-        return redirect()->route('reporter.loginForm');
+        return redirect()->route('reporter.login');
     }
 }

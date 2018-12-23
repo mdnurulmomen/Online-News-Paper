@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use \Intervention\Image\Facades\Image;
 
-//use Intervention\Image\Facades\Image;
 
 class AdminController extends Controller
 {
@@ -35,7 +34,6 @@ class AdminController extends Controller
 
     public function showProfileForm(){
         $currentAdmin =  Auth::guard('admin')->user();
-//        $profileData = array('firstname'=>$admin->firstname, 'lastname'=>$admin->lastname, 'username'=>$admin->username, 'email'=>$admin->email, 'picpath'=>$admin->picpath);
         $profileData = array('firstname'=>$currentAdmin->firstname, 'lastname'=>$currentAdmin->lastname, 'username'=>$currentAdmin->username, 'email'=>$currentAdmin->email, 'picpath'=>$currentAdmin->picpath, 'phone'=>$currentAdmin->phone, 'address'=>$currentAdmin->address, 'city'=>$currentAdmin->city, 'state'=>$currentAdmin->state, 'country'=>$currentAdmin->country);
 
         return view('admin.profile', $profileData);
@@ -57,27 +55,34 @@ class AdminController extends Controller
 
         $profileToUpdate = Auth::guard('admin')->user();
 
-        $profileToUpdate->firstname = $request->firstName;
-        $profileToUpdate->lastname = $request->lastName;
-        $profileToUpdate->username = $request->userName;
-        $profileToUpdate->email = $request->email;
+//        $profileToUpdate->firstname = $request->firstName;
+//        $profileToUpdate->lastname = $request->lastName;
+//        $profileToUpdate->username = $request->userName;
+//        $profileToUpdate->email = $request->email;
 
         if($request->has('profilePic')){
             $originImageFile = $request->file('profilePic');
             $imageObject = Image::make($originImageFile);
             $imageObject->resize(200, 200)->save('assets/admin/images/'.$originImageFile->hashname());
-            $profileToUpdate->picpath = $originImageFile->hashName();
+//            $profileToUpdate->picpath = $originImageFile->hashName();
         }
 
-        $profileToUpdate->phone = $request->phone;
-        $profileToUpdate->address = $request->address;
-        $profileToUpdate->city = $request->city;
-        $profileToUpdate->state = $request->state;
-        $profileToUpdate->country = $request->country;
+//        $profileToUpdate->phone = $request->phone;
+//        $profileToUpdate->address = $request->address;
+//        $profileToUpdate->city = $request->city;
+//        $profileToUpdate->state = $request->state;
+//        $profileToUpdate->country = $request->country;
+//        $profileToUpdate->save();
 
-        $profileToUpdate->save();
+        if($request->contains('profilePic')){
+            $profileToUpdate->update(['firstname'=>$request->firstName, 'lastName'=>$request->lastName, 'username'=>$request->userName, 'email'=>$request->email, 'picpath'=>$originImageFile->hashname(), 'phone'=> $request->phone, 'address'=> $request->address, 'city'=> $request->city, 'state'=> $request->state, 'country'=>$request->country]);
+        }
+        else{
+            $profileToUpdate->update(['firstname'=>$request->firstName, 'lastName'=>$request->lastName, 'username'=>$request->userName, 'email'=>$request->email, 'phone'=> $request->phone, 'address'=> $request->address, 'city'=> $request->city, 'state'=> $request->state, 'country'=>$request->country]);
+        }
+
+
         return redirect()->back()->with('updateMsg', 'Profile Successfully Updated')->with('username', $request->userName);
-//        Auth::guard('admin')->user()->update(['firstname'=>$request->adminFirstName, 'lastName'=>$request->adminLastName, 'username'=>$request->adminUserName, 'email'=>$request->adminEmail, 'picpath'=>$originImageFile->hashname()]);
     }
 
     public function showPasswordForm(){
@@ -190,7 +195,7 @@ class AdminController extends Controller
         $newEditor->password = Hash::make($request->editorPassword);
         $newEditor->email = $request->editorEmail;
 
-        $newEditor->categories = json_encode($request->editorCategories);
+        $newEditor->category_id = json_encode($request->editorCategories);
 
         if($request->has('editorPic')){
             $originalImageFile = $request->editorPic;
@@ -262,10 +267,10 @@ class AdminController extends Controller
     }
 
     public function showPostEditForm($postid){
-        $post = Post::find($postid);
-        $categories = Category::all('id', 'name');
+        $postToUpdate = Post::find($postid);
+        $allCategories = Category::all('id', 'name');
         $username = Auth::guard('admin')->user()->username;
-        return view('admin.single_post', compact('post', 'username', 'categories'));
+        return view('admin.single_post', compact('postToUpdate', 'username', 'allCategories'));
     }
 
     public function submitPostEditForm(Request $request, $postid){
@@ -289,8 +294,6 @@ class AdminController extends Controller
 
     public function postDeleteMethod($postid){
         Post::destroy($postid);
-//        $post = Post::find($postid);
-//        $post->delete();
         $username = Auth::guard('admin')->user()->username;
         return redirect()->route('admin.view.post')->with('updateMsg', 'Post has been Deleted')->with('username', $username);
     }
@@ -298,27 +301,16 @@ class AdminController extends Controller
     public function showAllEmployees(){
         $editors = Editor::all();
         $reporters = Reporter::all();
-//        $posts = Post::all();
-//        $username = Auth::guard('admin')->user()->username;
-//        return view('admin.allpost', compact('posts', 'username'));
         $username = Auth::guard('admin')->user()->username;
         return view('admin.all_employee', compact('editors', 'reporters', 'username'));
     }
 
     public function showEmployeeEditForm($employeeid, $employeetype){
-//        $post = Post::find($postid);
-//        $categories = Category::all('id', 'name');
-//        $username = Auth::guard('admin')->user()->username;
-//        return view('admin.singlepost', compact('post', 'username', 'categories'));
-        $username = Auth::guard('admin')->user()->username;
-        return 'Show Edit Employees';
+        
     }
 
     public function submitEmployeeEditForm($postid){
-//        $post = Post::find($postid);
-//        $categories = Category::all('id', 'name');
-//        $username = Auth::guard('admin')->user()->username;
-//        return view('admin.singlepost', compact('post', 'username', 'categories'));
+
         return 'Submit Edit Employees';
     }
 

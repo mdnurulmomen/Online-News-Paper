@@ -82,6 +82,12 @@
 <script src="{{ asset('assets/admin/js/bootadmin.min.js') }}"></script>
 <script src="{{ asset('assets/admin/js/toastr.min.js') }}"></script>
 <script src="{{ asset('assets/admin/js/bootstrap-toggle.min.js') }}"></script>
+<script src="{{asset('assets/admin/js/nicEdit-latest.js')}}" type="text/javascript"></script>
+<script>
+    bkLib.onDomLoaded(function () {
+        new nicEditor({iconsPath: '../../assets/admin/images/nicEditorIcons.gif'}).panelInstance('textArea');
+    });
+</script>
 
 <script>
     (function ($) {

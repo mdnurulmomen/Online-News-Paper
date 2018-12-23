@@ -39,32 +39,44 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth:admin'], function (){
 
 Route::group(['prefix'=>'editor', 'middleware'=>'guest:editor'], function (){
     Route::get('/', 'EditorController@showLoginForm')->name('editor.login');
-    Route::post('/', 'EditorController@login')->name('editor.loginFormSubmit');
+    Route::post('/', 'EditorController@login')->name('editor.login.submit');
 });
 
 Route::group(['prefix'=>'editor', 'middleware'=>'auth:editor'], function(){
    Route::get('home', 'EditorController@homeMethod')->name('editor.home');
 
-   Route::get('profile', 'EditorController@showProfileForm')->name('editor.profileUpdateForm');
-   Route::put('profile', 'EditorController@submitProfileForm')->name('editor.updatedProfileSubmit');
-   Route::get('password', 'EditorController@showPasswordForm')->name('editor.passwordUpdateForm');
-   Route::post('password', 'EditorController@submitPasswordForm')->name('editor.updatedPasswordSubmit');
+   Route::get('update/profile', 'EditorController@showProfileForm')->name('editor.update.profile');
+   Route::put('update/profile', 'EditorController@submitProfileForm')->name('editor.updated.profile.submit');
+   Route::get('update/password', 'EditorController@showPasswordForm')->name('editor.update.password');
+   Route::post('update/password', 'EditorController@submitPasswordForm')->name('editor.updated.password.submit');
+
+    Route::get('post/all', 'EditorController@showAllPosts')->name('editor.view.post');
+    Route::get('post/{postid}/edit', 'EditorController@showPostEditForm')->name('editor.edit.post');
+    Route::put('post/{postid}/edit', 'EditorController@submitPostEditForm')->name('editor.edited.post.submit');
+    Route::get('post/{postid}/delete', 'EditorController@postDeleteMethod')->name('editor.delete.post');
 
    Route::get('logout', 'EditorController@logout')->name('editor.logout');
 });
 
 Route::group(['prefix'=>'reporter', 'middleware'=>'guest:reporter'], function (){
-    Route::get('/', 'ReporterController@showLoginForm')->name('reporter.loginForm');
-    Route::post('/', 'ReporterController@login')->name('reporter.loginFormSubmit');
+    Route::get('/', 'ReporterController@showLoginForm')->name('reporter.login');
+    Route::post('/', 'ReporterController@login')->name('reporter.login.submit');
 });
 
 Route::group(['prefix'=>'reporter', 'middleware'=>'auth:reporter'], function(){
    Route::get('home', 'ReporterController@homeMethod')->name('reporter.home');
 
-   Route::get('profile', 'ReporterController@showProfileForm')->name('reporter.profileUpdateForm');
-   Route::put('profile', 'ReporterController@submitProfileForm')->name('reporter.updatedProfileSubmit');
-   Route::get('password', 'ReporterController@showPasswordForm')->name('reporter.passwordUpdateForm');
-   Route::post('password', 'ReporterController@submitPasswordForm')->name('reporter.updatedPasswordSubmit');
+   Route::get('update/profile', 'ReporterController@showProfileForm')->name('reporter.update.profile');
+   Route::put('update/profile', 'ReporterController@submitProfileForm')->name('reporter.updated.profile.submit');
+   Route::get('update/password', 'ReporterController@showPasswordForm')->name('reporter.update.password');
+   Route::post('update/password', 'ReporterController@submitPasswordForm')->name('reporter.updated.password.submit');
+
+    Route::get('create/post', 'ReporterController@showCreatePostForm')->name('reporter.create.post');
+    Route::put('create/post', 'ReporterController@submitCreatePostForm')->name('reporter.created.post.submit');
+
+    Route::get('view/posts', 'ReporterController@showAllPost')->name('reporter.view.posts');
+    Route::get('edit/{postid}/post', 'ReporterController@showPostEditForm')->name('reporter.edit.post');
+    Route::put('edit/{postid}/post', 'ReporterController@submitPostEditForm')->name('reporter.edited.post.submit');
 
    Route::get('logout', 'ReporterController@logout')->name('reporter.logout');
 });
