@@ -11,9 +11,9 @@ use App\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Input;
 use \Intervention\Image\Facades\Image;
 
-//use Intervention\Image\Facades\Image;
 
 class AdminController extends Controller
 {
@@ -35,7 +35,6 @@ class AdminController extends Controller
 
     public function showProfileForm(){
         $currentAdmin =  Auth::guard('admin')->user();
-//        $profileData = array('firstname'=>$admin->firstname, 'lastname'=>$admin->lastname, 'username'=>$admin->username, 'email'=>$admin->email, 'picpath'=>$admin->picpath);
         $profileData = array('firstname'=>$currentAdmin->firstname, 'lastname'=>$currentAdmin->lastname, 'username'=>$currentAdmin->username, 'email'=>$currentAdmin->email, 'picpath'=>$currentAdmin->picpath, 'phone'=>$currentAdmin->phone, 'address'=>$currentAdmin->address, 'city'=>$currentAdmin->city, 'state'=>$currentAdmin->state, 'country'=>$currentAdmin->country);
 
         return view('admin.profile', $profileData);
@@ -43,11 +42,11 @@ class AdminController extends Controller
 
     public function submitProfileForm(Request $request){
         $request->validate([
-            'firstName'=>'required',
-            'lastName'=>'nullable',
-            'userName'=>'required',
+            'firstname'=>'required',
+            'lastname'=>'nullable',
+            'username'=>'required',
             'email'=>'nullable',
-            'profilePic'=>'nullable|image',
+            'picpath'=>'nullable|image',
             'phone'=>'nullable|numeric',
             'address'=>'nullable',
             'city'=>'nullable',
@@ -57,27 +56,20 @@ class AdminController extends Controller
 
         $profileToUpdate = Auth::guard('admin')->user();
 
-        $profileToUpdate->firstname = $request->firstName;
-        $profileToUpdate->lastname = $request->lastName;
-        $profileToUpdate->username = $request->userName;
-        $profileToUpdate->email = $request->email;
-
-        if($request->has('profilePic')){
-            $originImageFile = $request->file('profilePic');
+        if($request->has('picpath')){
+            $originImageFile = $request->file('picpath');
             $imageObject = Image::make($originImageFile);
             $imageObject->resize(200, 200)->save('assets/admin/images/'.$originImageFile->hashname());
-            $profileToUpdate->picpath = $originImageFile->hashName();
         }
 
-        $profileToUpdate->phone = $request->phone;
-        $profileToUpdate->address = $request->address;
-        $profileToUpdate->city = $request->city;
-        $profileToUpdate->state = $request->state;
-        $profileToUpdate->country = $request->country;
+        if($request->has('picpath')){
+            $profileToUpdate->update(['firstname'=>$request->firstname, 'lastName'=>$request->lastname, 'username'=>$request->username, 'email'=>$request->email, 'picpath'=>$originImageFile->hashname(), 'phone'=> $request->phone, 'address'=> $request->address, 'city'=> $request->city, 'state'=> $request->state, 'country'=>$request->country]);
+        }
+        else{
+            $profileToUpdate->update($request->all());
+        }
 
-        $profileToUpdate->save();
-        return redirect()->back()->with('updateMsg', 'Profile Successfully Updated')->with('username', $request->userName);
-//        Auth::guard('admin')->user()->update(['firstname'=>$request->adminFirstName, 'lastName'=>$request->adminLastName, 'username'=>$request->adminUserName, 'email'=>$request->adminEmail, 'picpath'=>$originImageFile->hashname()]);
+        return redirect()->back()->with('updateMsg', 'Profile Successfully Updated')->with('username', $request->username);
     }
 
     public function showPasswordForm(){
@@ -120,9 +112,8 @@ class AdminController extends Controller
             'smsverification'=>'nullable',
         ]);
 
-//        return $request;
         $settings = Setting::first();
-//        return $settings;
+
         $settings->name = $request->name;
         $settings->color = $request->color;
 
@@ -171,7 +162,7 @@ class AdminController extends Controller
         $request->validate([
             'firstname' => 'nullable|max:255',
             'lastname' => 'nullable|max:255',
-            'username' => 'required||unique:editors,username|max:255',
+            'username' => 'required||unique:editors,username',
             'password' => 'required',
             'email' => 'nullable|email|unique:editors,email',
             'categories' => 'required',
@@ -184,26 +175,27 @@ class AdminController extends Controller
         ]);
 
         $newEditor = new Editor();
-        $newEditor->firstname = $request->editorFirstName;
-        $newEditor->lastname = $request->editorLastName;
-        $newEditor->username = $request->editorUserName;
-        $newEditor->password = Hash::make($request->editorPassword);
-        $newEditor->email = $request->editorEmail;
+        $newEditor->firstname = $request->firstname;
+        $newEditor->lastname = $request->lastname;
+        $newEditor->username = $request->username;
+        $newEditor->password = Hash::make($request->password);
+        $newEditor->email = $request->email;
 
-        $newEditor->categories = json_encode($request->editorCategories);
+        $newEditor->editor_categories = $request->categories;
 
-        if($request->has('editorPic')){
-            $originalImageFile = $request->editorPic;
+
+        if($request->has('picpath')){
+            $originalImageFile = $request->picpath;
             $imageObject = Image::make($originalImageFile);
             $imageObject->resize(200, 200)->save('assets/editor/images/'.$originalImageFile->hashname());
             $newEditor->picpath = $originalImageFile->hashname();
         }
 
-        $newEditor->phone = $request->editorPhone;
-        $newEditor->address= $request->editorAddress;
-        $newEditor->city = $request->editorCity;
-        $newEditor->state = $request->editorState;
-        $newEditor->country = $request->editorCountry;
+        $newEditor->phone = $request->phone;
+        $newEditor->address= $request->address;
+        $newEditor->city = $request->city;
+        $newEditor->state = $request->state;
+        $newEditor->country = $request->country;
         $newEditor->save();
 
         $currentUserName = Auth::guard('admin')->user()->username;
@@ -262,10 +254,10 @@ class AdminController extends Controller
     }
 
     public function showPostEditForm($postid){
-        $post = Post::find($postid);
-        $categories = Category::all('id', 'name');
+        $postToUpdate = Post::find($postid);
+        $allCategories = Category::all('id', 'name');
         $username = Auth::guard('admin')->user()->username;
-        return view('admin.single_post', compact('post', 'username', 'categories'));
+        return view('admin.single_post', compact('postToUpdate', 'username', 'allCategories'));
     }
 
     public function submitPostEditForm(Request $request, $postid){
@@ -289,45 +281,157 @@ class AdminController extends Controller
 
     public function postDeleteMethod($postid){
         Post::destroy($postid);
-//        $post = Post::find($postid);
-//        $post->delete();
         $username = Auth::guard('admin')->user()->username;
         return redirect()->route('admin.view.post')->with('updateMsg', 'Post has been Deleted')->with('username', $username);
     }
 
-    public function showAllEmployees(){
+    public function showAllEditors()
+    {
         $editors = Editor::all();
+
+        $username = Auth::guard('admin')->user()->username;
+        return view('admin.all_editors', compact('editors', 'username'));
+    }
+
+    public function showEditorEditForm($editorId){
+        $editorToUpdate = Editor::find($editorId);
+        $allCategories = Category::all('id', 'name');
+        $username = Auth::guard('admin')->user()->username;
+        return view('admin.edit_editor', compact('editorToUpdate', 'username', 'allCategories'));
+    }
+
+    public function submitEditorEditForm(Request $request, $editorId){
+
+        $request->validate([
+            'firstname'=>'required',
+            'lastname'=>'nullable',
+            'username'=>'required',
+            'email'=>'nullable|email',
+            'categories'=>'required',
+            'picpath'=>'nullable|image',
+            'phone'=>'nullable|numeric',
+            'address'=>'nullable',
+            'city'=>'nullable',
+            'state'=>'nullable',
+            'country'=>'nullable',
+        ]);
+
+//        return $request;
+        $profileToUpdate = Editor::find($editorId);
+
+        if($request->has('picpath')){
+            $originImageFile = $request->file('picpath');
+            $imageObject = Image::make($originImageFile);
+            $imageObject->resize(150, 150)->save('assets/editor/images/'.$originImageFile->hashname());
+        }
+
+        if($request->has('picpath')) {
+            $profileToUpdate->update(['firstname'=>$request->firstname, 'lastname'=>$request->lastname, 'username'=>$request->username, 'email'=>$request->email, 'editor_categories'=>$request->categories, 'picpath'=>$originImageFile->hashname(), 'phone'=>$request->phone, 'address'=>$request->address, 'city'=>$request->city, 'state'=>$request->state, 'country'=>$request->country]);
+        } else {
+            $profileToUpdate->update(['firstname'=>$request->firstname, 'lastname'=>$request->lastname, 'username'=>$request->username, 'email'=>$request->email, 'editor_categories'=>$request->categories, 'phone'=>$request->phone, 'address'=>$request->address, 'city'=>$request->city, 'state'=>$request->state, 'country'=>$request->country]);
+        }
+
+
+        $currentUserName = Auth::guard('admin')->user()->username;
+        return redirect()->route('admin.view.editors')->with('updateMsg', 'Profile is Updated')->with('username', $currentUserName);
+    }
+
+    public function editorDeleteMethod($editorId){
+        Editor::destroy($editorId);
+        $currentUserName = Auth::guard('admin')->user()->username;
+        return redirect()->route('admin.view.editors')->with('udpateMsg', 'Profile is Deleted')->with('username', $currentUserName);
+    }
+
+    public function showAllReporters()
+    {
         $reporters = Reporter::all();
-//        $posts = Post::all();
-//        $username = Auth::guard('admin')->user()->username;
-//        return view('admin.allpost', compact('posts', 'username'));
+
         $username = Auth::guard('admin')->user()->username;
-        return view('admin.all_employee', compact('editors', 'reporters', 'username'));
+        return view('admin.all_reporters', compact( 'reporters', 'username'));
     }
 
-    public function showEmployeeEditForm($employeeid, $employeetype){
-//        $post = Post::find($postid);
-//        $categories = Category::all('id', 'name');
-//        $username = Auth::guard('admin')->user()->username;
-//        return view('admin.singlepost', compact('post', 'username', 'categories'));
+    public function showReporterEditForm($reporterId){
+        $reporterToUpdate = Reporter::find($reporterId);
         $username = Auth::guard('admin')->user()->username;
-        return 'Show Edit Employees';
+        return view('admin.edit_reporter', compact('reporterToUpdate', 'username'));
     }
 
-    public function submitEmployeeEditForm($postid){
-//        $post = Post::find($postid);
-//        $categories = Category::all('id', 'name');
-//        $username = Auth::guard('admin')->user()->username;
-//        return view('admin.singlepost', compact('post', 'username', 'categories'));
-        return 'Submit Edit Employees';
+    public function submitReporterEditForm(Request $request, $reporterId){
+        $request->validate([
+            'firstname'=>'required',
+            'lastname'=>'nullable',
+            'username'=>'required',
+            'email'=>'nullable|email',
+            'picpath'=>'nullable|image',
+            'phone'=>'nullable|numeric',
+            'address'=>'nullable',
+            'city'=>'nullable',
+            'state'=>'nullable',
+            'country'=>'nullable',
+        ]);
+
+        $profileToUpdate = Reporter::find($reporterId);
+
+        if($request->has('picpath')){
+            $originImageFile = $request->file('picpath');
+            $imageObject = Image::make($originImageFile);
+            $imageObject->resize(150, 150)->save('assets/reporter/images/'.$originImageFile->hashname());
+        }
+
+        if($request->has('picpath')) {
+            $profileToUpdate->update(['firstname'=>$request->firstname, 'lastname'=>$request->lastname, 'username'=>$request->username, 'email'=>$request->email, 'picpath'=>$originImageFile->hashname(), 'phone'=>$request->phone, 'address'=>$request->address, 'city'=>$request->city, 'state'=>$request->state, 'country'=>$request->country]);
+        } else {
+            $profileToUpdate->update($request->all());
+        }
+
+        $currentUserName = Auth::guard('admin')->user()->username;
+        return redirect()->route('admin.view.reporters')->with('updateMsg', 'Profile is Updated')->with('username', $currentUserName);
     }
 
-    public function employeeDeleteMethod($postid){
-//        $post = Post::find($postid);
-//        $categories = Category::all('id', 'name');
-//        $username = Auth::guard('admin')->user()->username;
-//        return view('admin.singlepost', compact('post', 'username', 'categories'));
-        return 'Delete Employees';
+    public function reporterDeleteMethod($reporterId){
+        Reporter::destroy($reporterId);
+        $currentUserName = Auth::guard('admin')->user()->username;
+        return redirect()->route('admin.view.reporters')->with('udpateMsg', 'Profile is Deleted')->with('username', $currentUserName);
+    }
+
+    public function showAllCategories()
+    {
+        $categories = Category::all();
+
+        $username = Auth::guard('admin')->user()->username;
+        return view('admin.all_categories', compact( 'categories', 'username'));
+    }
+
+    public function showCategoryEditForm($categoryId){
+        $categoryToUpdate = Category::find($categoryId);
+        $allCategories = Category::all('id', 'name');
+        $username = Auth::guard('admin')->user()->username;
+        return view('admin.edit_category', compact('categoryToUpdate', 'username', 'allCategories'));
+    }
+
+    public function submitCategoryEditForm(Request $request, $categoryId){
+        $request->validate([
+            'name'=>'required',
+            'url'=>'required',
+        ]);
+
+        $categoryToUpdate = Category::find($categoryId);
+
+        $categoryToUpdate->name = $request->name;
+        $categoryToUpdate->url = $request->url;
+        $request->has('parent') ? $categoryToUpdate->parent = $request->parent : $categoryToUpdate->parent = 0;
+
+        $categoryToUpdate->save();
+
+        $currentUserName = Auth::guard('admin')->user()->username;
+        return redirect()->route('admin.view.categories')->with('updateMsg', 'Category is Updated')->with('username', $currentUserName);
+    }
+
+    public function categoryDeleteMethod($categoryId){
+        Category::destroy($categoryId);
+
+        $currentUserName = Auth::guard('admin')->user()->username;
+        return redirect()->route('admin.view.categories')->with('udpateMsg', 'Category is Deleted')->with('username', $currentUserName);
     }
 
     public function logout(){

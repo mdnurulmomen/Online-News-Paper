@@ -1,5 +1,4 @@
-
-@extends('admin.layout.app')
+@extends('editor.layout.app')
 @section('contents')
 <div class="content p-4">
     <h2 class="mb-4"> Profile Setting </h2>
@@ -8,7 +7,7 @@
             Profile Updating Form
         </div>
         <div class="card-body">
-            <form method="POST" action = "{{ route('admin.edited.post.submit', $postToUpdate->id) }}" enctype="multipart/form-data">
+            <form method="POST" action = "{{ route('editor.edited.post.submit', $postToUpdate->id) }}" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <fieldset class="form-group">

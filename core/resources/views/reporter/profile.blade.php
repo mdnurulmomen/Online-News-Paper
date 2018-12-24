@@ -7,7 +7,7 @@
             <img src="{{ asset('assets/reporter/images/'.$picpath) }}" class="img-thumbnail text-right" alt="No Image">
         </legend>
         <div class="card-body">
-            <form method="POST" action = "{{ route('reporter.updatedProfileSubmit') }}" enctype="multipart/form-data">
+            <form method="POST" action = "{{ route('reporter.updated.profile.submit') }}" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <div class="form-group row">

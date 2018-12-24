@@ -61,7 +61,9 @@
                     <i class="fa fa-fw fa-cube"></i> View
                 </a>
                 <ul id="view" class="list-unstyled collapse">
-                    <li><a href="{{route('admin.view.employees')}}">Employees</a></li>
+                    <li><a href="{{route('admin.view.categories')}}">Categories</a></li>
+                    <li><a href="{{route('admin.view.editors')}}">Editors</a></li>
+                    <li><a href="{{route('admin.view.reporters')}}">Reporters</a></li>
                     <li><a href="{{route('admin.view.post')}}">Posts</a></li>
                 </ul>
             </li>
@@ -82,6 +84,12 @@
 <script src="{{ asset('assets/admin/js/bootadmin.min.js') }}"></script>
 <script src="{{ asset('assets/admin/js/toastr.min.js') }}"></script>
 <script src="{{ asset('assets/admin/js/bootstrap-toggle.min.js') }}"></script>
+<script src="{{asset('assets/admin/js/nicEdit-latest.js')}}" type="text/javascript"></script>
+<script>
+    bkLib.onDomLoaded(function () {
+        new nicEditor({iconsPath: '../../assets/admin/images/nicEditorIcons.gif'}).panelInstance('textArea');
+    });
+</script>
 
 <script>
     (function ($) {

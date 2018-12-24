@@ -10,8 +10,7 @@ use Illuminate\Notifications\Notifiable;
 class Reporter extends Authenticatable
 {
     use Notifiable;
-    protected $guard = 'reporter';
-
+    protected $guarded = ['id'];
 }
 //class Reporter extends Model
 //{

@@ -19,7 +19,7 @@
         <div id="login-row" class="row justify-content-center align-items-center">
             <div id="login-column" class="col-md-6">
                 <div class="login-box col-md-12">
-                    <form id="login-form" class="form" action="" method="post">
+                    <form id="login-form" class="form" action="{{route('reporter.login.submit')}}" method="post">
                         @csrf
                         <h3 class="text-center text-info">Login</h3>
                         <div class="form-group">
@@ -28,7 +28,7 @@
                         </div>
                         <div class="form-group">
                             <label for="password" class="text-info">Password:</label><br>
-                            <input type="text" name="password" id="password" class="form-control">
+                            <input type="password" name="password" id="password" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="remember-me" class="text-info"><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>

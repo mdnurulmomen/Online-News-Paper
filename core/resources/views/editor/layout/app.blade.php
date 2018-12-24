@@ -4,10 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="{{ asset('assets/admin/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/admin/css/fontawesome-all.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/admin/css/bootadmin.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/admin/css/toastr.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/editor/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/editor/css/fontawesome-all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/editor/css/bootadmin.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/editor/css/toastr.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/editor/css/bootstrap-toggle.min.css') }}">
 
     <title>Dashboard | Online News Admin Panel</title>
 </head>
@@ -40,7 +41,7 @@
                     <i class="fa fa-fw fa-cube"></i> View
                 </a>
                 <ul id="view" class="list-unstyled collapse">
-                    <li><a href="">Posts</a></li>
+                    <li><a href="{{route('editor.view.post')}}">Posts</a></li>
                 </ul>
             </li>
             <li><a href="#"><i class="fa fa-fw fa-table"></i> Datatables</a></li>
@@ -54,10 +55,17 @@
     </div>
 </div>
 
-<script src="{{ asset('assets/admin/js/jquery.min.js') }}"></script>
-<script src="{{ asset('assets/admin/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('assets/admin/js/bootadmin.min.js') }}"></script>
-<script src="{{ asset('assets/admin/js/toastr.min.js') }}"></script>
+<script src="{{ asset('assets/editor/js/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/editor/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('assets/editor/js/bootadmin.min.js') }}"></script>
+<script src="{{ asset('assets/editor/js/toastr.min.js') }}"></script>
+<script src="{{ asset('assets/editor/js/bootstrap-toggle.min.js') }}"></script>
+<script src="{{asset('assets/editor/js/nicEdit-latest.js')}}" type="text/javascript"></script>
+<script>
+    bkLib.onDomLoaded(function () {
+        new nicEditor({iconsPath: '../../assets/editor/images/nicEditorIcons.gif'}).panelInstance('textArea');
+    });
+</script>
 <script>
     (function ($) {
         $(document).ready(function () {
