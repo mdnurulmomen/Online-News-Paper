@@ -18,42 +18,40 @@
                     </div>
                     <div class="form-group row">
                         <label for="inputPassword3" class="col-sm-2 col-form-label">Color:</label>
-                        <div class="col-sm-1">
-                            <input type="color" name="color" value="{{ $color }}" class="form-control">
+                        <div class="col-sm-10">
+                            <input type="text" name="color" class="form-control" onchange="backgroundColor()">
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-2">Post Verification :</div>
-                        <div class="col-sm-10">
+                        <div class="col-sm-4">
                             <div class="form-check">
                                 <input type="checkbox" name="postverification" @if($postverification==1) checked @endif  data-toggle="toggle" data-on="Allowed" data-off="Not Allowed" data-onstyle="success" data-offstyle="danger">
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
                         <div class="col-sm-2">User Registration :</div>
-                        <div class="col-sm-10">
+                        <div class="col-sm-4">
                             <div class="form-check">
                                 <input type="checkbox" name="userregistration" @if($userRegistration==1) checked @endif  data-toggle="toggle" data-on="Allowed" data-off="Not Allowed" data-onstyle="success" data-offstyle="danger">
                             </div>
                         </div>
                     </div>
+
                     <div class="form-group row">
                         <div class="col-sm-2">Email Verification :</div>
-                        <div class="col-sm-10">
+                        <div class="col-sm-4">
                             <div class="form-check">
                                 <input type="checkbox" name="emailverification" @if($emailverification==1) checked @endif  data-toggle="toggle" data-on="Allowed" data-off="Not Allowed" data-onstyle="success" data-offstyle="danger">
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
                         <div class="col-sm-2">SMS Verification :</div>
-                        <div class="col-sm-10">
+                        <div class="col-sm-4">
                             <div class="form-check">
                                 <input type="checkbox" name="smsverification" @if($smsverification==1) checked @endif data-toggle="toggle" data-on="Allowed" data-off="Not Allowed" data-onstyle="success" data-offstyle="danger">
                             </div>
                         </div>
                     </div>
+
                     <div class="form-group row">
                         <div class="col-sm-12">
                             <button type="submit" class="btn btn-block btn-primary">Update</button>
@@ -64,4 +62,11 @@
             </div>
         </div>
     </div>
+    <script>
+    function backgroundColor () {
+        var inputSelected = document.getElementsByName("color")[0];
+        inputSelected.style.backgroundColor = document.getElementsByName("color")[0].value;
+    }
+    
+    </script>
 @stop

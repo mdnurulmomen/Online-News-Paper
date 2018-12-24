@@ -22,8 +22,8 @@
             <li class="nav-item dropdown">
                 <a href="#" id="dd_user" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{$username}}</a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd_user">
-                    <a href="{{ route('reporter.profileUpdateForm') }}" class="dropdown-item">Profile</a>
-                    <a href="{{ route('reporter.passwordUpdateForm') }}" class="dropdown-item">Change Password</a>
+                    <a href="{{ route('reporter.update.profile') }}" class="dropdown-item">Profile</a>
+                    <a href="{{ route('reporter.update.password') }}" class="dropdown-item">Change Password</a>
                     <a href="{{ route('reporter.logout') }}" class="dropdown-item">Logout</a>
                 </div>
             </li>

@@ -39,32 +39,32 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth:admin'], function (){
 
 Route::group(['prefix'=>'editor', 'middleware'=>'guest:editor'], function (){
     Route::get('/', 'EditorController@showLoginForm')->name('editor.login');
-    Route::post('/', 'EditorController@login')->name('editor.loginFormSubmit');
+    Route::post('/', 'EditorController@login')->name('editor.login.submit');
 });
 
 Route::group(['prefix'=>'editor', 'middleware'=>'auth:editor'], function(){
    Route::get('home', 'EditorController@homeMethod')->name('editor.home');
 
-   Route::get('profile', 'EditorController@showProfileForm')->name('editor.profileUpdateForm');
-   Route::put('profile', 'EditorController@submitProfileForm')->name('editor.updatedProfileSubmit');
-   Route::get('password', 'EditorController@showPasswordForm')->name('editor.passwordUpdateForm');
-   Route::post('password', 'EditorController@submitPasswordForm')->name('editor.updatedPasswordSubmit');
+   Route::get('profile', 'EditorController@showProfileForm')->name('editor.update.profile');
+   Route::put('profile', 'EditorController@submitProfileForm')->name('editor.update.profile.submit');
+   Route::get('password', 'EditorController@showPasswordForm')->name('editor.update.password');
+   Route::post('password', 'EditorController@submitPasswordForm')->name('editor.update.password.submit');
 
    Route::get('logout', 'EditorController@logout')->name('editor.logout');
 });
 
 Route::group(['prefix'=>'reporter', 'middleware'=>'guest:reporter'], function (){
-    Route::get('/', 'ReporterController@showLoginForm')->name('reporter.loginForm');
-    Route::post('/', 'ReporterController@login')->name('reporter.loginFormSubmit');
+    Route::get('/', 'ReporterController@showLoginForm')->name('reporter.login');
+    Route::post('/', 'ReporterController@login')->name('reporter.login.submit');
 });
 
 Route::group(['prefix'=>'reporter', 'middleware'=>'auth:reporter'], function(){
    Route::get('home', 'ReporterController@homeMethod')->name('reporter.home');
 
-   Route::get('profile', 'ReporterController@showProfileForm')->name('reporter.profileUpdateForm');
-   Route::put('profile', 'ReporterController@submitProfileForm')->name('reporter.updatedProfileSubmit');
-   Route::get('password', 'ReporterController@showPasswordForm')->name('reporter.passwordUpdateForm');
-   Route::post('password', 'ReporterController@submitPasswordForm')->name('reporter.updatedPasswordSubmit');
+   Route::get('profile', 'ReporterController@showProfileForm')->name('reporter.update.profile');
+   Route::put('profile', 'ReporterController@submitProfileForm')->name('reporter.update.profile.submit');
+   Route::get('password', 'ReporterController@showPasswordForm')->name('reporter.update.password');
+   Route::post('password', 'ReporterController@submitPasswordForm')->name('reporter.update.password.submit');
 
    Route::get('logout', 'ReporterController@logout')->name('reporter.logout');
 });

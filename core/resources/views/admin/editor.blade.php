@@ -13,28 +13,28 @@
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Full Name:</label>
                     <div class="col-sm-5">
-                        <input type="text" name="editorFirstName" class="form-control" placeholder="First Name">
+                        <input type="text" name="firstname" class="form-control" placeholder="First Name">
                     </div>
                     <div class="col-sm-5">
-                        <input type="text" name="editorLastName" class="form-control" placeholder="Last Name">
+                        <input type="text" name="lastname" class="form-control" placeholder="Last Name">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">User Name:</label>
                     <div class="col-sm-10">
-                        <input type="text" name="editorUserName" class="form-control" placeholder="Username" required>
+                        <input type="text" name="username" class="form-control" placeholder="Username" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Password:</label>
                     <div class="col-sm-10">
-                        <input type="password" name="editorPassword" class="form-control" placeholder="Chosse a Suitable Password" required>
+                        <input type="password" name="password" class="form-control" placeholder="Chosse a Suitable Password" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Email:</label>
                     <div class="col-sm-10">
-                        <input type="email" name="editorEmail" class="form-control" placeholder="Email Address">
+                        <input type="email" name="email" class="form-control" placeholder="Email Address">
                     </div>
                 </div>
                 <fieldset class="form-group">
@@ -44,7 +44,7 @@
                             @foreach($allCategories as $category)
                             <div class="form-check form-check-inline">
                                 <label class="form-check-label" for="gridRadios1">
-                                    <input type="checkbox" class="form-check-input" name="editorCategories[]" value="{{$category->id}}">{{$category->name}}
+                                    <input type="checkbox" class="form-check-input" name="categories[]" value="{{$category->id}}">{{$category->name}}
                                 </label>
                             </div>
                             @endforeach
@@ -54,33 +54,33 @@
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Picture:</label>
                     <div class="col-sm-10">
-                        <input type="file" name="editorPic" class="form-control" accept="image/*">
+                        <input type="file" name="picpath" class="form-control" accept="image/*">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Phone / Mobile:</label>
                     <div class="col-sm-10">
-                        <input type="tel" name="editorPhone" class="form-control" placeholder="Phone or Mobile Number">
+                        <input type="tel" name="phone" class="form-control" placeholder="Phone or Mobile Number">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputAddress2" class="col-sm-2 col-form-label">Address</label>
                     <div class="col-sm-10">
-                        <input type="text" name="editorAddress" class="form-control" placeholder="Apartment, studio, or floor">
+                        <input type="text" name="address" class="form-control" placeholder="Apartment, studio, or floor">
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="form-group col-md-4">
                         <label for="inputCity" class="col-sm-2 col-form-label">City</label>
-                        <input type="text" name="editorCity" class="form-control" placeholder="City Name">
+                        <input type="text" name="city" class="form-control" placeholder="City Name">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="inputState" class="col-sm-2 col-form-label">State</label>
-                        <input type="text" name="editorState" class="form-control" placeholder="State Name">
+                        <input type="text" name="state" class="form-control" placeholder="State Name">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="inputZip" class="col-sm-2 col-form-label">Country</label>
-                        <input type="text" name="editorCountry" class="form-control" placeholder="Country Name">
+                        <input type="text" name="country" class="form-control" placeholder="Country Name">
                     </div>
                 </div>
                 <div class="form-group row">

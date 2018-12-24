@@ -169,18 +169,18 @@ class AdminController extends Controller
 
     public function submitCreateEditorForm(Request $request){
         $request->validate([
-            'editorFirstName' => 'nullable|max:255',
-            'editorLastName' => 'nullable|max:255',
-            'editorUserName' => 'required||unique:editors,username|max:255',
-            'editorPassword' => 'required',
-            'editorEmail' => 'nullable|email|unique:editors,email',
-            'editorCategories' => 'required',
-            'editorPic' => 'nullable|image',
-            'editorPhone' => 'nullable',
-            'editorAddress' => 'nullable',
-            'editorCity' => 'nullable',
-            'editorState' => 'nullable',
-            'editorCountry' => 'nullable',
+            'firstname' => 'nullable|max:255',
+            'lastname' => 'nullable|max:255',
+            'username' => 'required||unique:editors,username|max:255',
+            'password' => 'required',
+            'email' => 'nullable|email|unique:editors,email',
+            'categories' => 'required',
+            'picpath' => 'nullable|image',
+            'phone' => 'nullable',
+            'address' => 'nullable',
+            'city' => 'nullable',
+            'state' => 'nullable',
+            'country' => 'nullable',
         ]);
 
         $newEditor = new Editor();

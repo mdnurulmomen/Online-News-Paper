@@ -8,7 +8,7 @@
                 Password Form
             </div>
             <div class="card-body">
-                <form method="post" action = "{{ route('editor.updatedPasswordSubmit') }}">
+                <form method="post" action = "{{ route('editor.update.password.submit') }}">
                     @csrf
                     <div class="form-group row">
                         <label for="inputEmail3" class="col-sm-2 col-form-label"> Current Password: </label>
