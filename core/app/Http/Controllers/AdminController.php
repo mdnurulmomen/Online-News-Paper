@@ -11,6 +11,7 @@ use App\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Input;
 use \Intervention\Image\Facades\Image;
 
 
@@ -195,7 +196,9 @@ class AdminController extends Controller
         $newEditor->password = Hash::make($request->editorPassword);
         $newEditor->email = $request->editorEmail;
 
-        $newEditor->category_id = json_encode($request->editorCategories);
+//        $newEditor->category_id = json_encode($request->editorCategories);
+        $newEditor->editor_categories = $request->editorCategories;
+
 
         if($request->has('editorPic')){
             $originalImageFile = $request->editorPic;
@@ -298,20 +301,90 @@ class AdminController extends Controller
         return redirect()->route('admin.view.post')->with('updateMsg', 'Post has been Deleted')->with('username', $username);
     }
 
-    public function showAllEmployees(){
+    public function showAllEmployees()
+    {
         $editors = Editor::all();
         $reporters = Reporter::all();
         $username = Auth::guard('admin')->user()->username;
         return view('admin.all_employee', compact('editors', 'reporters', 'username'));
     }
 
-    public function showEmployeeEditForm($employeeid, $employeetype){
-        
+    public function showEmployeeEditForm($employeetype, $employeeid){
+        $username = Auth::guard('admin')->user()->username;
+        if ($employeetype=='editor'){
+            $editorToUpdate = Editor::find($employeeid);
+            $allCategories = Category::all('id', 'name');
+            return view('admin.edit_editor', compact('editorToUpdate', 'username', 'allCategories'));
+        }
+        else if ($employeetype=='reporter'){
+            $reporterToUpdate = Reporter::find($employeeid);
+            return view('admin.edit_reporter', compact('reporterToUpdate', 'username'));
+        }
     }
 
-    public function submitEmployeeEditForm($postid){
+    public function submitEditorEditForm(Request $request, $editorId){
 
-        return 'Submit Edit Employees';
+        $request->validate([
+            'firstname'=>'required',
+            'lastname'=>'nullable',
+            'username'=>'required',
+//            'email'=>'nullable|email|unique:editors,email',
+            'profilePic'=>'nullable|image',
+            'phone'=>'nullable|numeric',
+            'address'=>'nullable',
+            'city'=>'nullable',
+            'state'=>'nullable',
+            'country'=>'nullable',
+        ]);
+
+        $profileToUpdate = Editor::find($editorId);
+
+        if($request->has('picpath')){
+            $originImageFile = $request->file('profilePic');
+            $imageObject = Image::make($originImageFile);
+            $imageObject->resize(150, 150)->save('assets/editor/images/'.$originImageFile->hashname());
+        }
+
+        if($request->has('picpath')) {
+            $profileToUpdate->update(['firstname'=>$request->firstname, 'lastname'=>$request->lastname, 'username'=>$request->username, 'email'=>$request->email, 'editor_categories'=>$request->categories, 'picpath'=>$originImageFile->hashname(), 'phone'=>$request->phone, 'address'=>$request->address, 'city'=>$request->city, 'state'=>$request->state, 'country'=>$request->country]);
+        } else {
+            $profileToUpdate->update(['firstname'=>$request->firstname, 'lastname'=>$request->lastname, 'username'=>$request->username, 'email'=>$request->email, 'editor_categories'=>$request->categories, 'phone'=>$request->phone, 'address'=>$request->address, 'city'=>$request->city, 'state'=>$request->state, 'country'=>$request->country]);
+        }
+
+        $currentUserName = Auth::guard('admin')->user()->username;
+        return redirect()->route('admin.view.employees')->with('updateMsg', 'Profile is Updated')->with('username', $currentUserName);
+    }
+
+    public function submitReporterEditForm(Request $request, $reporterId){
+        $request->validate([
+            'firstname'=>'required',
+            'lastname'=>'nullable',
+            'username'=>'required',
+//            'email'=>'nullable|email|unique:editors,email',
+            'picpath'=>'nullable|image',
+            'phone'=>'nullable|numeric',
+            'address'=>'nullable',
+            'city'=>'nullable',
+            'state'=>'nullable',
+            'country'=>'nullable',
+        ]);
+
+        $profileToUpdate = Reporter::find($reporterId);
+
+        if($request->has('picpath')){
+            $originImageFile = $request->file('picpath');
+            $imageObject = Image::make($originImageFile);
+            $imageObject->resize(150, 150)->save('assets/reporter/images/'.$originImageFile->hashname());
+        }
+
+        if($request->has('picpath')) {
+            $profileToUpdate->update(['firstname'=>$request->firstname, 'lastname'=>$request->lastname, 'username'=>$request->username, 'email'=>$request->email, 'editor_categories'=>$request->categories, 'picpath'=>$originImageFile->hashname(), 'phone'=>$request->phone, 'address'=>$request->address, 'city'=>$request->city, 'state'=>$request->state, 'country'=>$request->country]);
+        } else {
+            $profileToUpdate->update(['firstname'=>$request->firstname, 'lastname'=>$request->lastname, 'username'=>$request->username, 'email'=>$request->email, 'editor_categories'=>$request->categories, 'phone'=>$request->phone, 'address'=>$request->address, 'city'=>$request->city, 'state'=>$request->state, 'country'=>$request->country]);
+        }
+
+        $currentUserName = Auth::guard('admin')->user()->username;
+        return redirect()->route('admin.view.employees')->with('updateMsg', 'Profile is Updated')->with('username', $currentUserName);
     }
 
     public function employeeDeleteMethod($postid){

@@ -9,11 +9,20 @@ use Illuminate\Notifications\Notifiable;
 class Editor extends Authenticatable
 {
     use Notifiable;
-    protected $guard = 'editor';
-    protected $fillable = ['firstname', 'lastname', 'email', 'picpath', 'phone', 'address', 'city', 'state', 'country'];
+    protected $guarded = ['id'];
 
-    public function category()
+//    public function category()
+//    {
+//        return $this->hasMany('App\Category');
+//    }
+
+    public function setEditorCategoriesAttribute($categories = array())
     {
-        return $this->hasMany('App\Category');
+        $this->attributes['category_id'] = json_encode($categories);
+    }
+
+    public function getEditorCategoriesAttribute(){
+        $caregoryIds = json_decode($this->category_id);
+        return Category::whereIn('id', $caregoryIds)->get(['id','name']);
     }
 }

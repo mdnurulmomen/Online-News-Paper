@@ -23,12 +23,16 @@
                             <td>{{ $editor->username }}</td>
                             <td>{{ $editor->email }}</td>
                             <td>
-
+                            @foreach($editor->editor_categories as $category)
+                                {{ $category->name }},
+                            @endforeach
+                                {{--{{ var_dump($editor->editor_categories)}}--}}
+                            {{--{{ $editor->editor_categories}}--}}
                             </td>
                             <td>{{ $editor->phone }}</td>
                             <td>
-                                <a href="{{ route('admin.edit.employee', [$editor->id, 'editor']) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit"><i class="fa fa-fw fa-edit"></i></a>
-                                <a href="{{ route('admin.delete.employee', [$editor->id, 'editor']) }}" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete"><i class="fa fa-fw fa-trash"></i></a>
+                                <a href="{{ route('admin.edit.employee', ['editor', $editor->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit"><i class="fa fa-fw fa-edit"></i></a>
+                                <a href="{{ route('admin.delete.employee', ['editor', $editor->id]) }}" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete"><i class="fa fa-fw fa-trash"></i></a>
                             </td>
                         </tr>
                     @endforeach
@@ -38,11 +42,11 @@
                             <td>{{$reporter->firstname}} {{$reporter->lastname}}</td>
                             <td>{{ $reporter->username }}</td>
                             <td>{{ $reporter->email }}</td>
-                            <td></td>
+                            <td>All Categoryies</td>
                             <td>{{ $reporter->phone }}</td>
                             <td>
-                                <a href="{{ route('admin.edit.employee', [$reporter->id, 'reporter']) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit"><i class="fa fa-fw fa-edit"></i></a>
-                                <a href="{{ route('admin.delete.employee', [$reporter->id, 'reporter']) }}" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete"><i class="fa fa-fw fa-trash"></i></a>
+                                <a href="{{ route('admin.edit.employee', ['reporter', $reporter->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit"><i class="fa fa-fw fa-edit"></i></a>
+                                <a href="{{ route('admin.delete.employee', ['reporter', $reporter->id]) }}" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete"><i class="fa fa-fw fa-trash"></i></a>
                             </td>
                         </tr>
                     @endforeach

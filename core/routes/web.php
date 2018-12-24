@@ -30,9 +30,12 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth:admin'], function (){
 
 
     Route::get('employee/all', 'AdminController@showAllEmployees')->name('admin.view.employees');
-    Route::get('employee/{employeeid}/edit/{employeetype}', 'AdminController@showEmployeeEditForm')->name('admin.edit.employee');
-    Route::put('employee/{employeeid}/edit/{employeetype}', 'AdminController@submitEmployeeEditForm')->name('admin.edited.employee.submit');
-    Route::get('employee/{employeeid}/delete/{employeetype}', 'AdminController@employeeDeleteMethod')->name('admin.delete.employee');
+    Route::get('{employeetype}/edit/{employeeid}', 'AdminController@showEmployeeEditForm')->name('admin.edit.employee');
+
+    Route::put('editor/{editorId}/edit', 'AdminController@submitEditorEditForm')->name('admin.edited.editor.submit');
+    Route::put('reporter/{editorId}/edit', 'AdminController@submitReporterEditForm')->name('admin.edited.reporter.submit');
+
+    Route::get('employee/{employeetype}/delete/{employeeid}', 'AdminController@employeeDeleteMethod')->name('admin.delete.employee');
 
     Route::get('logout', 'AdminController@logout')->name('admin.logout');
 });

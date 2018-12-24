@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 class Reporter extends Authenticatable
 {
     use Notifiable;
-    protected $guard = 'reporter';
+    protected $guarded = 'id';
     protected $fillable = ['firstname', 'lastname', 'email', 'picpath', 'phone', 'address', 'city', 'state', 'country'];
 }
 //class Reporter extends Model
