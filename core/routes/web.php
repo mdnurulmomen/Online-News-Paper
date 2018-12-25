@@ -15,12 +15,14 @@ Route::post('password', 'AdminController@submitPasswordForm')->name('admin.updat
 Route::get('settings/general', 'AdminController@showGeneralSettingsForm')->name('admin.settings.general');
 Route::put('settings/general', 'AdminController@submitGeneralSettingsForm')->name('admin.settings.general.submit');
 
-Route::get('category/create', 'AdminController@showCreateCategoryForm')->name('admin.create.category');
-Route::put('category/create', 'AdminController@submitCreateCategoryForm')->name('admin.created.category.submit');
-Route::get('editor/create', 'AdminController@showCreateEditorForm')->name('admin.create.editor');
-Route::put('editor/create', 'AdminController@submitCreateEditorForm')->name('admin.created.editor.submit');
-Route::get('reporter/create', 'AdminController@showCreateReporterForm')->name('admin.create.reporter');
-Route::put('reporter/create', 'AdminController@submitCreateReporterForm')->name('admin.created.reporter.submit');
+Route::get('create/post', 'AdminController@showCreatePostForm')->name('admin.create.post');
+Route::put('create/post', 'AdminController@submitCreatePostForm')->name('admin.created.post.submit');
+Route::get('create/category', 'AdminController@showCreateCategoryForm')->name('admin.create.category');
+Route::put('create/category', 'AdminController@submitCreateCategoryForm')->name('admin.created.category.submit');
+Route::get('create/editor', 'AdminController@showCreateEditorForm')->name('admin.create.editor');
+Route::put('create/editor', 'AdminController@submitCreateEditorForm')->name('admin.created.editor.submit');
+Route::get('create/reporter', 'AdminController@showCreateReporterForm')->name('admin.create.reporter');
+Route::put('create/reporter', 'AdminController@submitCreateReporterForm')->name('admin.created.reporter.submit');
 
 
 

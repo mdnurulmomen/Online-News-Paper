@@ -61,7 +61,7 @@
 <script src="{{ asset('assets/reporter/js/bootadmin.min.js') }}"></script>
 <script src="{{ asset('assets/reporter/js/toastr.min.js') }}"></script>
 <script src="{{ asset('assets/reporter/js/bootstrap-toggle.min.js') }}"></script>
-<script src="{{asset('assets/reporter/js/nicEdit-latest.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/reporter/js/nicEdit.js')}}" type="text/javascript"></script>
 <script>
     bkLib.onDomLoaded(function () {
         new nicEditor({iconsPath: '../../assets/reporter/images/nicEditorIcons.gif'}).panelInstance('textArea');

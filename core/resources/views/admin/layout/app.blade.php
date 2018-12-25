@@ -47,24 +47,39 @@
                 </ul>
             </li>
             <li>
-                <a href="#create" data-toggle="collapse">
-                    <i class="fa fa-fw fa-cube"></i> Create
+                <a href="#post" data-toggle="collapse">
+                    <i class="fa fa-fw fa-cube"></i> Post
                 </a>
-                <ul id="create" class="list-unstyled collapse">
-                    <li><a href="{{ route('admin.create.category') }}">Category</a></li>
-                    <li><a href="{{ route('admin.create.editor') }}">Editors</a></li>
-                    <li><a href="{{ route('admin.create.reporter') }}">Reporters</a></li>
+                <ul id="post" class="list-unstyled collapse">
+                    <li><a href="{{ route('admin.create.post') }}">Create Post</a></li>
+                    <li><a href="{{route('admin.view.post')}}">View Posts</a></li>
                 </ul>
             </li>
             <li>
-                <a href="#view" data-toggle="collapse">
-                    <i class="fa fa-fw fa-cube"></i> View
+                <a href="#category" data-toggle="collapse">
+                    <i class="fa fa-fw fa-cube"></i> Categories
                 </a>
-                <ul id="view" class="list-unstyled collapse">
-                    <li><a href="{{route('admin.view.categories')}}">Categories</a></li>
-                    <li><a href="{{route('admin.view.editors')}}">Editors</a></li>
-                    <li><a href="{{route('admin.view.reporters')}}">Reporters</a></li>
-                    <li><a href="{{route('admin.view.post')}}">Posts</a></li>
+                <ul id="category" class="list-unstyled collapse">
+                    <li><a href="{{ route('admin.create.category') }}">Create Category</a></li>
+                    <li><a href="{{route('admin.view.categories')}}">View Categories</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#editor" data-toggle="collapse">
+                    <i class="fa fa-fw fa-cube"></i> Editor
+                </a>
+                <ul id="editor" class="list-unstyled collapse">
+                    <li><a href="{{ route('admin.create.editor') }}">Create Editor</a></li>
+                    <li><a href="{{route('admin.view.editors')}}">View Editors</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#reporter" data-toggle="collapse">
+                    <i class="fa fa-fw fa-cube"></i> Reporter
+                </a>
+                <ul id="reporter" class="list-unstyled collapse">
+                    <li><a href="{{ route('admin.create.reporter') }}">Create Reporter</a></li>
+                    <li><a href="{{route('admin.view.reporters')}}">View Reporters</a></li>
                 </ul>
             </li>
             <li><a href="#"><i class="fa fa-fw fa-edit"></i> Forms</a></li>
@@ -84,27 +99,24 @@
 <script src="{{ asset('assets/admin/js/bootadmin.min.js') }}"></script>
 <script src="{{ asset('assets/admin/js/toastr.min.js') }}"></script>
 <script src="{{ asset('assets/admin/js/bootstrap-toggle.min.js') }}"></script>
-<script src="{{asset('assets/admin/js/nicEdit-latest.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/admin/js/nicEdit.js')}}" type="text/javascript"></script>
 <script>
-    bkLib.onDomLoaded(function () {
-        new nicEditor({iconsPath: '../../assets/admin/images/nicEditorIcons.gif'}).panelInstance('textArea');
-    });
-</script>
-
-<script>
-    (function ($) {
-        $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-            @if(session()->has('updateMsg'))
-            toastr.success("{{ session('updateMsg') }}", "Success")
-            @endif
-            @if($errors->any())
-            @foreach($errors->all() as $error)
-            toastr.error("{{ $error }}", "Whoops")
-            @endforeach
-            @endif
+    $(document).ready(function() {
+        bkLib.onDomLoaded(function () {
+            new nicEditor({iconsPath: '../../assets/admin/images/nicEditorIcons.gif'}).panelInstance('textArea');
         });
-    })(jQuery);
+
+        $('[data-toggle="tooltip"]').tooltip();
+        @if(session()->has('updateMsg'))
+        toastr.success("{{ session('updateMsg') }}", "Success")
+        @endif
+        @if($errors->any())
+        @foreach($errors->all() as $error)
+        toastr.error("{{ $error }}", "Whoops")
+        @endforeach
+        @endif
+    });
+
 </script>
 </body>
 </html>

@@ -7,11 +7,7 @@
             <img src="{{ asset('assets/editor/images/'.$picpath) }}" class="img-thumbnail text-right" alt="No Image">
         </legend>
         <div class="card-body">
-<<<<<<< HEAD
             <form method="POST" action = "{{ route('editor.update.profile.submit') }}" enctype="multipart/form-data">
-=======
-            <form method="POST" action = "{{ route('editor.updated.profile.submit') }}" enctype="multipart/form-data">
->>>>>>> fa1439b90b2e92ccab005179a3b37d42c1604b36
                 @method('PUT')
                 @csrf
                 <div class="form-group row">

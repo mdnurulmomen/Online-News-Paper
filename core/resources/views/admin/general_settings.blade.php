@@ -9,49 +9,39 @@
             <div class="card-body">
                 <form method="post" action = "{{ route('admin.settings.general.submit') }}">
                     @csrf
-                    @method('PUT')
-                    <div class="form-group row">
-                        <label for="inputEmail3" class="col-sm-2 col-form-label">Title:</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="name" class="form-control" value="{{ $newsPaperName }}" required>
+                    @Method('put')
+                    <div class="form-row">
+                        <div class="col-md-6 mb-6">
+                            <label for="validationServer01">Title</label>
+                            <input type="text" name="name" class="form-control is-valid" value="{{ $newsPaperName }}" required>
+                        </div>
+                        <div class="col-md-6 mb-6">
+                            <label for="validationServer02">Color</label>
+                            <input type="text" name="color" value="{{ $color }}" class="form-control is-valid" onkeyup="backgroundColor()">
                         </div>
                     </div>
+                    <br>
+                    <br>
                     <div class="form-group row">
-                        <label for="inputPassword3" class="col-sm-2 col-form-label">Color:</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="color" class="form-control" onchange="backgroundColor()">
+                        <div class="col-sm-3">
+                            <label for="validationServer02">Post Verification :</label>
+                            <input type="checkbox" name="postverification" @if($postverification==1) checked @endif  data-toggle="toggle" data-on="Allowed" data-off="Not Allowed" data-onstyle="success" data-offstyle="danger">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="validationServer02">User Registration :</label>
+                            <input type="checkbox" name="userregistration" @if($userRegistration==1) checked @endif  data-toggle="toggle" data-on="Allowed" data-off="Not Allowed" data-onstyle="success" data-offstyle="danger">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="validationServer02">Email Verification :</label>
+                            <input type="checkbox" name="emailverification" @if($emailverification==1) checked @endif  data-toggle="toggle" data-on="Allowed" data-off="Not Allowed" data-onstyle="success" data-offstyle="danger">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="validationServer02">SMS Verification :</label>
+                            <input type="checkbox" name="smsverification" @if($smsverification==1) checked @endif data-toggle="toggle" data-on="Allowed" data-off="Not Allowed" data-onstyle="success" data-offstyle="danger">
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-sm-2">Post Verification :</div>
-                        <div class="col-sm-4">
-                            <div class="form-check">
-                                <input type="checkbox" name="postverification" @if($postverification==1) checked @endif  data-toggle="toggle" data-on="Allowed" data-off="Not Allowed" data-onstyle="success" data-offstyle="danger">
-                            </div>
-                        </div>
-                        <div class="col-sm-2">User Registration :</div>
-                        <div class="col-sm-4">
-                            <div class="form-check">
-                                <input type="checkbox" name="userregistration" @if($userRegistration==1) checked @endif  data-toggle="toggle" data-on="Allowed" data-off="Not Allowed" data-onstyle="success" data-offstyle="danger">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-sm-2">Email Verification :</div>
-                        <div class="col-sm-4">
-                            <div class="form-check">
-                                <input type="checkbox" name="emailverification" @if($emailverification==1) checked @endif  data-toggle="toggle" data-on="Allowed" data-off="Not Allowed" data-onstyle="success" data-offstyle="danger">
-                            </div>
-                        </div>
-                        <div class="col-sm-2">SMS Verification :</div>
-                        <div class="col-sm-4">
-                            <div class="form-check">
-                                <input type="checkbox" name="smsverification" @if($smsverification==1) checked @endif data-toggle="toggle" data-on="Allowed" data-off="Not Allowed" data-onstyle="success" data-offstyle="danger">
-                            </div>
-                        </div>
-                    </div>
-
+                    <br>
+                    <br>
                     <div class="form-group row">
                         <div class="col-sm-12">
                             <button type="submit" class="btn btn-block btn-primary">Update</button>
@@ -67,6 +57,5 @@
         var inputSelected = document.getElementsByName("color")[0];
         inputSelected.style.backgroundColor = document.getElementsByName("color")[0].value;
     }
-    
     </script>
 @stop

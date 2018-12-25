@@ -22,7 +22,8 @@
                             <td>{{ $post->title }}</td>
                             <td>{{ str_limit($post->description, 60) }}</td>
                             <td>
-                                <input type="checkbox" name="poststatus" @if($post->status==1) checked @endif  data-toggle="toggle" data-on="Published" data-off="Unpublished" data-onstyle="success" data-offstyle="danger">
+                                <input type="checkbox" @if($post->status==1) checked @endif disabled>Published
+                                <input type="checkbox" @if($post->status==0) checked @endif disabled>Unpublished
                             </td>
                             <td>
                                 <a href="{{ route('admin.edit.post', [$post->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit"><i class="fa fa-fw fa-edit"></i></a>

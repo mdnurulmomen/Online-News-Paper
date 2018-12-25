@@ -25,7 +25,6 @@ class CreateEditorsTable extends Migration
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->string('city')->nullable();
-            $table->string('state')->nullable();
             $table->string('country')->nullable();
             $table->string('emailverification')->nullable();
             $table->string('smsverification')->nullable();

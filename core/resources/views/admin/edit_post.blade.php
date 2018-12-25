@@ -26,7 +26,7 @@
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Post's Title:</label>
                     <div class="col-sm-10">
-                        <input type="text" name="title" class="form-control" value="{{$postToUpdate->title}}" placeholder="First Name">
+                        <input type="text" name="title" class="form-control" value="{{$postToUpdate->title}}" placeholder="Title of Post">
                     </div>
                 </div>
                 <div class="form-group row">
