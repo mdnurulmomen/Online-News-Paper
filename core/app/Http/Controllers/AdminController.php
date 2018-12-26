@@ -415,9 +415,10 @@ class AdminController extends Controller
     }
 
     public function categoryDeleteMethod($categoryId){
-        Category::destroy($categoryId);
+        $category = Category::findOrFail($categoryId);
+        $category->posts()->delete();
+        $category->delete();
 
-        $currentUserName = Auth::guard('admin')->user()->username;
         return redirect()->route('admin.view.categories')->with('updateMsg', 'Category is Deleted');
     }
 

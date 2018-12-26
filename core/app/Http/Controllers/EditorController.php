@@ -30,9 +30,6 @@ class EditorController extends Controller
 
     public function showProfileForm(){
         $currentEditor =  Auth::guard('editor')->user();
-//        $categorySelected = Category::find(json_decode($currentEditor->categories));
-//        $categorySelected = Category::whereIn('id', $currentEditor->categories)->get();
-//        $profileData = array('firstname'=>$cuurentEditor->firstname, 'lastname'=>$cuurentEditor->lastname, 'username'=>$cuurentEditor->username, 'email'=>$cuurentEditor->email, 'picpath'=>$cuurentEditor->picpath);
         $profileData = array('firstname'=>$currentEditor->firstname, 'lastname'=>$currentEditor->lastname, 'username'=>$currentEditor->username, 'email'=>$currentEditor->email, 'picpath'=>$currentEditor->picpath, 'phone'=>$currentEditor->phone, 'address'=>$currentEditor->address, 'city'=>$currentEditor->city, 'state'=>$currentEditor->state, 'country'=>$currentEditor->country);
         return view('editor.profile', $profileData);
     }
@@ -93,8 +90,8 @@ class EditorController extends Controller
         return view('editor.all_post', compact('posts', 'username'));
     }
 
-    public function showPostEditForm($postid){
-
+    public function showPostEditForm($postid)
+    {
         $postToUpdate = Post::find($postid);
         $allCategories = Category::all('id', 'name');
 
