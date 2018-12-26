@@ -144,7 +144,7 @@ class AdminController extends Controller
     public function showNewsSettingsForm(){
 //        $settings = Setting::first();
 //        $settingsData = array('logo'=>$settings->logo, 'defaultpic'=>$settings->defaultpic, 'postverification'=>$settings->postverification, 'userRegistration'=>$settings->userregistration, 'emailverification'=>$settings->emailverification, 'smsverification'=>$settings->smsverification);
-//        return view('admin.media_settings')->with($settingsData);
+        return view('admin.headline_settings');
     }
 
     public function submitNewsSettingsForm(Request $request){
