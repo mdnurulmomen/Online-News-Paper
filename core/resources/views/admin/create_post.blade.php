@@ -37,6 +37,12 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Picture:</label>
+                    <div class="col-sm-10">
+                        <input type="file" name="picpath" class="form-control" accept="image/*">
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Status:</label>
                     <div class="col-sm-10">
                         <input type="checkbox" name="status"  data-toggle="toggle" data-on="Published" data-off="Unpublished" data-onstyle="success" data-offstyle="danger" data>

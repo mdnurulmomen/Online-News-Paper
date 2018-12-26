@@ -78,7 +78,6 @@ class AdminController extends Controller
         ]);
 
         $profileToUpdate = Auth::guard('admin')->user();
-
         if(Hash::check($request->currentPassword, $profileToUpdate->password))
         {
             Auth::guard('admin')->user()->password = Hash::make($request->password);
@@ -90,20 +89,47 @@ class AdminController extends Controller
 
     public function showGeneralSettingsForm(){
         $settings = Setting::first();
-        $settingsData = array('newsPaperName'=>$settings->name, 'color'=>$settings->color, 'postverification'=>$settings->postverification, 'userRegistration'=>$settings->userregistration, 'emailverification'=>$settings->emailverification, 'smsverification'=>$settings->smsverification);
-
+        $settingsData = array('newsPaperName'=>$settings->name, 'color'=>$settings->color, 'footer'=>$settings->footer);
         return view('admin.general_settings')->with($settingsData);
     }
 
     public function submitGeneralSettingsForm(Request $request){
-        $request->validate([
+        $request->validate([]);
 
-        ]);
+        $settings = Setting::first();
+        $settings->name = $request->name;
+        $settings->color = $request->color;
+        $settings->footer = $request->footer;
+
+        $settings->save();
+
+        return redirect()->route('admin.settings.general')->with('updateMsg', 'Settings are Updated');
+    }
+
+    public function showMediaSettingsForm(){
+        $settings = Setting::first();
+        $settingsData = array('logo'=>$settings->logo, 'defaultIcon'=>$settings->defaultpic, 'postverification'=>$settings->postverification, 'userRegistration'=>$settings->userregistration, 'emailverification'=>$settings->emailverification, 'smsverification'=>$settings->smsverification);
+        return view('admin.media_settings')->with($settingsData);
+    }
+
+    public function submitMediaSettingsForm(Request $request){
+        $request->validate([]);
 
         $settings = Setting::first();
 
-        $settings->name = $request->name;
-        $settings->color = $request->color;
+        if($request->has('logo')){
+            $originImageFile = $request->file('logo');
+            $imageObject = Image::make($originImageFile);
+            $imageObject->resize(200, 200)->save('assets/front/images/'.$originImageFile->hashname());
+            $settings->logo= $originImageFile->hashName();
+        }
+
+        if($request->has('defaultIcon')){
+            $originImageFile = $request->file('defaultIcon');
+            $imageObject = Image::make($originImageFile);
+            $imageObject->resize(200, 200)->save('assets/front/images/'.$originImageFile->hashname());
+            $settings->defaultpic= $originImageFile->hashName();
+        }
 
         ($request->postverification == 'on') ? $settings->postverification = 1 : $settings->postverification = 0;
         ($request->userregistration == 'on') ? $settings->userregistration = 1 : $settings->userregistration = 0;
@@ -112,7 +138,30 @@ class AdminController extends Controller
 
         $settings->save();
 
-        return redirect()->back()->with('updateMsg', 'Settings are Updated');
+        return redirect()->route('admin.settings.media')->with('updateMsg', 'Settings are Updated');
+    }
+
+    public function showNewsSettingsForm(){
+//        $settings = Setting::first();
+//        $settingsData = array('logo'=>$settings->logo, 'defaultpic'=>$settings->defaultpic, 'postverification'=>$settings->postverification, 'userRegistration'=>$settings->userregistration, 'emailverification'=>$settings->emailverification, 'smsverification'=>$settings->smsverification);
+//        return view('admin.media_settings')->with($settingsData);
+    }
+
+    public function submitNewsSettingsForm(Request $request){
+//        $request->validate([]);
+//
+//        $settings = Setting::first();
+//        $settings->logo = $request->logo;
+//        $settings->defaultpic = $request->defaultpic;
+//
+//        ($request->postverification == 'on') ? $settings->postverification = 1 : $settings->postverification = 0;
+//        ($request->userregistration == 'on') ? $settings->userregistration = 1 : $settings->userregistration = 0;
+//        ($request->emailverification == 'on') ? $settings->emailverification = 1 : $settings->emailverification = 0;
+//        ($request->smsverification == 'on') ? $settings->smsverification = 1 : $settings->smsverification = 0;
+//
+//        $settings->save();
+//
+//        return redirect()->route('admin.settings.headlines')->with('updateMsg', 'Settings are Updated');
     }
 
     public function showCreatePostForm(){
@@ -125,6 +174,7 @@ class AdminController extends Controller
             'category' => 'required',
             'title' => 'required',
             'description' => 'required',
+            'picpath' => 'nullable|image',
         ]);
 
         $currentUser = Auth::guard('admin')->user();
@@ -133,6 +183,14 @@ class AdminController extends Controller
         $newPost->created_admin_id = $currentUser->id;
         $newPost->title = $request->title;
         $newPost->description = $request->description;
+
+        if($request->has('picpath')){
+            $originalImage = $request->file('picpath');
+            $imageInterventionObj = Image::make($originalImage);
+            $imageInterventionObj->resize('250', '250')->save('assets/front/images/'.$originalImage->hashName());
+            $newPost->picpath = $originalImage->hashName();
+        }
+
         ($request->status=='on') ? $newPost->status = 1 : $newPost->status = 0;
         $newPost->save();
 
@@ -250,6 +308,7 @@ class AdminController extends Controller
             'categoryId'=> 'required',
             'title' => 'required',
             'description' => 'required',
+            'picpath' => 'nullable|image',
         ]);
 
         $currentAdmin = Auth::guard('admin')->user();
@@ -258,6 +317,13 @@ class AdminController extends Controller
         $postToUpdate->category_id = $request->categoryId;
         $postToUpdate->title = $request->title;
         $postToUpdate->description = $request->description;
+
+        if($request->has('picpath')){
+            $originalImage = $request->file('picpath');
+            $imageInterventionObj = Image::make($originalImage);
+            $imageInterventionObj->resize('250', '250')->save('assets/front/images/'.$originalImage->hashName());
+            $postToUpdate->picpath = $originalImage->hashName();
+        }
 
         ($request->status=='on') ? $postToUpdate->status = 1 : $postToUpdate->status = 0;
         $postToUpdate->updated_admin_id = $currentAdmin->id;

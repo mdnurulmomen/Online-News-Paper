@@ -43,7 +43,8 @@
                 </a>
                 <ul id="settings" class="list-unstyled collapse">
                     <li><a href="{{route('admin.settings.general')}}">General Settings</a></li>
-                    <li><a href="">Other Settings</a></li>
+                    <li><a href="{{route('admin.settings.media')}}">Media Settings</a></li>
+                    <li><a href="{{route('admin.settings.news')}}">News Settings</a></li>
                 </ul>
             </li>
             <li>

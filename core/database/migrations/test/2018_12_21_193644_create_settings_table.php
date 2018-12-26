@@ -17,6 +17,10 @@ class CreateSettingsTable extends Migration
             $table->increments('id');
             $table->string('name')->nullable();
             $table->string('color')->nullable();
+            $table->string('headlines')->nullable();
+            $table->string('logo')->nullable();
+            $table->string('defaultpic')->nullable();
+            $table->string('footer')->nullable();
             $table->string('postverification');
             $table->string('userregistration')->default(1);
             $table->string('emailverification')->nullable()->default(0);

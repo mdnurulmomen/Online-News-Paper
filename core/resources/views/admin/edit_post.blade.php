@@ -2,11 +2,14 @@
 @extends('admin.layout.app')
 @section('contents')
 <div class="content p-4">
-    <h2 class="mb-4"> Profile Setting </h2>
+    <h2 class="mb-4"> Post Setting </h2>
     <div class="card mb-4">
         <div class="card-header bg-white font-weight-bold">
-            Profile Updating Form
+            Post Updating Form
         </div>
+        <legend class="text-center">
+            <img src="{{ asset('assets/front/images/'.$postToUpdate->picpath) }}" class="img-thumbnail" alt="No Image">
+        </legend>
         <div class="card-body">
             <form method="POST" action = "{{ route('admin.edited.post.submit', $postToUpdate->id) }}" enctype="multipart/form-data">
                 @method('PUT')
@@ -33,6 +36,12 @@
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Description:</label>
                     <div class="col-sm-10">
                         <textarea name="description" class="form-control" rows="5" id="textArea"> {{$postToUpdate->description}} </textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Picture:</label>
+                    <div class="col-sm-10">
+                        <input type="file" name="picpath" class="form-control" accept="image/*">
                     </div>
                 </div>
                 <div class="form-group row">

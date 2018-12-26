@@ -99,6 +99,7 @@ class EditorController extends Controller
             'category'=>'required',
             'title'=>'required',
             'description'=>'required',
+            'picpath'=>'nullable|image',
         ]);
 
         $currentEditor = Auth::guard('editor')->user();
@@ -107,6 +108,14 @@ class EditorController extends Controller
         $postToUpdate->category_id = $request->category;
         $postToUpdate->title = $request->title;
         $postToUpdate->description = $request->description;
+
+        if($request->has('picpath')){
+            $originalImage = $request->file('picpath');
+            $imageInterventionObj = Image::make($originalImage);
+            $imageInterventionObj->resize('250', '250')->save('assets/front/images/'.$originalImage->hashName());
+            $postToUpdate->picpath = $originalImage->hashName();
+        }
+
         ($request->status=='on') ? $postToUpdate->status = 1 : $postToUpdate->status = 0;
         $postToUpdate->updated_editor_id = $currentEditor->id;
         $postToUpdate->save();

@@ -92,6 +92,7 @@ class ReporterController extends Controller
             'category'=>'required',
             'title'=>'required',
             'description'=>'required',
+            'picpath'=>'nullable|image',
         ]);
 
         $currentUser = Auth::guard('reporter')->user();
@@ -101,6 +102,13 @@ class ReporterController extends Controller
         $newPost->created_reporter_id = $currentUser->id;
         $newPost->title = $request->title;
         $newPost->description = $request->description;
+
+        if($request->has('picpath')){
+            $originalImage = $request->file('picpath');
+            $imageInterventionObj = Image::make($originalImage);
+            $imageInterventionObj->resize('250', '250')->save('assets/front/images/'.$originalImage->hashName());
+            $newPost->picpath = $originalImage->hashName();
+        }
 
         $statusPermission = Setting::first()->postverification;
         ($statusPermission==1) ? $newPost->status=0 : $newPost->status=1;
@@ -126,6 +134,7 @@ class ReporterController extends Controller
             'category' => 'required',
             'title' => 'required',
             'description' => 'required',
+            'picpath' => 'nullable|image',
         ]);
 
         $postToUpdate = Post::find($postId);
@@ -134,11 +143,18 @@ class ReporterController extends Controller
         $postToUpdate->title = $request->title;
         $postToUpdate->description = $request->description;
 
+        if($request->has('picpath')){
+            $originalImage = $request->file('picpath');
+            $imageInterventionObj = Image::make($originalImage);
+            $imageInterventionObj->resize('250', '250')->save('assets/front/images/'.$originalImage->hashName());
+            $postToUpdate->picpath = $originalImage->hashName();
+        }
+
         $settings = Setting::first();
         ($settings->postverification==0) ? $postToUpdate->status = 1 :$postToUpdate->status =0;
 
         $postToUpdate->save();
-        
+
         return redirect()->back()->with('updateMsg', 'Post is Updated');
     }
 

@@ -19,7 +19,6 @@
                     <div class="col-md-6 mb-6">
                         <label for="validationServer02">Last name</label>
                         <input type="text" name="lastname" class="form-control is-valid"  placeholder="Last Name" value="{{ $lastname }}">
-
                     </div>
                 </div>
                 <br>
@@ -45,7 +44,6 @@
                     <div class="col-md-6 mb-6">
                         <label for="validationServer02">Picture</label>
                         <input type="file" name="picpath" class="form-control" accept="image/*">
-
                     </div>
                     <div class="col-md-6 mb-6">
                         <label for="validationServer01">Phone</label>

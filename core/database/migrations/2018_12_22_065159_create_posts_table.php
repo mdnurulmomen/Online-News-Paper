@@ -19,6 +19,7 @@ class CreatePostsTable extends Migration
             $table->string('created_admin_id')->nullable();
             $table->string('created_reporter_id')->nullable();
             $table->string('title');
+            $table->string('picpath')->nullable();
             $table->string('description');
             $table->string('status');
             $table->string('updated_admin_id')->nullable();

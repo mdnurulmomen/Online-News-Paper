@@ -37,6 +37,12 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Picture:</label>
+                    <div class="col-sm-10">
+                        <input type="file" name="picpath" class="form-control" accept="image/*">
+                    </div>
+                </div>
+                <div class="form-group row">
                     <div class="col-sm-12">
                         <button type="submit" class="btn btn-block btn-primary">Create</button>
                     </div>
