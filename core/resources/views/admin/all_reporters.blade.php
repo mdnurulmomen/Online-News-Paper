@@ -21,7 +21,7 @@
                             <td>{{$reporter->firstname}} {{$reporter->lastname}}</td>
                             <td>{{ $reporter->username }}</td>
                             <td>{{ $reporter->email }}</td>
-                            <td>All Categoryies</td>
+                            <td> All Categoryies </td>
                             <td>{{ $reporter->phone }}</td>
                             <td>
                                 <a href="{{ route('admin.edit.reporter',  $reporter->id) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit"><i class="fa fa-fw fa-edit"></i></a>
@@ -31,6 +31,9 @@
                     @endforeach
                     </tbody>
                 </table>
+            </div>
+            <div class="pagination text-right">
+                {{ $reporters->onEachSide(5)->links() }}
             </div>
         </div>
 @stop

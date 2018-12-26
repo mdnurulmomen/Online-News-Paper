@@ -194,12 +194,12 @@ class AdminController extends Controller
         ($request->status=='on') ? $newPost->status = 1 : $newPost->status = 0;
         $newPost->save();
 
-        return redirect()->back()->with('updateMsg', 'New Post is Added');
+        return redirect()->back()->with('updateMsg', 'New News is Added');
     }
 
     public function showCreateCategoryForm(){
         $allCategories = Category::all('id', 'name');
-        return view('admin.category', compact('allCategories'));
+        return view('admin.create_category', compact('allCategories'));
     }
 
     public function submitCreateCategoryForm(Request $request){
@@ -293,12 +293,12 @@ class AdminController extends Controller
     }
 
     public function showAllPosts(){
-        $posts = Post::all();
+        $posts = Post::paginate(1);
         return view('admin.all_post', compact('posts'));
     }
 
     public function showPostEditForm($postid){
-        $postToUpdate = Post::find($postid);
+        $postToUpdate = Post::findOrFail($postid);
         $allCategories = Category::all('id', 'name');
         return view('admin.edit_post', compact('postToUpdate', 'allCategories'));
     }
@@ -313,7 +313,7 @@ class AdminController extends Controller
 
         $currentAdmin = Auth::guard('admin')->user();
 
-        $postToUpdate = Post::find($postid);
+        $postToUpdate = Post::findOrFail($postid);
         $postToUpdate->category_id = $request->categoryId;
         $postToUpdate->title = $request->title;
         $postToUpdate->description = $request->description;
@@ -334,24 +334,24 @@ class AdminController extends Controller
 
     public function postDeleteMethod($postid){
         Post::destroy($postid);
-        return redirect()->route('admin.view.post')->with('updateMsg', 'Post has been Deleted');
+        return redirect()->route('admin.view.post')->with('updateMsg', 'News has been Deleted');
     }
 
     public function showAllEditors()
     {
-        $editors = Editor::all();
+        $editors = Editor::paginate(1);
         return view('admin.all_editors', compact('editors'));
     }
 
     public function showEditorEditForm($editorId){
-        $editorToUpdate = Editor::find($editorId);
+        $editorToUpdate = Editor::findOrFail($editorId);
         $allCategories = Category::all('id', 'name');
         return view('admin.edit_editor', compact('editorToUpdate', 'allCategories'));
     }
 
     public function submitEditorEditForm(Request $request, $editorId){
 
-        $profileToUpdate = Editor::find($editorId);
+        $profileToUpdate = Editor::findOrFail($editorId);
 
         $request->validate([
             'username'=>'required|unique:editors,username,'.$profileToUpdate->id,
@@ -383,17 +383,17 @@ class AdminController extends Controller
 
     public function showAllReporters()
     {
-        $reporters = Reporter::all();
+        $reporters = Reporter::paginate(1);
         return view('admin.all_reporters', compact( 'reporters'));
     }
 
     public function showReporterEditForm($reporterId){
-        $reporterToUpdate = Reporter::find($reporterId);
+        $reporterToUpdate = Reporter::findOrFail($reporterId);
         return view('admin.edit_reporter', compact('reporterToUpdate'));
     }
 
     public function submitReporterEditForm(Request $request, $reporterId){
-        $profileToUpdate = Reporter::find($reporterId);
+        $profileToUpdate = Reporter::findOrFail($reporterId);
         $request->validate([
             'username'=>'required|unique:reporters,username,'.$profileToUpdate->id,
             'email'=>'nullable|email|unique:reporters,email,'.$profileToUpdate->id,
@@ -424,12 +424,12 @@ class AdminController extends Controller
 
     public function showAllCategories()
     {
-        $categories = Category::all();
+        $categories = Category::paginate(2);
         return view('admin.all_categories', compact( 'categories'));
     }
 
     public function showCategoryEditForm($categoryId){
-        $categoryToUpdate = Category::find($categoryId);
+        $categoryToUpdate = Category::findOrFail($categoryId);
         $allCategories = Category::all('id', 'name');
         return view('admin.edit_category', compact('categoryToUpdate', 'allCategories'));
     }
@@ -440,7 +440,7 @@ class AdminController extends Controller
             'url'=>'required',
         ]);
 
-        $categoryToUpdate = Category::find($categoryId);
+        $categoryToUpdate = Category::findOrFail($categoryId);
 
         $categoryToUpdate->name = $request->name;
         $categoryToUpdate->url = $request->url;

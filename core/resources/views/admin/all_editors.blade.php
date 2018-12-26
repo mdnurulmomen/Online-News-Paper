@@ -39,5 +39,8 @@
                     </tbody>
                 </table>
             </div>
+            <div class="pagination text-right">
+                {{ $editors->onEachSide(5)->links() }}
+            </div>
         </div>
 @stop

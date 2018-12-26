@@ -8,8 +8,9 @@
                 <table class="table table-hover text-center" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>Category</th>
-                        <th>Post Title </th>
+                        <th>News Id</th>
+                        <th>Category Name</th>
+                        <th>News Title </th>
                         <th>Description</th>
                         <th>Status</th>
                         <th class="actions">Actions</th>
@@ -18,6 +19,7 @@
                     <tbody>
                     @foreach($posts as $post)
                         <tr>
+                            <td>{{$post->id}}</td>
                             <td>{{$post->category->name}}</td>
                             <td>{{ $post->title }}</td>
                             <td>{{ str_limit($post->description, 60) }}</td>
@@ -33,6 +35,9 @@
                     @endforeach
                     </tbody>
                 </table>
+            </div>
+            <div class="pagination text-right">
+            {{ $posts->onEachSide(5)->links() }}
             </div>
         </div>
 @stop

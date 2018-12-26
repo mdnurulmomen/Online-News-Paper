@@ -24,7 +24,7 @@
                     <div class="form-group row">
                         <div class="col-sm-12">
                             <label for="validationServer03">Set Footer:</label>
-                            <textarea name="description" class="form-control is-valid" rows="5" id="textArea"> {{$footer}} </textarea>
+                            <textarea name="footer" class="form-control is-valid" rows="5" id="textArea"> {{$footer}} </textarea>
                         </div>
                     </div>
                     <br>

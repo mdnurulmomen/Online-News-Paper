@@ -49,16 +49,16 @@
             </li>
             <li>
                 <a href="#post" data-toggle="collapse">
-                    <i class="fa fa-fw fa-cube"></i> Post
+                    <i class="fa fa-fw fa-cube"></i> News
                 </a>
                 <ul id="post" class="list-unstyled collapse">
-                    <li><a href="{{ route('admin.create.post') }}">Create Post</a></li>
-                    <li><a href="{{route('admin.view.post')}}">View Posts</a></li>
+                    <li><a href="{{ route('admin.create.post') }}">Create News</a></li>
+                    <li><a href="{{route('admin.view.post')}}">View News</a></li>
                 </ul>
             </li>
             <li>
                 <a href="#category" data-toggle="collapse">
-                    <i class="fa fa-fw fa-cube"></i> Categories
+                    <i class="fa fa-fw fa-cube"></i> Category
                 </a>
                 <ul id="category" class="list-unstyled collapse">
                     <li><a href="{{ route('admin.create.category') }}">Create Category</a></li>

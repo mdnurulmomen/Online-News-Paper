@@ -2,11 +2,8 @@
 @extends('admin.layout.app')
 @section('contents')
 <div class="content p-4">
-    <h2 class="mb-4"> Profile Setting </h2>
+    <h2 class="mb-4"> Create Category </h2>
     <div class="card mb-4">
-        <div class="card-header bg-white font-weight-bold">
-            Profile Updating Form
-        </div>
         <div class="card-body">
             <form method="POST" action = "{{ route('admin.created.category.submit') }}" enctype="multipart/form-data">
                 @method('PUT')
