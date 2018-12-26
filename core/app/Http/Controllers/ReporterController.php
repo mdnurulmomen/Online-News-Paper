@@ -36,28 +36,19 @@ class ReporterController extends Controller
     }
 
     public function submitProfileForm(Request $request){
-        $request->validate([
-            'firstName'=>'required',
-            'lastName'=>'nullable',
-//            'userName'=>'required',
-            'email'=>'nullable',
-            'profilePic'=>'nullable|image',
-            'phone'=>'nullable|numeric',
-            'address'=>'nullable',
-            'city'=>'nullable',
-            'state'=>'nullable',
-            'country'=>'nullable',
-        ]);
 
         $profileToUpdate = Auth::guard('reporter')->user();
-
-        $profileToUpdate->firstname = $request->firstName;
-        $profileToUpdate->lastname = $request->lastName;
-//        $profileToUpdate->username = $request->userName;
+        $request->validate([
+            'email'=>'nullable|email|unique:reporters,email,'.$profileToUpdate->id,
+            'picpath'=>'nullable|image',
+            'phone'=>'nullable|numeric',
+        ]);
+        $profileToUpdate->firstname = $request->firstname;
+        $profileToUpdate->lastname = $request->lastname;
         $profileToUpdate->email = $request->email;
 
-        if($request->has('profilePic')){
-            $originImageFile = $request->file('profilePic');
+        if($request->has('picpath')){
+            $originImageFile = $request->file('picpath');
             $imageObject = Image::make($originImageFile);
             $imageObject->resize(150, 150)->save('assets/reporter/images/'.$originImageFile->hashname());
             $profileToUpdate->picpath = $originImageFile->hashName();
@@ -66,11 +57,10 @@ class ReporterController extends Controller
         $profileToUpdate->phone = $request->phone;
         $profileToUpdate->address = $request->address;
         $profileToUpdate->city = $request->city;
-        $profileToUpdate->state = $request->state;
         $profileToUpdate->country = $request->country;
 
         $profileToUpdate->save();
-        return redirect()->back()->with('updateMsg', 'Profile Successfully Updated')->with('username', $request->userName);
+        return redirect()->back()->with('updateMsg', 'Profile Successfully Updated')->with('username', $request->username);
     }
 
     public function showPasswordForm(){
@@ -102,7 +92,7 @@ class ReporterController extends Controller
 
     public function submitCreatePostForm(Request $request){
         $request->validate([
-            'categoryId'=>'required',
+            'category'=>'required',
             'title'=>'required',
             'description'=>'required',
         ]);
@@ -110,8 +100,8 @@ class ReporterController extends Controller
         $currentUser = Auth::guard('reporter')->user();
 
         $newPost = new Post();
-        $newPost->category_id = $request->categoryId;
-        $newPost->reporter_id = $currentUser->id;
+        $newPost->category_id = $request->category;
+        $newPost->created_reporter_id = $currentUser->id;
         $newPost->title = $request->title;
         $newPost->description = $request->description;
 
@@ -122,10 +112,10 @@ class ReporterController extends Controller
         return redirect()->back()->with('updateMsg', 'Post is Added')->with('username', $currentUser->username);
     }
 
-    public function showALlPost(){
+    public function showAllPost(){
         $currentUser = Auth::guard('reporter')->user();
         $username = $currentUser->username;
-        $posts = Post::all()->where('reporter_id', $currentUser->id);
+        $posts = Post::all()->where('created_reporter_id', $currentUser->id);
         return view('reporter.all_post', compact(['posts', 'username']));
     }
 
@@ -133,18 +123,19 @@ class ReporterController extends Controller
         $postToUpdate = Post::find($postid);
         $allCategories = Category::all('id', 'name');
         $username = Auth::guard('reporter')->user()->username;
-        return view('reporter.single_post', compact(['allCategories', 'postToUpdate', 'username']));
+        return view('reporter.edit_post', compact(['allCategories', 'postToUpdate', 'username']));
     }
 
     public function submitPostEditForm(Request $request, $postId){
         $request->validate([
+            'category' => 'required',
             'title' => 'required',
             'description' => 'required',
         ]);
 
         $postToUpdate = Post::find($postId);
 
-        $postToUpdate->category_id = $request->categoryId;
+        $postToUpdate->category_id = $request->category;
         $postToUpdate->title = $request->title;
         $postToUpdate->description = $request->description;
 

@@ -36,13 +36,13 @@
     <div class="sidebar sidebar-dark bg-dark">
         <ul class="list-unstyled">
             <li class="active"><a href="{{route('reporter.home')}}"><i class="fa fa-fw fa-tachometer-alt"></i> Dashboard</a></li>
-            <li class="active"><a href="{{route('reporter.create.post')}}"><i class="fa fa-fw fa-tachometer-alt"></i> Create Post</a></li>
             <li>
                 <a href="#view" data-toggle="collapse">
-                    <i class="fa fa-fw fa-cube"></i> View
+                    <i class="fa fa-fw fa-cube"></i> Post
                 </a>
                 <ul id="view" class="list-unstyled collapse">
-                    <li><a href="{{route('reporter.view.posts')}}">Posts</a></li>
+                    <li><a href="{{route('reporter.create.post')}}">Create Post</a></li>
+                    <li><a href="{{route('reporter.view.posts')}}">View Posts</a></li>
                 </ul>
             </li>
             <li><a href="#"><i class="fa fa-fw fa-table"></i> Datatables</a></li>

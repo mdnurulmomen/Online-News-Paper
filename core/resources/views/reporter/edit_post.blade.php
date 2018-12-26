@@ -13,12 +13,9 @@
                 @csrf
                 <fieldset class="form-group">
                     <div class="row">
-                        <legend class="col-form-label col-sm-2 pt-0">Categories Selection:</legend>
+                        <label class="col-form-label col-sm-2 pt-0">Categories Selection:</label>
                         <div class="col-sm-10">
-                            <select name="categoryId" class="form-control">
-                                {{--@foreach($categories as $category)
-                                    <option value="{{ $category->id }}" @if($category->id==$post->category_id) selected @endif>{{ $category->name }}</option>
-                                @endforeach--}}
+                            <select name="category" class="form-control">
                             @foreach($allCategories as $category)
                                 <option value="{{$category->id}}" @if($category->id==$postToUpdate->category->id) selected @endif>{{$category->name}}
                             @endforeach

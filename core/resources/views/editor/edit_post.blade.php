@@ -14,7 +14,7 @@
                     <div class="row">
                         <legend class="col-form-label col-sm-2 pt-0">Categories Selection:</legend>
                         <div class="col-sm-10">
-                            <select name="categoryId" class="form-control">
+                            <select name="category" class="form-control">
                                 @foreach($allCategories as $category)
                                     <option value="{{ $category->id }}" @if($category->id==$postToUpdate->category_id) selected @endif>{{ $category->name }}</option>
                                 @endforeach

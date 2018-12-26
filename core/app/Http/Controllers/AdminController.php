@@ -134,7 +134,7 @@ class AdminController extends Controller
         $currentUser = Auth::guard('admin')->user();
         $newPost = new Post();
         $newPost->category_id = $request->category;
-        $newPost->admin_id = $currentUser->id;
+        $newPost->created_admin_id = $currentUser->id;
         $newPost->title = $request->title;
         $newPost->description = $request->description;
         ($request->status=='on') ? $newPost->status = 1 : $newPost->status = 0;
@@ -265,15 +265,18 @@ class AdminController extends Controller
             'description' => 'required',
         ]);
 
+        $currentAdmin = Auth::guard('admin')->user();
+
         $postToUpdate = Post::find($postid);
         $postToUpdate->category_id = $request->categoryId;
         $postToUpdate->title = $request->title;
         $postToUpdate->description = $request->description;
 
         ($request->status=='on') ? $postToUpdate->status = 1 : $postToUpdate->status = 0;
+        $postToUpdate->updated_admin_id = $currentAdmin->id;
         $postToUpdate->save();
 
-        $username = Auth::guard('admin')->user()->username;
+        $username = $currentAdmin->username;
         return redirect()->route('admin.edit.post', $postToUpdate->id)->with('updateMsg', 'Post is updated')->with('username', $username);
     }
 

@@ -38,10 +38,10 @@
             <li class="active"><a href="{{route('editor.home')}}"><i class="fa fa-fw fa-tachometer-alt"></i> Dashboard</a></li>
             <li>
                 <a href="#view" data-toggle="collapse">
-                    <i class="fa fa-fw fa-cube"></i> View
+                    <i class="fa fa-fw fa-cube"></i> Posts
                 </a>
                 <ul id="view" class="list-unstyled collapse">
-                    <li><a href="{{route('editor.view.post')}}">Posts</a></li>
+                    <li><a href="{{route('editor.view.post')}}">View Posts</a></li>
                 </ul>
             </li>
             <li><a href="#"><i class="fa fa-fw fa-table"></i> Datatables</a></li>

@@ -13,9 +13,10 @@
                 @csrf
                 <fieldset class="form-group">
                     <div class="row">
-                        <legend class="col-form-label col-sm-2 pt-0">Categories Selection:</legend>
+                        <label class="col-form-label col-sm-2 pt-0">Categories Selection:</label>
                         <div class="col-sm-10">
-                            <select name="categoryId" class="form-control">
+                            <select name="category" class="form-control" required>
+                                <option value="0" selected disabled>--Please Choose a Category--</option>
                                 @foreach($allCategories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                                 @endforeach
@@ -26,7 +27,7 @@
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Post's Title:</label>
                     <div class="col-sm-10">
-                        <input type="text" name="title" class="form-control" placeholder="First Name">
+                        <input type="text" name="title" class="form-control" placeholder="Title of Post">
                     </div>
                 </div>
                 <div class="form-group row">

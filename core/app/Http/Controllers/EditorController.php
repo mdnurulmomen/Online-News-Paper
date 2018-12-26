@@ -38,46 +38,28 @@ class EditorController extends Controller
     }
 
     public function submitProfileForm(Request $request){
-        $request->validate([
-            'firstName'=>'required',
-            'lastName'=>'nullable',
-//            'email'=>'nullable|email|unique:editors,email',
-            'profilePic'=>'nullable|image',
-            'phone'=>'nullable|numeric',
-            'address'=>'nullable',
-            'city'=>'nullable',
-            'state'=>'nullable',
-            'country'=>'nullable',
-        ]);
 
         $profileToUpdate = Auth::guard('editor')->user();
 
-//        $profileToUpdate->firstname = $request->firstName;
-//        $profileToUpdate->lastname = $request->lastName;
-///*        $profileToUpdate->username = $request->userName;*/
-//        $profileToUpdate->email = $request->email;
+        $request->validate([
+            'email'=>'nullable|email|unique:editors,email,'.$profileToUpdate->id,
+            'picpath'=>'nullable|image',
+            'phone'=>'nullable|numeric',
+        ]);
 
-        if($request->has('profilePic')){
-            $originImageFile = $request->file('profilePic');
+        if($request->has('picpath')){
+            $originImageFile = $request->file('picpath');
             $imageObject = Image::make($originImageFile);
             $imageObject->resize(150, 150)->save('assets/editor/images/'.$originImageFile->hashname());
-//            $profileToUpdate->picpath = $originImageFile->hashName();
         }
 
-//        $profileToUpdate->phone = $request->phone;
-//        $profileToUpdate->address = $request->address;
-//        $profileToUpdate->city = $request->city;
-//        $profileToUpdate->state = $request->state;
-//        $profileToUpdate->country = $request->country;
-//        $profileToUpdate->save();
-
         if(isset($originImageFile))
-            $profileToUpdate->update(['firstname'=>$request->firstName, 'lastName'=>$request->lastName, 'email'=>$request->email, 'picpath'=>$originImageFile->hashname(), 'phone'=>$request->phone, 'address'=>$request->address, 'city'=>$request->city, 'state'=>$request->state, 'country'=>$request->country]);
+            $profileToUpdate->update(['firstname'=>$request->firstname, 'lastName'=>$request->lastname, 'email'=>$request->email, 'picpath'=>$originImageFile->hashname(), 'phone'=>$request->phone, 'address'=>$request->address, 'city'=>$request->city, 'country'=>$request->country]);
         else
-            $profileToUpdate->update(['firstname'=>$request->firstName, 'lastName'=>$request->lastName, 'email'=>$request->email, 'phone'=>$request->phone, 'address'=>$request->address, 'city'=>$request->city, 'state'=>$request->state, 'country'=>$request->country]);
+            $profileToUpdate->update($request->all());
 
 
-        return redirect()->back()->with('updateMsg', 'Profile Successfully Updated')->with('username', $request->userName);
+        return redirect()->back()->with('updateMsg', 'Profile Successfully Updated')->with('username', $request->username);
     }
 
     public function showPasswordForm(){
@@ -103,7 +85,7 @@ class EditorController extends Controller
 
     public function showAllPosts(){
         $currentEditor = Auth::guard('editor')->user();
-        $editorCategories = json_decode($currentEditor->categories);
+        $editorCategories = json_decode($currentEditor->category_id);
 
         $posts = Post::all()->whereIn('category_id', $editorCategories);
 
@@ -112,21 +94,17 @@ class EditorController extends Controller
     }
 
     public function showPostEditForm($postid){
-//        $request->validate([
-////            'title'=>'required',
-////            'description'=>'required',
-////            'title'=>'required',
-////        ]);
+
         $postToUpdate = Post::find($postid);
         $allCategories = Category::all('id', 'name');
 
         $currentUserName = Auth::guard('editor')->user()->username;
-
-        return view('editor.single_post', compact('postToUpdate', 'allCategories'))->with('username', $currentUserName);
+        return view('editor.edit_post', compact('postToUpdate', 'allCategories'))->with('username', $currentUserName);
     }
 
     public function submitPostEditForm(Request $request, $postid){
         $request->validate([
+            'category'=>'required',
             'title'=>'required',
             'description'=>'required',
         ]);
@@ -134,10 +112,11 @@ class EditorController extends Controller
         $currentEditor = Auth::guard('editor')->user();
 
         $postToUpdate = Post::find($postid);
-        $postToUpdate->category_id = $request->categoryId;
+        $postToUpdate->category_id = $request->category;
         $postToUpdate->title = $request->title;
         $postToUpdate->description = $request->description;
         ($request->status=='on') ? $postToUpdate->status = 1 : $postToUpdate->status = 0;
+        $postToUpdate->updated_editor_id = $currentEditor->id;
         $postToUpdate->save();
 
         return redirect()->back()->with('updateMsg', 'News is Updated')->with('username', $currentEditor->username);
@@ -146,7 +125,7 @@ class EditorController extends Controller
     public function postDeleteMethod($postid){
         Post::destroy($postid);
         $currentEditor = Auth::guard('editor')->user();
-        return redirect()->back()->with('updateMsg', 'Post is Updated')->with('username', $currentEditor->username);
+        return redirect()->back()->with('updateMsg', 'Post is Deleted')->with('username', $currentEditor->username);
     }
 
     public function logout(){

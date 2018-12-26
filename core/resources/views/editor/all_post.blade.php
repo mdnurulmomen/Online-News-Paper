@@ -1,7 +1,6 @@
 
 @extends('editor.layout.app')
 @section('contents')
-
         <h2 class="mb-4"> Post List </h2>
         <div class="card mb-4">
             <div class="card-body">
@@ -22,7 +21,8 @@
                             <td>{{ $post->title }}</td>
                             <td>{{ str_limit($post->description, 60) }}</td>
                             <td>
-                                <input type="checkbox" name="poststatus" @if($post->status==1) checked @endif  data-toggle="toggle" data-on="Published" data-off="Unpublished" data-onstyle="success" data-offstyle="danger">
+                                <label class="checkbox-inline"><input type="radio" @if($post->status==1) checked @endif disabled>Published</label>
+                                <label class="checkbox-inline"><input type="radio" @if($post->status==0) checked @endif disabled>Unpublished</label>
                             </td>
                             <td>
                                 <a href="{{ route('editor.edit.post', [$post->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit"><i class="fa fa-fw fa-edit"></i></a>

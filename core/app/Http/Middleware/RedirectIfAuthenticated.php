@@ -18,13 +18,13 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            if($request->route()->name('admin')){
+            if($request->is('admin')){
                 return redirect()->route('admin.home');
             }
-            if($request->route()->name('editor')){
+            else if($request->is('editor')){
                 return redirect()->route('editor.home');
             }
-            if($request->route()->name('reporter')){
+            else if($request->is('reporter')){
                 return redirect()->route('reporter.home');
             }
         }

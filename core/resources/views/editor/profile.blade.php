@@ -7,62 +7,67 @@
             <img src="{{ asset('assets/editor/images/'.$picpath) }}" class="img-thumbnail text-right" alt="No Image">
         </legend>
         <div class="card-body">
-            <form method="POST" action = "{{ route('editor.update.profile.submit') }}" enctype="multipart/form-data">
-                @method('PUT')
+            <form method="POST" action = "{{ route('editor.updated.profile.submit') }}" enctype="multipart/form-data">
                 @csrf
-                <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Full Name:</label>
-                    <div class="col-sm-5">
-                        <input type="text" name="firstName" value="{{ $firstname }}" class="form-control">
+                @Method('put')
+                <div class="form-row">
+                    <div class="col-md-6 mb-6">
+                        <label for="validationServer01">First name</label>
+                        <input type="text" name="firstname" class="form-control is-valid"  placeholder="First Name" value="{{ $firstname }}">
                     </div>
-                    <div class="col-sm-5">
-                        <input type="text" name="lastName" value="{{ $lastname }}" class="form-control">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">User Name:</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="userName" value="{{ $username }}" class="form-control" placeholder="Username" readonly required>
+                    <div class="col-md-6 mb-6">
+                        <label for="validationServer02">Last name</label>
+                        <input type="text" name="lastname" class="form-control is-valid"  placeholder="Last Name" value="{{ $lastname }}">
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Email:</label>
-                    <div class="col-sm-10">
-                        <input type="email" name="email" value="{{ $email }}" class="form-control">
+                <br>
+                <div class="form-row">
+                    <div class="col-md-6 mb-6">
+                        <label for="validationServer01">Email</label>
+                        <input type="text" name="email" class="form-control is-valid"  placeholder="Email" value="{{ $email }}">
+
+                    </div>
+                    <div class="col-md-6 mb-6">
+                        <label for="validationServerUsername">Username</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">@</span>
+                            </div>
+                            <input type="text" name="username" class="form-control is-invalid" placeholder="Username" value="{{ $username }}" aria-describedby="inputGroupPrepend3" readonly>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Upload New Picture:</label>
-                    <div class="col-sm-10">
-                        <input type="file" name="profilePic" class="form-control" accept="image/*">
+                <br>
+                <div class="form-row">
+                    <div class="col-md-6 mb-6">
+                        <label for="validationServer02">Picture</label>
+                        <input type="file" name="picpath" class="form-control" accept="image/*">
+
+                    </div>
+                    <div class="col-md-6 mb-6">
+                        <label for="validationServer01">Phone</label>
+                        <input type="tel" name="phone" class="form-control is-valid"  placeholder="Phone Number" value="{{ $phone }}">
+
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Phone / Mobile:</label>
-                    <div class="col-sm-10">
-                        <input type="tel" name="phone" value="{{ $phone }}" class="form-control">
+                <br>
+                <div class="form-row">
+                    <div class="col-md-4 mb-6">
+                        <label for="validationServer02">Address</label>
+                        <input type="text" name="address" class="form-control is-valid"  placeholder="Address" value="{{ $address }}">
+
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <label for="validationServer03">City</label>
+                        <input type="text" name="city" value="{{ $city }}" class="form-control is-valid" placeholder="City">
+
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <label for="validationServer05">Country</label>
+                        <input type="text" name="country" value="{{ $country }}" class="form-control is-valid" placeholder="Country Name">
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="inputAddress2" class="col-sm-2 col-form-label">Address</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="address" value="{{ $address }}" class="form-control">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="form-group col-md-4">
-                        <label for="inputCity" class="col-sm-2 col-form-label">City</label>
-                        <input type="text" name="city" value="{{ $city }}" class="form-control">
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="inputState" class="col-sm-2 col-form-label">State</label>
-                        <input type="text" name="state" value="{{ $state }}" class="form-control">
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="inputZip" class="col-sm-2 col-form-label">Country</label>
-                        <input type="text" name="country" value="{{ $country }}" class="form-control">
-                    </div>
-                </div>
+                <br>
                 <div class="form-group row">
                     <div class="col-sm-12">
                         <button type="submit" class="btn btn-block btn-primary">Update</button>
