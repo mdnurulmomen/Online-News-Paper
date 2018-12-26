@@ -24,8 +24,7 @@ class ReporterController extends Controller
     }
 
     public function homeMethod(){
-        $username = Auth::guard('reporter')->user()->username;
-        return view('reporter.layout.app', compact('username'));
+        return view('reporter.layout.app');
     }
 
     public function showProfileForm(){
@@ -58,14 +57,12 @@ class ReporterController extends Controller
         $profileToUpdate->address = $request->address;
         $profileToUpdate->city = $request->city;
         $profileToUpdate->country = $request->country;
-
         $profileToUpdate->save();
-        return redirect()->back()->with('updateMsg', 'Profile Successfully Updated')->with('username', $request->username);
+        return redirect()->back()->with('updateMsg', 'Profile Successfully Updated');
     }
 
     public function showPasswordForm(){
-        $username = Auth::guard('reporter')->user()->username;
-        return view('reporter.password', compact('username'));
+        return view('reporter.password');
     }
 
     public function submitPasswordForm(Request $request){
@@ -78,7 +75,7 @@ class ReporterController extends Controller
 
         if(Hash::check($request->currentPassword, $profileToUpdate->password)){
             $profileToUpdate->password = Hash::make($request->password);
-            return redirect()->back()->with('updateMsg', 'Password is Updated')->with('username', $profileToUpdate->username);
+            return redirect()->back()->with('updateMsg', 'Password is Updated');
         }
 
         return redirect()->back()->withErrors('Current Password is Wrong');
@@ -109,21 +106,19 @@ class ReporterController extends Controller
         ($statusPermission==1) ? $newPost->status=0 : $newPost->status=1;
 
         $newPost->save();
-        return redirect()->back()->with('updateMsg', 'Post is Added')->with('username', $currentUser->username);
+        return redirect()->back()->with('updateMsg', 'Post is Added');
     }
 
     public function showAllPost(){
         $currentUser = Auth::guard('reporter')->user();
-        $username = $currentUser->username;
         $posts = Post::all()->where('created_reporter_id', $currentUser->id);
-        return view('reporter.all_post', compact(['posts', 'username']));
+        return view('reporter.all_post', compact('posts'));
     }
 
     public function showPostEditForm($postid){
         $postToUpdate = Post::find($postid);
         $allCategories = Category::all('id', 'name');
-        $username = Auth::guard('reporter')->user()->username;
-        return view('reporter.edit_post', compact(['allCategories', 'postToUpdate', 'username']));
+        return view('reporter.edit_post', compact(['allCategories', 'postToUpdate']));
     }
 
     public function submitPostEditForm(Request $request, $postId){
@@ -143,9 +138,8 @@ class ReporterController extends Controller
         ($settings->postverification==0) ? $postToUpdate->status = 1 :$postToUpdate->status =0;
 
         $postToUpdate->save();
-
-        $currentUserName = Auth::guard('reporter')->user()->username;
-        return redirect()->back()->with('updateMsg', 'Post is Updated')->with('username', $currentUserName);
+        
+        return redirect()->back()->with('updateMsg', 'Post is Updated');
     }
 
     public function logout(){

@@ -24,8 +24,7 @@ class EditorController extends Controller
     }
 
     public function homeMethod(){
-        $username = Auth::guard('editor')->user()->username;
-        return view('editor.layout.app', compact('username'));
+        return view('editor.layout.app');
     }
 
     public function showProfileForm(){
@@ -56,12 +55,11 @@ class EditorController extends Controller
             $profileToUpdate->update($request->all());
 
 
-        return redirect()->back()->with('updateMsg', 'Profile Successfully Updated')->with('username', $request->username);
+        return redirect()->back()->with('updateMsg', 'Profile Successfully Updated');
     }
 
     public function showPasswordForm(){
-        $username = Auth::guard('editor')->user()->username;
-        return view('editor.password', compact('username'));
+        return view('editor.password');
     }
 
     public function submitPasswordForm(Request $request){
@@ -74,7 +72,7 @@ class EditorController extends Controller
 
         if(Hash::check($request->currentPassword, $profileToUpdate->password)){
             $profileToUpdate->password = Hash::make($request->password);
-            return redirect()->back()->with('updateMsg', 'Password is Updated')->with('username', $profileToUpdate->username);
+            return redirect()->back()->with('updateMsg', 'Password is Updated');
         }
 
         return redirect()->back()->withErrors('Current Password is Wrong');
@@ -86,17 +84,14 @@ class EditorController extends Controller
 
         $posts = Post::all()->whereIn('category_id', $editorCategories);
 
-        $username = $currentEditor->username;
-        return view('editor.all_post', compact('posts', 'username'));
+        return view('editor.all_post', compact('posts'));
     }
 
     public function showPostEditForm($postid)
     {
         $postToUpdate = Post::find($postid);
         $allCategories = Category::all('id', 'name');
-
-        $currentUserName = Auth::guard('editor')->user()->username;
-        return view('editor.edit_post', compact('postToUpdate', 'allCategories'))->with('username', $currentUserName);
+        return view('editor.edit_post', compact('postToUpdate', 'allCategories'));
     }
 
     public function submitPostEditForm(Request $request, $postid){
@@ -116,13 +111,12 @@ class EditorController extends Controller
         $postToUpdate->updated_editor_id = $currentEditor->id;
         $postToUpdate->save();
 
-        return redirect()->back()->with('updateMsg', 'News is Updated')->with('username', $currentEditor->username);
+        return redirect()->back()->with('updateMsg', 'News is Updated');
     }
 
     public function postDeleteMethod($postid){
         Post::destroy($postid);
-        $currentEditor = Auth::guard('editor')->user();
-        return redirect()->back()->with('updateMsg', 'Post is Deleted')->with('username', $currentEditor->username);
+        return redirect()->back()->with('updateMsg', 'Post is Deleted');
     }
 
     public function logout(){

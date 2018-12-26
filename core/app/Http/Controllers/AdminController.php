@@ -29,8 +29,7 @@ class AdminController extends Controller
     }
 
     public function homeMethod(){
-        $username = Auth::guard('admin')->user()->username;
-        return view('admin.layout.app', compact('username'));
+        return view('admin.layout.app', compact(''));
     }
 
     public function showProfileForm(){
@@ -64,12 +63,12 @@ class AdminController extends Controller
             $profileToUpdate->update($request->all());
         }
 
-        return redirect()->back()->with('updateMsg', 'Profile Successfully Updated')->with('username', $request->username);
+        return redirect()->back()->with('updateMsg', 'Profile Successfully Updated');
     }
 
     public function showPasswordForm(){
-        $username = Auth::guard('admin')->user()->username;
-        return view('admin.password', compact('username'));
+
+        return view('admin.password');
     }
 
     public function submitPasswordForm(Request $request){
@@ -83,18 +82,17 @@ class AdminController extends Controller
         if(Hash::check($request->currentPassword, $profileToUpdate->password))
         {
             Auth::guard('admin')->user()->password = Hash::make($request->password);
-            return redirect()->back()->with('updateMsg', 'Password is Updated')->with('username', $profileToUpdate->username);
+            return redirect()->back()->with('updateMsg', 'Password is Updated');
         }
 
-        return redirect()->back()->withErrors('Current Password is not Correct')->with('username', $profileToUpdate->username);
+        return redirect()->back()->withErrors('Current Password is not Correct');
     }
 
     public function showGeneralSettingsForm(){
         $settings = Setting::first();
         $settingsData = array('newsPaperName'=>$settings->name, 'color'=>$settings->color, 'postverification'=>$settings->postverification, 'userRegistration'=>$settings->userregistration, 'emailverification'=>$settings->emailverification, 'smsverification'=>$settings->smsverification);
 
-        $username = Auth::guard('admin')->user()->username;
-        return view('admin.general_settings', compact( 'username'))->with($settingsData);
+        return view('admin.general_settings')->with($settingsData);
     }
 
     public function submitGeneralSettingsForm(Request $request){
@@ -114,14 +112,12 @@ class AdminController extends Controller
 
         $settings->save();
 
-        $currentUserName = Auth::guard('admin')->user()->username;
-        return redirect()->back()->with('updateMsg', 'Settings are Updated')->with('username', $currentUserName);
+        return redirect()->back()->with('updateMsg', 'Settings are Updated');
     }
 
     public function showCreatePostForm(){
-        $username = Auth::guard('admin')->user()->username;
         $allCategories = Category::all('id', 'name');
-        return view('admin.create_post', compact('allCategories', 'username'));
+        return view('admin.create_post', compact('allCategories'));
     }
 
     public function submitCreatePostForm(Request $request){
@@ -140,14 +136,12 @@ class AdminController extends Controller
         ($request->status=='on') ? $newPost->status = 1 : $newPost->status = 0;
         $newPost->save();
 
-
-        return redirect()->back()->with('updateMsg', 'New Post is Added')->with('username', $currentUser->username);
+        return redirect()->back()->with('updateMsg', 'New Post is Added');
     }
 
     public function showCreateCategoryForm(){
-        $username = Auth::guard('admin')->user()->username;
         $allCategories = Category::all('id', 'name');
-        return view('admin.category', compact('allCategories', 'username'));
+        return view('admin.category', compact('allCategories'));
     }
 
     public function submitCreateCategoryForm(Request $request){
@@ -162,15 +156,13 @@ class AdminController extends Controller
         $request->has('categoryParent') ? $newCategory->parent = $request->categoryParent : $newCategory->parent = 0;
 
         $newCategory->save();
-        $currentUserName = Auth::guard('admin')->user()->username;
 
-        return redirect()->back()->with('updateMsg', 'New Category is Added')->with('username', $currentUserName);
+        return redirect()->back()->with('updateMsg', 'New Category is Added');
     }
 
     public function showCreateEditorForm(){
-        $username = Auth::guard('admin')->user()->username;
         $allCategories = Category::all(['id', 'name']);
-        return view('admin.create_editor', compact('allCategories', 'username'));
+        return view('admin.create_editor', compact('allCategories'));
     }
 
     public function submitCreateEditorForm(Request $request){
@@ -204,13 +196,11 @@ class AdminController extends Controller
         $newEditor->country = $request->country;
         $newEditor->save();
 
-        $currentUserName = Auth::guard('admin')->user()->username;
-        return redirect()->back()->with('updateMsg', 'New Editor has been Created')->with('username', $currentUserName);
+        return redirect()->back()->with('updateMsg', 'New Editor has been Created');
     }
 
     public function showCreateReporterForm(){
-        $username = Auth::guard('admin')->user()->username;
-        return view('admin.create_reporter', compact('username'));
+        return view('admin.create_reporter');
     }
 
     public function submitCreateReporterForm(Request $request){
@@ -241,21 +231,18 @@ class AdminController extends Controller
         $newReporter->country = $request->country;
         $newReporter->save();
 
-        $currentUserName = Auth::guard('admin')->user()->username;
-        return redirect()->back()->with('updateMsg', 'New Reporter has been Created')->with('username', $currentUserName);
+        return redirect()->back()->with('updateMsg', 'New Reporter has been Created');
     }
 
     public function showAllPosts(){
         $posts = Post::all();
-        $username = Auth::guard('admin')->user()->username;
-        return view('admin.all_post', compact('posts', 'username'));
+        return view('admin.all_post', compact('posts'));
     }
 
     public function showPostEditForm($postid){
         $postToUpdate = Post::find($postid);
         $allCategories = Category::all('id', 'name');
-        $username = Auth::guard('admin')->user()->username;
-        return view('admin.edit_post', compact('postToUpdate', 'username', 'allCategories'));
+        return view('admin.edit_post', compact('postToUpdate', 'allCategories'));
     }
 
     public function submitPostEditForm(Request $request, $postid){
@@ -276,29 +263,24 @@ class AdminController extends Controller
         $postToUpdate->updated_admin_id = $currentAdmin->id;
         $postToUpdate->save();
 
-        $username = $currentAdmin->username;
-        return redirect()->route('admin.edit.post', $postToUpdate->id)->with('updateMsg', 'Post is updated')->with('username', $username);
+        return redirect()->route('admin.edit.post', $postToUpdate->id)->with('updateMsg', 'Post is updated');
     }
 
     public function postDeleteMethod($postid){
         Post::destroy($postid);
-        $username = Auth::guard('admin')->user()->username;
-        return redirect()->route('admin.view.post')->with('updateMsg', 'Post has been Deleted')->with('username', $username);
+        return redirect()->route('admin.view.post')->with('updateMsg', 'Post has been Deleted');
     }
 
     public function showAllEditors()
     {
         $editors = Editor::all();
-
-        $username = Auth::guard('admin')->user()->username;
-        return view('admin.all_editors', compact('editors', 'username'));
+        return view('admin.all_editors', compact('editors'));
     }
 
     public function showEditorEditForm($editorId){
         $editorToUpdate = Editor::find($editorId);
         $allCategories = Category::all('id', 'name');
-        $username = Auth::guard('admin')->user()->username;
-        return view('admin.edit_editor', compact('editorToUpdate', 'username', 'allCategories'));
+        return view('admin.edit_editor', compact('editorToUpdate', 'allCategories'));
     }
 
     public function submitEditorEditForm(Request $request, $editorId){
@@ -325,29 +307,23 @@ class AdminController extends Controller
             $profileToUpdate->update(['firstname'=>$request->firstname, 'lastname'=>$request->lastname, 'username'=>$request->username, 'email'=>$request->email, 'editor_categories'=>$request->categories, 'phone'=>$request->phone, 'address'=>$request->address, 'city'=>$request->city, 'country'=>$request->country]);
         }
 
-
-        $currentUserName = Auth::guard('admin')->user()->username;
-        return redirect()->route('admin.edit.editor', $profileToUpdate->id)->with('updateMsg', 'Profile is Updated')->with('username', $currentUserName);
+        return redirect()->route('admin.edit.editor', $profileToUpdate->id)->with('updateMsg', 'Profile is Updated');
     }
 
     public function editorDeleteMethod($editorId){
         Editor::destroy($editorId);
-        $currentUserName = Auth::guard('admin')->user()->username;
-        return redirect()->route('admin.view.editors')->with('udpateMsg', 'Profile is Deleted')->with('username', $currentUserName);
+        return redirect()->route('admin.view.editors')->with('udpateMsg', 'Profile is Deleted');
     }
 
     public function showAllReporters()
     {
         $reporters = Reporter::all();
-
-        $username = Auth::guard('admin')->user()->username;
-        return view('admin.all_reporters', compact( 'reporters', 'username'));
+        return view('admin.all_reporters', compact( 'reporters'));
     }
 
     public function showReporterEditForm($reporterId){
         $reporterToUpdate = Reporter::find($reporterId);
-        $username = Auth::guard('admin')->user()->username;
-        return view('admin.edit_reporter', compact('reporterToUpdate', 'username'));
+        return view('admin.edit_reporter', compact('reporterToUpdate'));
     }
 
     public function submitReporterEditForm(Request $request, $reporterId){
@@ -371,29 +347,25 @@ class AdminController extends Controller
             $profileToUpdate->update($request->all());
         }
 
-        $currentUserName = Auth::guard('admin')->user()->username;
-        return redirect()->route('admin.edit.reporter', $profileToUpdate->id)->with('updateMsg', 'Profile is Updated')->with('username', $currentUserName);
+        return redirect()->route('admin.edit.reporter', $profileToUpdate->id)->with('updateMsg', 'Profile is Updated');
     }
 
     public function reporterDeleteMethod($reporterId){
         Reporter::destroy($reporterId);
-        $currentUserName = Auth::guard('admin')->user()->username;
-        return redirect()->route('admin.view.reporters')->with('updateMsg', 'Profile is Deleted')->with('username', $currentUserName);
+
+        return redirect()->route('admin.view.reporters')->with('updateMsg', 'Profile is Deleted');
     }
 
     public function showAllCategories()
     {
         $categories = Category::all();
-
-        $username = Auth::guard('admin')->user()->username;
-        return view('admin.all_categories', compact( 'categories', 'username'));
+        return view('admin.all_categories', compact( 'categories'));
     }
 
     public function showCategoryEditForm($categoryId){
         $categoryToUpdate = Category::find($categoryId);
         $allCategories = Category::all('id', 'name');
-        $username = Auth::guard('admin')->user()->username;
-        return view('admin.edit_category', compact('categoryToUpdate', 'username', 'allCategories'));
+        return view('admin.edit_category', compact('categoryToUpdate', 'allCategories'));
     }
 
     public function submitCategoryEditForm(Request $request, $categoryId){
@@ -409,9 +381,7 @@ class AdminController extends Controller
         $request->has('parent') ? $categoryToUpdate->parent = $request->parent : $categoryToUpdate->parent = 0;
 
         $categoryToUpdate->save();
-
-        $currentUserName = Auth::guard('admin')->user()->username;
-        return redirect()->route('admin.edit.category', $categoryToUpdate->id)->with('updateMsg', 'Category is Updated')->with('username', $currentUserName);
+        return redirect()->route('admin.edit.category', $categoryToUpdate->id)->with('updateMsg', 'Category is Updated');
     }
 
     public function categoryDeleteMethod($categoryId){
