@@ -10,6 +10,12 @@
     <link rel="stylesheet" href="{{ asset('assets/admin/css/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/bootstrap-toggle.min.css') }}">
 
+    <script src="{{ asset('assets/admin/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/bootadmin.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/toastr.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/bootstrap-toggle.min.js') }}"></script>
+    <script src="{{asset('assets/admin/js/nicEdit.js')}}" type="text/javascript"></script>
 
     <title>Dashboard | Online News Admin Panel</title>
 </head>
@@ -95,12 +101,6 @@
     </div>
 </div>
 
-<script src="{{ asset('assets/admin/js/jquery.min.js') }}"></script>
-<script src="{{ asset('assets/admin/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('assets/admin/js/bootadmin.min.js') }}"></script>
-<script src="{{ asset('assets/admin/js/toastr.min.js') }}"></script>
-<script src="{{ asset('assets/admin/js/bootstrap-toggle.min.js') }}"></script>
-<script src="{{asset('assets/admin/js/nicEdit.js')}}" type="text/javascript"></script>
 <script>
     $(document).ready(function() {
         bkLib.onDomLoaded(function () {

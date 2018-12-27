@@ -142,26 +142,22 @@ class AdminController extends Controller
     }
 
     public function showNewsSettingsForm(){
-//        $settings = Setting::first();
-//        $settingsData = array('logo'=>$settings->logo, 'defaultpic'=>$settings->defaultpic, 'postverification'=>$settings->postverification, 'userRegistration'=>$settings->userregistration, 'emailverification'=>$settings->emailverification, 'smsverification'=>$settings->smsverification);
-        return view('admin.headline_settings');
+        $headlines = Setting::firstOrFail()->headlines;
+        $headlines = json_decode($headlines);
+
+//        ->orderByRaw('FIELD(id,5,3,7,1,6,12,8)')
+        $allNews = Post::select('id','title')->whereIn('id', $headlines)->orderByRaw('FIELD(id, '.implode(',', $headlines).')')->get();
+        return view('admin.headline_settings', compact('allNews'));
     }
 
     public function submitNewsSettingsForm(Request $request){
-//        $request->validate([]);
-//
-//        $settings = Setting::first();
-//        $settings->logo = $request->logo;
-//        $settings->defaultpic = $request->defaultpic;
-//
-//        ($request->postverification == 'on') ? $settings->postverification = 1 : $settings->postverification = 0;
-//        ($request->userregistration == 'on') ? $settings->userregistration = 1 : $settings->userregistration = 0;
-//        ($request->emailverification == 'on') ? $settings->emailverification = 1 : $settings->emailverification = 0;
-//        ($request->smsverification == 'on') ? $settings->smsverification = 1 : $settings->smsverification = 0;
-//
-//        $settings->save();
-//
-//        return redirect()->route('admin.settings.headlines')->with('updateMsg', 'Settings are Updated');
+        $request->validate([
+            'newsId'=>'nullable|exists:posts,id'
+        ]);
+        $settings = Setting::first();
+        $settings->settings_headlines = $request->newsId;
+        $settings->save();
+        return redirect()->route('admin.settings.news')->with('updateMsg', 'Settings are Updated');
     }
 
     public function showCreatePostForm(){
@@ -212,9 +208,7 @@ class AdminController extends Controller
         $newCategory->name = $request->categoryName;
         $newCategory->url = $request->categoryURl;
         $request->has('categoryParent') ? $newCategory->parent = $request->categoryParent : $newCategory->parent = 0;
-
         $newCategory->save();
-
         return redirect()->back()->with('updateMsg', 'New Category is Added');
     }
 
@@ -238,9 +232,7 @@ class AdminController extends Controller
         $newEditor->username = $request->username;
         $newEditor->password = Hash::make($request->password);
         $newEditor->email = $request->email;
-
         $newEditor->editor_categories = $request->categories;
-
         if($request->has('picpath')){
             $originalImageFile = $request->picpath;
             $imageObject = Image::make($originalImageFile);
@@ -441,7 +433,6 @@ class AdminController extends Controller
         ]);
 
         $categoryToUpdate = Category::findOrFail($categoryId);
-
         $categoryToUpdate->name = $request->name;
         $categoryToUpdate->url = $request->url;
         $request->has('parent') ? $categoryToUpdate->parent = $request->parent : $categoryToUpdate->parent = 0;

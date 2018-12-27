@@ -96,3 +96,6 @@ Route::group(['prefix'=>'reporter', 'middleware'=>'auth:reporter'], function(){
 
     Route::get('logout', 'ReporterController@logout')->name('reporter.logout');
 });
+
+
+    Route::get('/', 'FrontController@showIndexMethod')->name('front.index');
