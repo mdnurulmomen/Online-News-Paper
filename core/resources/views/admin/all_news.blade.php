@@ -17,19 +17,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($posts as $post)
+                    @foreach($allNews as $news)
                         <tr>
-                            <td>{{$post->id}}</td>
-                            <td>{{$post->category->name}}</td>
-                            <td>{{ $post->title }}</td>
-                            <td>{{ str_limit($post->description, 60) }}</td>
+                            <td>{{$news->id}}</td>
+                            <td>{{$news->category->name}}</td>
+                            <td>{{ $news->title }}</td>
+                            <td>{{ str_limit($news->description, 60) }}</td>
                             <td>
-                                <input type="checkbox" @if($post->status==1) checked @endif disabled>Published
-                                <input type="checkbox" @if($post->status==0) checked @endif disabled>Unpublished
+                                <input type="checkbox" @if($news->status==1) checked @endif disabled>Published
+                                <input type="checkbox" @if($news->status==0) checked @endif disabled>Unpublished
                             </td>
                             <td>
-                                <a href="{{ route('admin.edit.post', [$post->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit"><i class="fa fa-fw fa-edit"></i></a>
-                                <a href="{{ route('admin.delete.post', $post->id) }}" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete"><i class="fa fa-fw fa-trash"></i></a>
+                                <a href="{{ route('admin.edit.news', [$news->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit"><i class="fa fa-fw fa-edit"></i></a>
+                                <a href="{{ route('admin.delete.news', $news->id) }}" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete"><i class="fa fa-fw fa-trash"></i></a>
                             </td>
                         </tr>
                     @endforeach
@@ -37,7 +37,7 @@
                 </table>
             </div>
             <div class="pagination text-right">
-            {{ $posts->onEachSide(5)->links() }}
+            {{ $allNews->onEachSide(5)->links() }}
             </div>
         </div>
 @stop

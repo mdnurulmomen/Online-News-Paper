@@ -1,21 +1,18 @@
 
-@extends('reporter.layout.app')
+@extends('admin.layout.app')
 @section('contents')
 <div class="content p-4">
-    <h2 class="mb-4"> Post Writing </h2>
+    <h2 class="mb-4"> Creating News </h2>
     <div class="card mb-4">
-        <div class="card-header bg-white font-weight-bold">
-            Post Writing Form
-        </div>
         <div class="card-body">
-            <form method="POST" action = "{{ route('reporter.created.post.submit') }}" enctype="multipart/form-data">
+            <form method="POST" action = "{{ route('admin.created.news.submit') }}" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <fieldset class="form-group">
                     <div class="row">
                         <label class="col-form-label col-sm-2 pt-0">Categories Selection:</label>
                         <div class="col-sm-10">
-                            <select name="category" class="form-control" required>
+                            <select name="category" class="form-control">
                                 <option value="0" selected disabled>--Please Choose a Category--</option>
                                 @foreach($allCategories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -40,6 +37,12 @@
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Picture:</label>
                     <div class="col-sm-10">
                         <input type="file" name="picpath" class="form-control" accept="image/*">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Status:</label>
+                    <div class="col-sm-10">
+                        <input type="checkbox" name="status"  data-toggle="toggle" data-on="Published" data-off="Unpublished" data-onstyle="success" data-offstyle="danger" data>
                     </div>
                 </div>
                 <div class="form-group row">

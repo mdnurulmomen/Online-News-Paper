@@ -16,18 +16,18 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($posts as $post)
+                    @foreach($allNews as $news)
                         <tr>
-                            <td>{{$post->category->name}}</td>
-                            <td>{{ $post->title }}</td>
-                            <td>{{ str_limit($post->description, 60) }}</td>
+                            <td>{{$news->category->name}}</td>
+                            <td>{{ $news->title }}</td>
+                            <td>{{ str_limit($news->description, 60) }}</td>
                             <td>
                                 {{--<input type="checkbox" name="poststatus" @if($post->status==1) checked @endif  data-toggle="toggle" data-on="Published" data-off="Unpublished" data-onstyle="success" data-offstyle="danger" readonly>--}}
-                                <label class="checkbox-inline"><input type="checkbox" @if($post->status==1) checked @endif disabled>Published</label>
-                                <label class="checkbox-inline"><input type="checkbox" @if($post->status==0) checked @endif disabled>Unpublished</label>
+                                <label class="checkbox-inline"><input type="checkbox" @if($news->status==1) checked @endif disabled>Published</label>
+                                <label class="checkbox-inline"><input type="checkbox" @if($news->status==0) checked @endif disabled>Unpublished</label>
                             </td>
                             <td>
-                                <a href="{{ route('reporter.edit.post', [$post->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit"><i class="fa fa-fw fa-edit"></i></a>
+                                <a href="{{ route('reporter.edit.news', [$news->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit"><i class="fa fa-fw fa-edit"></i></a>
                             </td>
                         </tr>
                     @endforeach

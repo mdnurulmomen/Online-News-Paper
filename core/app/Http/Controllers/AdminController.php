@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Post;
+use App\News;
 use App\Admin;
 use App\Editor;
 use App\Category;
@@ -108,7 +108,7 @@ class AdminController extends Controller
 
     public function showMediaSettingsForm(){
         $settings = Setting::first();
-        $settingsData = array('logo'=>$settings->logo, 'defaultIcon'=>$settings->defaultpic, 'postverification'=>$settings->postverification, 'userRegistration'=>$settings->userregistration, 'emailverification'=>$settings->emailverification, 'smsverification'=>$settings->smsverification);
+        $settingsData = array('logo'=>$settings->logo, 'defaultIcon'=>$settings->defaultpic, 'newsverification'=>$settings->newsverification, 'userRegistration'=>$settings->userregistration, 'emailverification'=>$settings->emailverification, 'smsverification'=>$settings->smsverification);
         return view('admin.media_settings')->with($settingsData);
     }
 
@@ -131,7 +131,7 @@ class AdminController extends Controller
             $settings->defaultpic= $originImageFile->hashName();
         }
 
-        ($request->postverification == 'on') ? $settings->postverification = 1 : $settings->postverification = 0;
+        ($request->newsverification == 'on') ? $settings->newsverification = 1 : $settings->newsverification = 0;
         ($request->userregistration == 'on') ? $settings->userregistration = 1 : $settings->userregistration = 0;
         ($request->emailverification == 'on') ? $settings->emailverification = 1 : $settings->emailverification = 0;
         ($request->smsverification == 'on') ? $settings->smsverification = 1 : $settings->smsverification = 0;
@@ -144,15 +144,14 @@ class AdminController extends Controller
     public function showNewsSettingsForm(){
         $headlines = Setting::firstOrFail()->headlines;
         $headlines = json_decode($headlines);
-
 //        ->orderByRaw('FIELD(id,5,3,7,1,6,12,8)')
-        $allNews = Post::select('id','title')->whereIn('id', $headlines)->orderByRaw('FIELD(id, '.implode(',', $headlines).')')->get();
+        $allNews = News::select('id','title')->whereIn('id', $headlines)->orderByRaw('FIELD(id, '.implode(',', $headlines).')')->get();
         return view('admin.headline_settings', compact('allNews'));
     }
 
     public function submitNewsSettingsForm(Request $request){
         $request->validate([
-            'newsId'=>'nullable|exists:posts,id'
+            'newsId'=>'nullable|exists:news,id'
         ]);
         $settings = Setting::first();
         $settings->settings_headlines = $request->newsId;
@@ -160,12 +159,12 @@ class AdminController extends Controller
         return redirect()->route('admin.settings.news')->with('updateMsg', 'Settings are Updated');
     }
 
-    public function showCreatePostForm(){
+    public function showCreateNewsForm(){
         $allCategories = Category::all('id', 'name');
-        return view('admin.create_post', compact('allCategories'));
+        return view('admin.create_news', compact('allCategories'));
     }
 
-    public function submitCreatePostForm(Request $request){
+    public function submitCreateNewsForm(Request $request){
         $request->validate([
             'category' => 'required',
             'title' => 'required',
@@ -174,7 +173,7 @@ class AdminController extends Controller
         ]);
 
         $currentUser = Auth::guard('admin')->user();
-        $newPost = new Post();
+        $newPost = new News();
         $newPost->category_id = $request->category;
         $newPost->created_admin_id = $currentUser->id;
         $newPost->title = $request->title;
@@ -284,18 +283,18 @@ class AdminController extends Controller
         return redirect()->back()->with('updateMsg', 'New Reporter has been Created');
     }
 
-    public function showAllPosts(){
-        $posts = Post::paginate(1);
-        return view('admin.all_post', compact('posts'));
+    public function showAllNews(){
+        $allNews = News::paginate(1);
+        return view('admin.all_news', compact('allNews'));
     }
 
-    public function showPostEditForm($postid){
-        $postToUpdate = Post::findOrFail($postid);
+    public function showNewsEditForm($newsId){
+        $newsToUpdate = News::findOrFail($newsId);
         $allCategories = Category::all('id', 'name');
-        return view('admin.edit_post', compact('postToUpdate', 'allCategories'));
+        return view('admin.edit_news', compact('newsToUpdate', 'allCategories'));
     }
 
-    public function submitPostEditForm(Request $request, $postid){
+    public function submitNewsEditForm(Request $request, $newsId){
         $request->validate([
             'categoryId'=> 'required',
             'title' => 'required',
@@ -305,28 +304,28 @@ class AdminController extends Controller
 
         $currentAdmin = Auth::guard('admin')->user();
 
-        $postToUpdate = Post::findOrFail($postid);
-        $postToUpdate->category_id = $request->categoryId;
-        $postToUpdate->title = $request->title;
-        $postToUpdate->description = $request->description;
+        $newsToUpdate = News::findOrFail($newsId);
+        $newsToUpdate->category_id = $request->categoryId;
+        $newsToUpdate->title = $request->title;
+        $newsToUpdate->description = $request->description;
 
         if($request->has('picpath')){
             $originalImage = $request->file('picpath');
             $imageInterventionObj = Image::make($originalImage);
             $imageInterventionObj->resize('250', '250')->save('assets/front/images/'.$originalImage->hashName());
-            $postToUpdate->picpath = $originalImage->hashName();
+            $newsToUpdate->picpath = $originalImage->hashName();
         }
 
-        ($request->status=='on') ? $postToUpdate->status = 1 : $postToUpdate->status = 0;
-        $postToUpdate->updated_admin_id = $currentAdmin->id;
-        $postToUpdate->save();
+        ($request->status=='on') ? $newsToUpdate->status = 1 : $newsToUpdate->status = 0;
+        $newsToUpdate->updated_admin_id = $currentAdmin->id;
+        $newsToUpdate->save();
 
-        return redirect()->route('admin.edit.post', $postToUpdate->id)->with('updateMsg', 'Post is updated');
+        return redirect()->route('admin.edit.news', $newsToUpdate->id)->with('updateMsg', 'Post is updated');
     }
 
-    public function postDeleteMethod($postid){
-        Post::destroy($postid);
-        return redirect()->route('admin.view.post')->with('updateMsg', 'News has been Deleted');
+    public function newsDeleteMethod($newsId){
+        News::destroy($newsId);
+        return redirect()->route('admin.view.news')->with('updateMsg', 'News has been Deleted');
     }
 
     public function showAllEditors()
@@ -443,7 +442,7 @@ class AdminController extends Controller
 
     public function categoryDeleteMethod($categoryId){
         $category = Category::findOrFail($categoryId);
-        $category->posts()->delete();
+        $category->childNews()->delete();
         $category->delete();
 
         return redirect()->route('admin.view.categories')->with('updateMsg', 'Category is Deleted');

@@ -37,7 +37,7 @@
                     <div class="form-group row">
                         <div class="col-sm-3">
                             <label for="validationServer02">Post Verification :</label>
-                            <input type="checkbox" name="postverification" @if($postverification==1) checked @endif  data-toggle="toggle" data-on="Allowed" data-off="Not Allowed" data-onstyle="success" data-offstyle="danger">
+                            <input type="checkbox" name="newsverification" @if($newsverification==1) checked @endif  data-toggle="toggle" data-on="Allowed" data-off="Not Allowed" data-onstyle="success" data-offstyle="danger">
                         </div>
                         <div class="col-sm-3">
                             <label for="validationServer02">User Registration :</label>

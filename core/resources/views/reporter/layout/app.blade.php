@@ -38,11 +38,11 @@
             <li class="active"><a href="{{route('reporter.home')}}"><i class="fa fa-fw fa-tachometer-alt"></i> Dashboard</a></li>
             <li>
                 <a href="#view" data-toggle="collapse">
-                    <i class="fa fa-fw fa-cube"></i> Post
+                    <i class="fa fa-fw fa-cube"></i> News
                 </a>
                 <ul id="view" class="list-unstyled collapse">
-                    <li><a href="{{route('reporter.create.post')}}">Create Post</a></li>
-                    <li><a href="{{route('reporter.view.posts')}}">View Posts</a></li>
+                    <li><a href="{{route('reporter.create.news')}}">Create News</a></li>
+                    <li><a href="{{route('reporter.view.news')}}">View All News</a></li>
                 </ul>
             </li>
             <li><a href="#"><i class="fa fa-fw fa-table"></i> Datatables</a></li>

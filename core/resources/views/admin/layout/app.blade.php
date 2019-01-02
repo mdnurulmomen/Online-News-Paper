@@ -53,12 +53,12 @@
                 </ul>
             </li>
             <li>
-                <a href="#post" data-toggle="collapse">
+                <a href="#news" data-toggle="collapse">
                     <i class="fa fa-fw fa-cube"></i> News
                 </a>
-                <ul id="post" class="list-unstyled collapse">
-                    <li><a href="{{ route('admin.create.post') }}">Create News</a></li>
-                    <li><a href="{{route('admin.view.post')}}">View News</a></li>
+                <ul id="news" class="list-unstyled collapse">
+                    <li><a href="{{ route('admin.create.news') }}">Create News</a></li>
+                    <li><a href="{{route('admin.view.news')}}">View News</a></li>
                     <li><a href="{{route('admin.settings.news')}}">Headline Settings</a></li>
                 </ul>
             </li>

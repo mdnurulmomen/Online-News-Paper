@@ -8,10 +8,10 @@
             Post Updating Form
         </div>
         <legend class="text-center">
-            <img src="{{ asset('assets/front/images/'.$postToUpdate->picpath) }}" class="img-thumbnail" alt="No Image">
+            <img src="{{ asset('assets/front/images/'.$newsToUpdate->picpath) }}" class="img-thumbnail" alt="No Image">
         </legend>
         <div class="card-body">
-            <form method="POST" action = "{{ route('reporter.edited.post.submit', $postToUpdate->id) }}" enctype="multipart/form-data">
+            <form method="POST" action = "{{ route('reporter.edited.news.submit', $newsToUpdate->id) }}" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <fieldset class="form-group">
@@ -20,22 +20,22 @@
                         <div class="col-sm-10">
                             <select name="category" class="form-control">
                             @foreach($allCategories as $category)
-                                <option value="{{$category->id}}" @if($category->id==$postToUpdate->category->id) selected @endif>{{$category->name}}
+                                <option value="{{$category->id}}" @if($category->id==$newsToUpdate->category->id) selected @endif>{{$category->name}}
                             @endforeach
                             </select>
                         </div>
                     </div>
                 </fieldset>
                 <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Post's Title:</label>
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">News Title:</label>
                     <div class="col-sm-10">
-                        <input type="text" name="title" class="form-control" value="{{$postToUpdate->title}}" placeholder="First Name">
+                        <input type="text" name="title" class="form-control" value="{{$newsToUpdate->title}}" placeholder="First Name">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Description:</label>
                     <div class="col-sm-10">
-                        <textarea name="description" class="form-control" rows="5" id="textArea"> {{$postToUpdate->description}} </textarea>
+                        <textarea name="description" class="form-control" rows="5" id="textArea"> {{$newsToUpdate->description}} </textarea>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -47,8 +47,8 @@
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Status:</label>
                     <div class="col-sm-10">
-                        <label class="checkbox-inline"><input type="checkbox" @if($postToUpdate->status==1) checked @endif disabled>Published</label>
-                        <label class="checkbox-inline"><input type="checkbox" @if($postToUpdate->status==0) checked @endif disabled>Unpublished</label>
+                        <label class="checkbox-inline"><input type="checkbox" @if($newsToUpdate->status==1) checked @endif disabled>Published</label>
+                        <label class="checkbox-inline"><input type="checkbox" @if($newsToUpdate->status==0) checked @endif disabled>Unpublished</label>
                     </div>
                 </div>
                 <div class="form-group row">

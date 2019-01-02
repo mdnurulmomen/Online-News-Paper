@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
-use App\Post;
+use App\News;
 use App\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -81,13 +81,13 @@ class ReporterController extends Controller
         return redirect()->back()->withErrors('Current Password is Wrong');
     }
 
-    public function showCreatePostForm(){
+    public function showCreateNewsForm(){
         $allCategories = Category::all('id', 'name');
         $username = Auth::guard('reporter')->user()->username;
-        return view('reporter.create_post', compact('allCategories', 'username'));
+        return view('reporter.create_news', compact('allCategories', 'username'));
     }
 
-    public function submitCreatePostForm(Request $request){
+    public function submitCreateNewsForm(Request $request){
         $request->validate([
             'category'=>'required',
             'title'=>'required',
@@ -97,39 +97,39 @@ class ReporterController extends Controller
 
         $currentUser = Auth::guard('reporter')->user();
 
-        $newPost = new Post();
-        $newPost->category_id = $request->category;
-        $newPost->created_reporter_id = $currentUser->id;
-        $newPost->title = $request->title;
-        $newPost->description = $request->description;
+        $newNews = new News();
+        $newNews->category_id = $request->category;
+        $newNews->created_reporter_id = $currentUser->id;
+        $newNews->title = $request->title;
+        $newNews->description = $request->description;
 
         if($request->has('picpath')){
             $originalImage = $request->file('picpath');
             $imageInterventionObj = Image::make($originalImage);
             $imageInterventionObj->resize('250', '250')->save('assets/front/images/'.$originalImage->hashName());
-            $newPost->picpath = $originalImage->hashName();
+            $newNews->picpath = $originalImage->hashName();
         }
 
-        $statusPermission = Setting::first()->postverification;
-        ($statusPermission==1) ? $newPost->status=0 : $newPost->status=1;
+        $statusPermission = Setting::first()->newsverification;
+        ($statusPermission==1) ? $newNews->status=0 : $newNews->status=1;
 
-        $newPost->save();
-        return redirect()->back()->with('updateMsg', 'Post is Added');
+        $newNews->save();
+        return redirect()->back()->with('updateMsg', 'News is Added');
     }
 
-    public function showAllPost(){
+    public function showAllNews(){
         $currentUser = Auth::guard('reporter')->user();
-        $posts = Post::all()->where('created_reporter_id', $currentUser->id);
-        return view('reporter.all_post', compact('posts'));
+        $allNews = News::all()->where('created_reporter_id', $currentUser->id);
+        return view('reporter.all_news', compact('allNews'));
     }
 
-    public function showPostEditForm($postid){
-        $postToUpdate = Post::find($postid);
+    public function showNewsEditForm($newsId){
+        $newsToUpdate = News::find($newsId);
         $allCategories = Category::all('id', 'name');
-        return view('reporter.edit_post', compact(['allCategories', 'postToUpdate']));
+        return view('reporter.edit_news', compact(['allCategories', 'newsToUpdate']));
     }
 
-    public function submitPostEditForm(Request $request, $postId){
+    public function submitNewsEditForm(Request $request, $newsId){
         $request->validate([
             'category' => 'required',
             'title' => 'required',
@@ -137,25 +137,25 @@ class ReporterController extends Controller
             'picpath' => 'nullable|image',
         ]);
 
-        $postToUpdate = Post::find($postId);
+        $newsToUpdate = News::find($newsId);
 
-        $postToUpdate->category_id = $request->category;
-        $postToUpdate->title = $request->title;
-        $postToUpdate->description = $request->description;
+        $newsToUpdate->category_id = $request->category;
+        $newsToUpdate->title = $request->title;
+        $newsToUpdate->description = $request->description;
 
         if($request->has('picpath')){
             $originalImage = $request->file('picpath');
             $imageInterventionObj = Image::make($originalImage);
             $imageInterventionObj->resize('250', '250')->save('assets/front/images/'.$originalImage->hashName());
-            $postToUpdate->picpath = $originalImage->hashName();
+            $newsToUpdate->picpath = $originalImage->hashName();
         }
 
         $settings = Setting::first();
-        ($settings->postverification==0) ? $postToUpdate->status = 1 :$postToUpdate->status =0;
+        ($settings->newsverification==0) ? $newsToUpdate->status = 1 :$newsToUpdate->status =0;
 
-        $postToUpdate->save();
+        $newsToUpdate->save();
 
-        return redirect()->back()->with('updateMsg', 'Post is Updated');
+        return redirect()->back()->with('updateMsg', 'News is Updated');
     }
 
     public function logout(){

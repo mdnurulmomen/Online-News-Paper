@@ -21,8 +21,8 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth:admin'], function (){
     Route::get('settings/news', 'AdminController@showNewsSettingsForm')->name('admin.settings.news');
     Route::put('settings/news', 'AdminController@submitNewsSettingsForm')->name('admin.settings.news.submit');
 
-    Route::get('create/post', 'AdminController@showCreatePostForm')->name('admin.create.post');
-    Route::put('create/post', 'AdminController@submitCreatePostForm')->name('admin.created.post.submit');
+    Route::get('create/news', 'AdminController@showCreateNewsForm')->name('admin.create.news');
+    Route::put('create/news', 'AdminController@submitCreateNewsForm')->name('admin.created.news.submit');
     Route::get('create/category', 'AdminController@showCreateCategoryForm')->name('admin.create.category');
     Route::put('create/category', 'AdminController@submitCreateCategoryForm')->name('admin.created.category.submit');
     Route::get('create/editor', 'AdminController@showCreateEditorForm')->name('admin.create.editor');
@@ -45,10 +45,10 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth:admin'], function (){
     Route::put('reporter/{reporterId}/edit', 'AdminController@submitReporterEditForm')->name('admin.edited.reporter.submit');
     Route::get('reporter/delete/{reporterId}', 'AdminController@reporterDeleteMethod')->name('admin.delete.reporter');
 
-    Route::get('post/all', 'AdminController@showAllPosts')->name('admin.view.post');
-    Route::get('post/edit/{postid}', 'AdminController@showPostEditForm')->name('admin.edit.post');
-    Route::put('post/edit/{postid}', 'AdminController@submitPostEditForm')->name('admin.edited.post.submit');
-    Route::get('post/delete/{postid}', 'AdminController@postDeleteMethod')->name('admin.delete.post');
+    Route::get('news/all', 'AdminController@showAllNews')->name('admin.view.news');
+    Route::get('news/edit/{newsId}', 'AdminController@showNewsEditForm')->name('admin.edit.news');
+    Route::put('news/edit/{newsId}', 'AdminController@submitNewsEditForm')->name('admin.edited.news.submit');
+    Route::get('news/delete/{newsId}', 'AdminController@newsDeleteMethod')->name('admin.delete.news');
 
     Route::get('logout', 'AdminController@logout')->name('admin.logout');
 });
@@ -66,10 +66,10 @@ Route::group(['prefix'=>'editor', 'middleware'=>'auth:editor'], function(){
     Route::get('update/password', 'EditorController@showPasswordForm')->name('editor.update.password');
     Route::post('update/password', 'EditorController@submitPasswordForm')->name('editor.updated.password.submit');
 
-    Route::get('post/all', 'EditorController@showAllPosts')->name('editor.view.post');
-    Route::get('post/edit/{postid}', 'EditorController@showPostEditForm')->name('editor.edit.post');
-    Route::put('post/edit/{postid}', 'EditorController@submitPostEditForm')->name('editor.edited.post.submit');
-    Route::get('post/delete/{postid}', 'EditorController@postDeleteMethod')->name('editor.delete.post');
+    Route::get('news/all', 'EditorController@showAllNews')->name('editor.view.news');
+    Route::get('news/edit/{newsId}', 'EditorController@showNewsEditForm')->name('editor.edit.news');
+    Route::put('news/edit/{newsId}', 'EditorController@submitNewsEditForm')->name('editor.edited.news.submit');
+    Route::get('news/delete/{newsId}', 'EditorController@newsDeleteMethod')->name('editor.delete.news');
 
     Route::get('logout', 'EditorController@logout')->name('editor.logout');
 });
@@ -87,12 +87,12 @@ Route::group(['prefix'=>'reporter', 'middleware'=>'auth:reporter'], function(){
     Route::get('update/password', 'ReporterController@showPasswordForm')->name('reporter.update.password');
     Route::post('update/password', 'ReporterController@submitPasswordForm')->name('reporter.updated.password.submit');
 
-    Route::get('create/post', 'ReporterController@showCreatePostForm')->name('reporter.create.post');
-    Route::put('create/post', 'ReporterController@submitCreatePostForm')->name('reporter.created.post.submit');
+    Route::get('create/news', 'ReporterController@showCreateNewsForm')->name('reporter.create.news');
+    Route::put('create/news', 'ReporterController@submitCreateNewsForm')->name('reporter.created.news.submit');
 
-    Route::get('view/posts', 'ReporterController@showAllPost')->name('reporter.view.posts');
-    Route::get('edit/post/{postid}', 'ReporterController@showPostEditForm')->name('reporter.edit.post');
-    Route::put('edit/post/{postid}', 'ReporterController@submitPostEditForm')->name('reporter.edited.post.submit');
+    Route::get('view/news', 'ReporterController@showAllNews')->name('reporter.view.news');
+    Route::get('edit/news/{newsId}', 'ReporterController@showNewsEditForm')->name('reporter.edit.news');
+    Route::put('edit/news/{newsId}', 'ReporterController@submitNewsEditForm')->name('reporter.edited.news.submit');
 
     Route::get('logout', 'ReporterController@logout')->name('reporter.logout');
 });

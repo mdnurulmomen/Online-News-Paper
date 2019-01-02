@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Editor;
-use App\Post;
+use App\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -78,23 +78,23 @@ class EditorController extends Controller
         return redirect()->back()->withErrors('Current Password is Wrong');
     }
 
-    public function showAllPosts(){
+    public function showAllNews(){
         $currentEditor = Auth::guard('editor')->user();
         $editorCategories = json_decode($currentEditor->category_id);
 
-        $posts = Post::all()->whereIn('category_id', $editorCategories);
+        $allNews = News::all()->whereIn('category_id', $editorCategories);
 
-        return view('editor.all_post', compact('posts'));
+        return view('editor.all_news', compact('allNews'));
     }
 
-    public function showPostEditForm($postid)
+    public function showNewsEditForm($newsId)
     {
-        $postToUpdate = Post::find($postid);
+        $newsToUpdate = News::find($newsId);
         $allCategories = Category::all('id', 'name');
-        return view('editor.edit_post', compact('postToUpdate', 'allCategories'));
+        return view('editor.edit_news', compact('newsToUpdate', 'allCategories'));
     }
 
-    public function submitPostEditForm(Request $request, $postid){
+    public function submitNewsEditForm(Request $request, $newsId){
         $request->validate([
             'category'=>'required',
             'title'=>'required',
@@ -104,28 +104,28 @@ class EditorController extends Controller
 
         $currentEditor = Auth::guard('editor')->user();
 
-        $postToUpdate = Post::find($postid);
-        $postToUpdate->category_id = $request->category;
-        $postToUpdate->title = $request->title;
-        $postToUpdate->description = $request->description;
+        $newsToUpdate = News::find($newsId);
+        $newsToUpdate->category_id = $request->category;
+        $newsToUpdate->title = $request->title;
+        $newsToUpdate->description = $request->description;
 
         if($request->has('picpath')){
             $originalImage = $request->file('picpath');
             $imageInterventionObj = Image::make($originalImage);
             $imageInterventionObj->resize('250', '250')->save('assets/front/images/'.$originalImage->hashName());
-            $postToUpdate->picpath = $originalImage->hashName();
+            $newsToUpdate->picpath = $originalImage->hashName();
         }
 
-        ($request->status=='on') ? $postToUpdate->status = 1 : $postToUpdate->status = 0;
-        $postToUpdate->updated_editor_id = $currentEditor->id;
-        $postToUpdate->save();
+        ($request->status=='on') ? $newsToUpdate->status = 1 : $newsToUpdate->status = 0;
+        $newsToUpdate->updated_editor_id = $currentEditor->id;
+        $newsToUpdate->save();
 
         return redirect()->back()->with('updateMsg', 'News is Updated');
     }
 
-    public function postDeleteMethod($postid){
-        Post::destroy($postid);
-        return redirect()->back()->with('updateMsg', 'Post is Deleted');
+    public function newsDeleteMethod($newsId){
+        News::destroy($newsId);
+        return redirect()->back()->with('updateMsg', 'News is Deleted');
     }
 
     public function logout(){
