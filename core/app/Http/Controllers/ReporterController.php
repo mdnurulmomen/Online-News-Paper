@@ -92,7 +92,7 @@ class ReporterController extends Controller
             'category'=>'required',
             'title'=>'required',
             'description'=>'required',
-            'picpath'=>'nullable|image',
+            'picpath'=>'required|image',
         ]);
 
         $currentUser = Auth::guard('reporter')->user();
@@ -106,7 +106,7 @@ class ReporterController extends Controller
         if($request->has('picpath')){
             $originalImage = $request->file('picpath');
             $imageInterventionObj = Image::make($originalImage);
-            $imageInterventionObj->resize('250', '250')->save('assets/front/images/'.$originalImage->hashName());
+            $imageInterventionObj->resize('300', '300')->save('assets/front/images/'.$originalImage->hashName());
             $newNews->picpath = $originalImage->hashName();
         }
 
@@ -146,7 +146,7 @@ class ReporterController extends Controller
         if($request->has('picpath')){
             $originalImage = $request->file('picpath');
             $imageInterventionObj = Image::make($originalImage);
-            $imageInterventionObj->resize('250', '250')->save('assets/front/images/'.$originalImage->hashName());
+            $imageInterventionObj->resize('300', '300')->save('assets/front/images/'.$originalImage->hashName());
             $newsToUpdate->picpath = $originalImage->hashName();
         }
 

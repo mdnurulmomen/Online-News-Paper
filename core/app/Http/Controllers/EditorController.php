@@ -112,7 +112,7 @@ class EditorController extends Controller
         if($request->has('picpath')){
             $originalImage = $request->file('picpath');
             $imageInterventionObj = Image::make($originalImage);
-            $imageInterventionObj->resize('250', '250')->save('assets/front/images/'.$originalImage->hashName());
+            $imageInterventionObj->resize('300', '300')->save('assets/front/images/'.$originalImage->hashName());
             $newsToUpdate->picpath = $originalImage->hashName();
         }
 

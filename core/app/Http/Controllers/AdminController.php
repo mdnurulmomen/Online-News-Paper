@@ -8,10 +8,12 @@ use App\Editor;
 use App\Category;
 use App\Reporter;
 use App\Setting;
+use App\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
 use \Intervention\Image\Facades\Image;
 
 
@@ -169,7 +171,7 @@ class AdminController extends Controller
             'category' => 'required',
             'title' => 'required',
             'description' => 'required',
-            'picpath' => 'nullable|image',
+            'picpath' => 'required|image',
         ]);
 
         $currentUser = Auth::guard('admin')->user();
@@ -182,7 +184,7 @@ class AdminController extends Controller
         if($request->has('picpath')){
             $originalImage = $request->file('picpath');
             $imageInterventionObj = Image::make($originalImage);
-            $imageInterventionObj->resize('250', '250')->save('assets/front/images/'.$originalImage->hashName());
+            $imageInterventionObj->resize('300', '300')->save('assets/front/images/'.$originalImage->hashName());
             $newPost->picpath = $originalImage->hashName();
         }
 
@@ -190,6 +192,32 @@ class AdminController extends Controller
         $newPost->save();
 
         return redirect()->back()->with('updateMsg', 'New News is Added');
+    }
+
+    public function showCreateVideoForm(){
+        return view('admin.create_video');
+    }
+
+    public function submitCreateVideoForm(Request $request){
+        $request->validate([
+            'title' => 'required',
+            'videopath' => 'required',
+            'status' => 'required',
+        ]);
+
+        $currentUser = Auth::guard('admin')->user();
+        $newVideo = new Video();
+        $newVideo->created_admin_id = $currentUser->id;
+        $newVideo->title = $request->title;
+
+        //  Here
+        $originalVideo = $request->file('videopath');
+        Storage::disk('front')->put($originalVideo, 'Contents');
+
+        ($request->status=='on') ? $newVideo->status = 1 : $newVideo->status = 0;
+        $newVideo->save();
+
+        return redirect()->back()->with('updateMsg', 'New Video is Added');
     }
 
     public function showCreateCategoryForm(){
@@ -312,7 +340,7 @@ class AdminController extends Controller
         if($request->has('picpath')){
             $originalImage = $request->file('picpath');
             $imageInterventionObj = Image::make($originalImage);
-            $imageInterventionObj->resize('250', '250')->save('assets/front/images/'.$originalImage->hashName());
+            $imageInterventionObj->resize('300', '300')->save('assets/front/images/'.$originalImage->hashName());
             $newsToUpdate->picpath = $originalImage->hashName();
         }
 

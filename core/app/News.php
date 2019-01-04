@@ -11,6 +11,6 @@ class News extends Model
     }
 
     public function reporter(){
-        return $this->belongsTo('App\Reporter');
+        return $this->belongsTo('App\Reporter', 'created_reporter_id');
     }
 }

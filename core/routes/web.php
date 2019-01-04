@@ -23,6 +23,10 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth:admin'], function (){
 
     Route::get('create/news', 'AdminController@showCreateNewsForm')->name('admin.create.news');
     Route::put('create/news', 'AdminController@submitCreateNewsForm')->name('admin.created.news.submit');
+
+    Route::get('create/news', 'AdminController@submitCreateVideoForm')->name('admin.create.video');
+    Route::put('create/news', 'AdminController@submitCreateVideoForm')->name('admin.created.video.submit');
+
     Route::get('create/category', 'AdminController@showCreateCategoryForm')->name('admin.create.category');
     Route::put('create/category', 'AdminController@submitCreateCategoryForm')->name('admin.created.category.submit');
     Route::get('create/editor', 'AdminController@showCreateEditorForm')->name('admin.create.editor');
