@@ -21,11 +21,18 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth:admin'], function (){
     Route::get('settings/news', 'AdminController@showNewsSettingsForm')->name('admin.settings.news');
     Route::put('settings/news', 'AdminController@submitNewsSettingsForm')->name('admin.settings.news.submit');
 
+    Route::get('settings/categories', 'AdminController@showCategorySettingsForm')->name('admin.settings.categories');
+    Route::put('settings/categories', 'AdminController@submitCategorySettingsForm')->name('admin.settings.categories.submit');
+
     Route::get('create/news', 'AdminController@showCreateNewsForm')->name('admin.create.news');
     Route::put('create/news', 'AdminController@submitCreateNewsForm')->name('admin.created.news.submit');
 
-    Route::get('create/news', 'AdminController@submitCreateVideoForm')->name('admin.create.video');
-    Route::put('create/news', 'AdminController@submitCreateVideoForm')->name('admin.created.video.submit');
+    Route::get('create/video', 'AdminController@showCreateVideoForm')->name('admin.create.video');
+    Route::put('create/video', 'AdminController@submitCreateVideoForm')->name('admin.created.video.submit');
+    Route::get('video/all', 'AdminController@showAllVideos')->name('admin.view.videos');
+    Route::get('video/edit/{videoId}', 'AdminController@showVideoEditForm')->name('admin.edit.video');
+    Route::put('video/edit/{videoId}', 'AdminController@submitVideoEditForm')->name('admin.edited.video.submit');
+    Route::get('video/delete/{videoId}', 'AdminController@videoDeleteMethod')->name('admin.delete.video');
 
     Route::get('create/category', 'AdminController@showCreateCategoryForm')->name('admin.create.category');
     Route::put('create/category', 'AdminController@submitCreateCategoryForm')->name('admin.created.category.submit');
@@ -101,5 +108,5 @@ Route::group(['prefix'=>'reporter', 'middleware'=>'auth:reporter'], function(){
     Route::get('logout', 'ReporterController@logout')->name('reporter.logout');
 });
 
-
     Route::get('/', 'FrontController@showIndexMethod')->name('front.index');
+    Route::get('category/{categoryUrl}', 'FrontController@showCategoryNews')->name('user.specific.category');

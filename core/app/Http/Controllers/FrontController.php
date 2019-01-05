@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 
 use App\News;
+use App\Video;
 use App\Setting;
 use Illuminate\Http\Request;
 
@@ -12,12 +13,23 @@ class FrontController extends Controller
 {
     public function showIndexMethod(){
         $allCategories = Category::all('name', 'url');
-        $headlines = Setting::first()->news_headlines;
+        $allSettings = Setting::first();
+        $headlines = $allSettings->news_headlines->slice(0,4);
         $distinctCategoryNews = News::distinct('category_id')->where('status', 1)->select('category_id', 'title', 'picpath', 'created_at')->get();
-        $allEditorialNews = News::select('category_id', 'title', 'picpath', 'created_at')->where('category_id', 12)->where('status', 1)->get();
-        $allInternationalNews = News::select('category_id', 'title', 'picpath', 'created_at')->where('category_id', 13)->where('status', 1)->get();
+        $allVideos = Video::select('title', 'preview', 'videopath')->orderBy('created_at', 'desc')->take(3)->get();
+        $categoryPrioritized = array_slice($allSettings->prioritized_categories, 0, 2);
+        $categorizedFrontNews = News::select('id','category_id', 'title', 'picpath', 'status', 'created_at')->whereIn('category_id', $categoryPrioritized)->where('status', 1)
+            ->orderByRaw('FiELD(category_id,'.implode(',', $categoryPrioritized).')')->orderBy('created_at', 'desc')->take(10)->get();
 
-        $allNews = News::all()->where('status', 1);
-        return view('front.layout.app', compact('allCategories', 'headlines', 'distinctCategoryNews', 'allEditorialNews', 'allInternationalNews', 'allNews'));
+        return view('front.layout.app', compact('allCategories','allSettings', 'headlines', 'distinctCategoryNews', 'allVideos', 'categorizedFrontNews'));
     }
+
+
+
+    public  function  showCategoryNews($categoryUrl){
+        $categoryId = Category::where('url', $categoryUrl)->first()->id;
+        $allRelatedNews = News::all()->where('category_id', $categoryId)->where('status', 1);
+        return $allRelatedNews;
+    }
+
 }

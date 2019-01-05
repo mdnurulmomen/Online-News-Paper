@@ -13,11 +13,11 @@
                     <div class="row text-center">
                         <div class="col-md-6 mb-">
                             <label for="validationServer01">Logo</label>
-                            <img src="{{ asset('assets/front/images/'.$logo) }}" class="img-thumbnail text-left" alt="No Image">
+                            <img src="{{ asset('assets/front/images/setting-img/'.$logo) }}" class="img-thumbnail text-left" alt="No Image">
                         </div>
                         <div class="col-md-6 mb-6">
                             <label for="validationServer02">Default Icon:</label>
-                            <img src="{{ asset('assets/front/images/'.$defaultIcon) }}" class="img-thumbnail text-right" alt="No Image">
+                            <img src="{{ asset('assets/front/images/setting-img/'.$defaultIcon) }}" class="img-thumbnail text-right" alt="No Image">
                         </div>
                     </div>
                     <br>

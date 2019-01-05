@@ -63,12 +63,22 @@
                 </ul>
             </li>
             <li>
+                <a href="#video" data-toggle="collapse">
+                    <i class="fa fa-fw fa-cube"></i> Video
+                </a>
+                <ul id="video" class="list-unstyled collapse">
+                    <li><a href="{{ route('admin.create.video') }}">Create Video</a></li>
+                    <li><a href="{{route('admin.view.videos')}}">View Videos</a></li>
+                </ul>
+            </li>
+            <li>
                 <a href="#category" data-toggle="collapse">
                     <i class="fa fa-fw fa-cube"></i> Category
                 </a>
                 <ul id="category" class="list-unstyled collapse">
                     <li><a href="{{ route('admin.create.category') }}">Create Category</a></li>
                     <li><a href="{{route('admin.view.categories')}}">View Categories</a></li>
+                    <li><a href="{{route('admin.settings.categories')}}">Category Priority</a></li>
                 </ul>
             </li>
             <li>

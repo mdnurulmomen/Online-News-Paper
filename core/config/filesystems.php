@@ -55,12 +55,12 @@ return [
             'visibility' => 'public',
         ],
 
-        'front' => [
-            'driver' => 'local',
-            'root' => asset('assets/front/videos'),
+//        'front' => [
+//            'driver' => 'local',
+//            'root' => asset('assets/front/videos'),
 //            'url' => env('APP_URL').'/storage',
 //            'visibility' => 'public',
-        ],
+//        ],
 
         's3' => [
             'driver' => 's3',

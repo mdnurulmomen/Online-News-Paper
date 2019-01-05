@@ -10,10 +10,8 @@
 
     <!-- Title -->
     <title>The News Paper - News &amp; Lifestyle Magazine Template</title>
-
     <!-- Favicon -->
-    <link rel="icon" href="{{asset('assets/front/images/favicon.ico')}}">
-
+    <link rel="icon" href="{{asset('assets/front/images/setting-img/favicon.ico')}}">
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="{{asset('assets/front/css/style.css')}}">
 
@@ -29,9 +27,10 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="top-header-content d-flex align-items-center justify-content-between">
+                            {{--compact('allCategories','allSettings', 'headlines', 'distinctCategoryNews', 'allVideos', 'categorizedFrontNews');--}}
                             <!-- Logo -->
                             <div class="logo">
-                                <a href="{{route('front.index')}}"><img src="{{asset('assets/front/images/core-img/logo.png')}}" alt=""></a>
+                                <a href="{{route('front.index')}}"><img src="{{asset('assets/front/images/setting-img/'.$allSettings->logo)}}" alt="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}"></a>
                             </div>
 
                             <!-- Login Search Area -->
@@ -63,7 +62,7 @@
                     <nav class="classy-navbar justify-content-between" id="newspaperNav">
                         <!-- Logo -->
                         <div class="logo">
-                            <a href="{{route('front.index')}}"><img src="{{asset('assets/front/images/core-img/logo.png')}}" alt=""></a>
+                            <a href="{{route('front.index')}}"><img src="{{asset('assets/front/images/setting-img/'.$allSettings->logo)}}" alt="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}"></a>
                         </div>
 
                         <!-- Navbar Toggler -->
@@ -83,7 +82,7 @@
                                 <ul>
                                     <li class="active"><a href="{{route('front.index')}}">Home</a></li>
                                     @foreach($allCategories as $category)
-                                    <li><a href="{{--{{route($category->url)}}--}}">{{$category->name}}</a></li>
+                                    <li><a href="{{ route('user.specific.category', $category->url)  }}">{{$category->name}}</a></li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -133,7 +132,7 @@
                 <!-- Hero Add -->
                 <div class="col-12 col-lg-4">
                     <div class="hero-add">
-                        <a href="#"><img src="" alt=""></a>
+                        <a href="#"><img src="" alt="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}"></a>
                     </div>
                 </div>
             </div>
@@ -152,7 +151,7 @@
                         <div class="col-12 col-lg-7">
                             <div class="single-blog-post featured-post">
                                 <div class="post-thumb">
-                                    <a href="#"><img src="{{ asset('assets/front/images/'.array_first($headlines)->picpath) }}" alt=""></a>
+                                    <a href="#"><img src="{{ asset('assets/front/images/news-img/'.array_first($headlines)->picpath) }}" alt="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}"></a>
                                 </div>
                                 <div class="post-data">
                                     <a href="#" class="post-catagory">{{ array_first($headlines)->category->name }}</a>
@@ -160,7 +159,7 @@
                                         <h6>{{ array_first($headlines)->title }}</h6>
                                     </a>
                                     <div class="post-meta">
-                                        <p class="post-author">By <a href="#">{{ array_first($headlines)->reporter->firstname }}</a></p>
+                                        <p class="post-author">@if(!empty(array_first($headlines)->reporter)) By <a href="#">{{ array_first($headlines)->reporter->firstname }} </a>@endif</p>
                                         <p class="post-excerp">{{ array_first($headlines)->description }} </p>
                                         <!-- Post Like & Post Comment -->
                                         <div class="d-flex align-items-center">
@@ -178,7 +177,7 @@
                                 @if($keys > 0)
                             <div class="single-blog-post featured-post-2">
                                 <div class="post-thumb">
-                                    <a href="#"><img src="{{ asset('assets/front/images/'.$value->picpath) }}" alt=""></a>
+                                    <a href="#"><img src="{{ asset('assets/front/images/news-img/'.$value->picpath) }}" alt="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}"></a>
                                 </div>
                                 <div class="post-data">
                                     <a href="#" class="post-catagory">{{ $value->category->name }}</a>
@@ -205,7 +204,7 @@
                     @foreach($distinctCategoryNews as $news)
                     <div class="single-blog-post small-featured-post d-flex">
                         <div class="post-thumb">
-                            <a href="#"><img src="{{asset('assets/front/images/'.$news->picpath)}}" alt=""></a>
+                            <a href="#"><img src="{{asset('assets/front/images/news-img/'.$news->picpath)}}" alt="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}"></a>
                         </div>
                         <div class="post-data">
                             <a href="#" class="post-catagory">{{$news->category->name}}</a>
@@ -217,7 +216,6 @@
                             </div>
                         </div>
                     </div>
-
                     @endforeach
                 </div>
             </div>
@@ -376,37 +374,17 @@
         <div class="container">
             <div class="row justify-content-center">
                 <!-- Single Video Post -->
+            @foreach($allVideos as $video)
                 <div class="col-12 col-sm-6 col-md-4">
                     <div class="single-video-post">
-                        <img src="img/bg-img/video1.jpg" alt="">
+                        <img src="{{ asset('assets/front/images/video-img/'.$video->preview) }}" alt="">
                         <!-- Video Button -->
                         <div class="videobtn">
                             <a href="https://www.youtube.com/watch?v=5BQr-j3BBzU" class="videoPlayer"><i class="fa fa-play" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </div>
-
-                <!-- Single Video Post -->
-                <div class="col-12 col-sm-6 col-md-4">
-                    <div class="single-video-post">
-                        <img src="img/bg-img/video2.jpg" alt="">
-                        <!-- Video Button -->
-                        <div class="videobtn">
-                            <a href="https://www.youtube.com/watch?v=5BQr-j3BBzU" class="videoPlayer"><i class="fa fa-play" aria-hidden="true"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Video Post -->
-                <div class="col-12 col-sm-6 col-md-4">
-                    <div class="single-video-post">
-                        <img src="img/bg-img/video3.jpg" alt="">
-                        <!-- Video Button -->
-                        <div class="videobtn">
-                            <a href="https://www.youtube.com/watch?v=5BQr-j3BBzU" class="videoPlayer"><i class="fa fa-play" aria-hidden="true"></i></a>
-                        </div>
-                    </div>
-                </div>
+        @endforeach
             </div>
         </div>
     </div>
@@ -419,27 +397,29 @@
                 <!-- Editors Pick -->
                 <div class="col-12 col-md-7 col-lg-9">
                     <div class="section-heading">
-                        <h6>Editor’s Pick</h6>
+                        <h6>{{ array_first($categorizedFrontNews)->category->name }}</h6>
+                        {{--@ $firstPrioritizedCategory = array_first($categorizedFrontNews)->category_id
+                        {{ $lastPrioritizedCategory = $categorizedFrontNews->last()->category_id }}--}}
                     </div>
-
                     <div class="row">
-                        <!-- Single Post -->
-                        @foreach($allEditorialNews as $editorialNews)
+                        @foreach($categorizedFrontNews as $frontNews)
+                            @if($frontNews->category_id==array_first($categorizedFrontNews)->category_id)
                         <div class="col-12 col-lg-4">
                             <div class="single-blog-post">
                                 <div class="post-thumb">
-                                    <a href="#"><img src="{{ 'assets/front/images/'.$editorialNews->picpath }}" alt=""></a>
+                                    <a href="#"><img src="{{ 'assets/front/images/news-img/'.$frontNews->picpath }}" alt="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}"></a>
                                 </div>
                                 <div class="post-data">
                                     <a href="#" class="post-title">
-                                        <h6>{{ $editorialNews->title }}</h6>
+                                        <h6>{{ $frontNews->title }}</h6>
                                     </a>
                                     <div class="post-meta">
-                                        <div class="post-date"><a href="#">{{ $editorialNews->created_at }}</a></div>
+                                        <div class="post-date"><a href="#">{{ $frontNews->created_at }}</a></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                            @endif
                       @endforeach
                     </div>
                 </div>
@@ -447,23 +427,25 @@
                 <!-- World News -->
                 <div class="col-12 col-md-5 col-lg-3">
                     <div class="section-heading">
-                        <h6>World News</h6>
+                        <h6> {{ $categorizedFrontNews->last()->category->name }}</h6>
                     </div>
-                    @foreach($allInternationalNews as $internationalNews)
+                @foreach($categorizedFrontNews as $frontNews)
+                    @if($frontNews->category_id==$categorizedFrontNews->last()->category_id)
                     <!-- Single Post -->
                     <div class="single-blog-post style-2">
                         <div class="post-thumb">
-                            <a href="#"><img src="{{ asset('assets/front/images/').$internationalNews->picpath }}" alt=""></a>
+                            <a href="#"><img src="{{ asset('assets/front/images/news-img/'.$frontNews->picpath) }}" alt="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}"></a>
                         </div>
                         <div class="post-data">
                             <a href="#" class="post-title">
-                                <h6>{{ $internationalNews->title }}</h6>
+                                <h6>{{ $frontNews->title }}</h6>
                             </a>
                             <div class="post-meta">
-                                <div class="post-date"><a href="#">{{ $internationalNews->created_at }}</a></div>
+                                <div class="post-date"><a href="#">{{ $frontNews->created_at }}</a></div>
                             </div>
                         </div>
                     </div>
+                        @endif
                     @endforeach
                     <!-- Single Post -->
                 </div>
@@ -478,7 +460,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="footer-add">
-                        <a href="#"><img src="img/bg-img/footer-add.gif" alt=""></a>
+                        <a href="#"><img src="img/bg-img/footer-add.gif" alt="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}"></a>
                     </div>
                 </div>
             </div>
@@ -499,7 +481,7 @@
                         <div class="footer-widget-area mt-80">
                             <!-- Footer Logo -->
                             <div class="footer-logo">
-                                <a href="index.html"><img src="img/core-img/logo.png" alt=""></a>
+                                <a href="index.html"><img src="img/core-img/logo.png" alt="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}"></a>
                             </div>
                             <!-- List -->
                             <ul class="list">

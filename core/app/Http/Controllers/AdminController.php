@@ -122,14 +122,14 @@ class AdminController extends Controller
         if($request->has('logo')){
             $originImageFile = $request->file('logo');
             $imageObject = Image::make($originImageFile);
-            $imageObject->resize(200, 200)->save('assets/front/images/'.$originImageFile->hashname());
+            $imageObject->resize(260, 50)->save('assets/front/images/setting-img/'.$originImageFile->hashname());
             $settings->logo= $originImageFile->hashName();
         }
 
         if($request->has('defaultIcon')){
             $originImageFile = $request->file('defaultIcon');
             $imageObject = Image::make($originImageFile);
-            $imageObject->resize(200, 200)->save('assets/front/images/'.$originImageFile->hashname());
+            $imageObject->resize(50, 50)->save('assets/front/images/setting-img/'.$originImageFile->hashname());
             $settings->defaultpic= $originImageFile->hashName();
         }
 
@@ -158,7 +158,26 @@ class AdminController extends Controller
         $settings = Setting::first();
         $settings->settings_headlines = $request->newsId;
         $settings->save();
-        return redirect()->route('admin.settings.news')->with('updateMsg', 'Settings are Updated');
+        return redirect()->route('admin.settings.news')->with('updateMsg', 'Headlines are Updated');
+    }
+
+    public function showCategorySettingsForm(){
+        $prioritizedCategories = Setting::firstOrFail()->frontcategories;
+        $prioritizedCategories = json_decode($prioritizedCategories);
+//        ->orderByRaw('FIELD(id,5,3,7,1,6,12,8)')
+        $prioritizedCategoryDetails = Category::select('id','name','parent')->whereIn('id', $prioritizedCategories)->orderByRaw('FIELD(id, '.implode(',', $prioritizedCategories).')')->get();
+        return view('admin.category_priority', compact('prioritizedCategoryDetails'));
+    }
+
+    public function submitCategorySettingsForm(Request $request){
+        $request->validate([
+            'categoryId'=>'nullable|exists:categories,id'
+        ]);
+
+        $settings = Setting::first();
+        $settings->category_priority = $request->categoryId;
+        $settings->save();
+        return redirect()->route('admin.settings.categories')->with('updateMsg', 'Categories are Prioritized');
     }
 
     public function showCreateNewsForm(){
@@ -184,7 +203,7 @@ class AdminController extends Controller
         if($request->has('picpath')){
             $originalImage = $request->file('picpath');
             $imageInterventionObj = Image::make($originalImage);
-            $imageInterventionObj->resize('300', '300')->save('assets/front/images/'.$originalImage->hashName());
+            $imageInterventionObj->resize('1000', '800')->save('assets/front/images/news-img/'.$originalImage->hashName());
             $newPost->picpath = $originalImage->hashName();
         }
 
@@ -201,6 +220,7 @@ class AdminController extends Controller
     public function submitCreateVideoForm(Request $request){
         $request->validate([
             'title' => 'required',
+            'preview' => 'nullable|image',
             'videopath' => 'required',
             'status' => 'required',
         ]);
@@ -210,10 +230,14 @@ class AdminController extends Controller
         $newVideo->created_admin_id = $currentUser->id;
         $newVideo->title = $request->title;
 
-        //  Here
-        $originalVideo = $request->file('videopath');
-        Storage::disk('front')->put($originalVideo, 'Contents');
+        if($request->has('preview')){
+            $originalImage = $request->file('preview');
+            $imageInterventionObj = Image::make($originalImage);
+            $imageInterventionObj->resize('1000', '800')->save('assets/front/images/video-img/'.$originalImage->hashName());
+            $newVideo->preview = $originalImage->hashName();
+        }
 
+        $newVideo->videopath = $request->videopath;
         ($request->status=='on') ? $newVideo->status = 1 : $newVideo->status = 0;
         $newVideo->save();
 
@@ -340,7 +364,7 @@ class AdminController extends Controller
         if($request->has('picpath')){
             $originalImage = $request->file('picpath');
             $imageInterventionObj = Image::make($originalImage);
-            $imageInterventionObj->resize('300', '300')->save('assets/front/images/'.$originalImage->hashName());
+            $imageInterventionObj->resize('1000', '800')->save('assets/front/images/news-img/'.$originalImage->hashName());
             $newsToUpdate->picpath = $originalImage->hashName();
         }
 
@@ -426,7 +450,7 @@ class AdminController extends Controller
             $imageObject->resize(150, 150)->save('assets/reporter/images/'.$originImageFile->hashname());
         }
 
-        if($request->has('picpath')) {
+        if($request->has('picpath')){
             $profileToUpdate->update(['firstname'=>$request->firstname, 'lastname'=>$request->lastname, 'username'=>$request->username, 'email'=>$request->email, 'picpath'=>$originImageFile->hashname(), 'phone'=>$request->phone, 'address'=>$request->address, 'city'=>$request->city, 'country'=>$request->country]);
         } else {
             $profileToUpdate->update($request->all());

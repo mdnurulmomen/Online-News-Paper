@@ -11,13 +11,26 @@
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Video Title:</label>
                     <div class="col-sm-10">
-                        <input type="text" name="title" class="form-control" placeholder="Title of Post">
+                        <input type="text" name="title" class="form-control" placeholder="Title of Video" required>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Picture:</label>
-                    <div class="col-sm-10">
-                        <input type="file" name="videopath" class="form-control" accept="audio/*|video/*">
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Video Preview:</label>
+                    <div class="col-sm-3">
+                        <input type="file" name="preview" class="form-control" accept="image/*">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Video Link:</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" onchange="document.getElementById('displayValue').value=this.options[this.selectedIndex].value" required>
+                            <option selected disabled>--Please Select an Option--</option>
+                            <option value="https://www.youtube.com/">YouTube</option>
+                            <option value="https://vimeo.com/">Vimeo</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-7">
+                        <input type="text" id="displayValue" name="videopath" class="form-control" placeholder="video Identifier Text" required>
                     </div>
                 </div>
                 <div class="form-group row">

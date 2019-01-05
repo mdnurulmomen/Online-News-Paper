@@ -18,6 +18,7 @@ class CreateSettingsTable extends Migration
             $table->string('name')->nullable();
             $table->string('color')->nullable();
             $table->string('headlines')->nullable();
+            $table->string('frontcategories')->nullable();
             $table->string('logo')->nullable();
             $table->string('defaultpic')->nullable();
             $table->string('footer')->nullable();
