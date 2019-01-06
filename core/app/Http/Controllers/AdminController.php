@@ -122,14 +122,15 @@ class AdminController extends Controller
         if($request->has('logo')){
             $originImageFile = $request->file('logo');
             $imageObject = Image::make($originImageFile);
-            $imageObject->resize(260, 50)->save('assets/front/images/setting-img/'.$originImageFile->hashname());
+            $imageObject->resize(200, 50)->save('assets/front/images/setting-img/'.$originImageFile->hashname());
             $settings->logo= $originImageFile->hashName();
         }
 
         if($request->has('defaultIcon')){
             $originImageFile = $request->file('defaultIcon');
             $imageObject = Image::make($originImageFile);
-            $imageObject->resize(50, 50)->save('assets/front/images/setting-img/'.$originImageFile->hashname());
+//            $imageObject->resize(50, 50)->save('assets/front/images/setting-img/'.$originImageFile->hashname());
+            $imageObject->resize(1000, 800)->save('assets/front/images/setting-img/'.$originImageFile->hashname());
             $settings->defaultpic= $originImageFile->hashName();
         }
 

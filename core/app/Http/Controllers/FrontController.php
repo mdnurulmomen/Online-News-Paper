@@ -21,7 +21,7 @@ class FrontController extends Controller
         $categorizedFrontNews = News::select('id','category_id', 'title', 'picpath', 'status', 'created_at')->whereIn('category_id', $categoryPrioritized)->where('status', 1)
             ->orderByRaw('FiELD(category_id,'.implode(',', $categoryPrioritized).')')->orderBy('created_at', 'desc')->take(10)->get();
 
-        return view('front.layout.app', compact('allCategories','allSettings', 'headlines', 'distinctCategoryNews', 'allVideos', 'categorizedFrontNews'));
+        return view('front.layout.app2', compact('allCategories','allSettings', 'headlines', 'distinctCategoryNews', 'allVideos', 'categorizedFrontNews'));
     }
 
 
