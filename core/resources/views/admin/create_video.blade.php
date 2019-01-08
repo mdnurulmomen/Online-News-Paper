@@ -30,7 +30,7 @@
                         </select>
                     </div>
                     <div class="col-sm-7">
-                        <input type="text" id="displayValue" name="videopath" class="form-control" placeholder="video Identifier Text" required>
+                        <input type="text" id="displayValue" name="videoaddress" class="form-control" placeholder="video Identifier Text" required>
                     </div>
                 </div>
                 <div class="form-group row">

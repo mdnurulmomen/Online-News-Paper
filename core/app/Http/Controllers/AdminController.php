@@ -9,6 +9,7 @@ use App\Category;
 use App\Reporter;
 use App\Setting;
 use App\Video;
+use App\Image as ImageModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -110,7 +111,7 @@ class AdminController extends Controller
 
     public function showMediaSettingsForm(){
         $settings = Setting::first();
-        $settingsData = array('logo'=>$settings->logo, 'defaultIcon'=>$settings->defaultpic, 'newsverification'=>$settings->newsverification, 'userRegistration'=>$settings->userregistration, 'emailverification'=>$settings->emailverification, 'smsverification'=>$settings->smsverification);
+        $settingsData = array('logo'=>$settings->logo, 'defaultIcon'=>$settings->default_icon, 'newsverification'=>$settings->news_verification, 'userRegistration'=>$settings->user_registration, 'emailverification'=>$settings->email_verification, 'smsverification'=>$settings->sms_verification);
         return view('admin.media_settings')->with($settingsData);
     }
 
@@ -131,13 +132,13 @@ class AdminController extends Controller
             $imageObject = Image::make($originImageFile);
 //            $imageObject->resize(50, 50)->save('assets/front/images/setting-img/'.$originImageFile->hashname());
             $imageObject->resize(1000, 800)->save('assets/front/images/setting-img/'.$originImageFile->hashname());
-            $settings->defaultpic= $originImageFile->hashName();
+            $settings->default_icon= $originImageFile->hashName();
         }
 
-        ($request->newsverification == 'on') ? $settings->newsverification = 1 : $settings->newsverification = 0;
-        ($request->userregistration == 'on') ? $settings->userregistration = 1 : $settings->userregistration = 0;
-        ($request->emailverification == 'on') ? $settings->emailverification = 1 : $settings->emailverification = 0;
-        ($request->smsverification == 'on') ? $settings->smsverification = 1 : $settings->smsverification = 0;
+        ($request->newsverification == 'on') ? $settings->news_verification = 1 : $settings->news_verification = 0;
+        ($request->userregistration == 'on') ? $settings->user_registration = 1 : $settings->user_registration = 0;
+        ($request->emailverification == 'on') ? $settings->email_verification = 1 : $settings->email_verification = 0;
+        ($request->smsverification == 'on') ? $settings->sms_verification = 1 : $settings->sms_verification = 0;
 
         $settings->save();
 
@@ -145,11 +146,16 @@ class AdminController extends Controller
     }
 
     public function showNewsSettingsForm(){
-        $headlines = Setting::firstOrFail()->headlines;
+        $headlines = Setting::first()->headlines;
         $headlines = json_decode($headlines);
-//        ->orderByRaw('FIELD(id,5,3,7,1,6,12,8)')
-        $allNews = News::select('id','title')->whereIn('id', $headlines)->orderByRaw('FIELD(id, '.implode(',', $headlines).')')->get();
-        return view('admin.headline_settings', compact('allNews'));
+
+        if(!is_null($headlines)){
+//          ->orderByRaw('FIELD(id,5,3,7,1,6,12,8)')
+            $allNews = News::select('id','title')->whereIn('id', $headlines)->orderByRaw('FIELD(id, '.implode(',', $headlines).')')->get();
+            return view('admin.headline_settings', compact('allNews'));
+        }
+
+        return redirect()->back()->withErrors('No Headline is Defined yet.');
     }
 
     public function submitNewsSettingsForm(Request $request){
@@ -222,7 +228,7 @@ class AdminController extends Controller
         $request->validate([
             'title' => 'required',
             'preview' => 'nullable|image',
-            'videopath' => 'required',
+            'videoaddress' => 'required',
             'status' => 'required',
         ]);
 
@@ -238,11 +244,126 @@ class AdminController extends Controller
             $newVideo->preview = $originalImage->hashName();
         }
 
-        $newVideo->videopath = $request->videopath;
+        $newVideo->videoaddress = $request->videoaddress;
         ($request->status=='on') ? $newVideo->status = 1 : $newVideo->status = 0;
         $newVideo->save();
 
         return redirect()->back()->with('updateMsg', 'New Video is Added');
+    }
+
+    public function showAllVideos(){
+        $allVideos = Video::orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->paginate(15);
+        return view('admin.all_videos', compact('allVideos'));
+    }
+
+    public function showVideoEditForm($videoId){
+        $videoToUpdate = Video::findOrFail($videoId);
+        return view('admin.edit_video', compact('videoToUpdate'));
+    }
+
+    public function submitVideoEditForm(Request $request, $videoId){
+        $request->validate([
+            'title' => 'required',
+            'videoaddress' => 'required',
+            'preview' => 'nullable|image',
+        ]);
+
+        $currentAdmin = Auth::guard('admin')->user();
+
+        $videoToUpdate = Video::findOrFail($videoId);
+        $videoToUpdate->title = $request->title;
+        $videoToUpdate->videoaddress = $request->videoaddress;
+
+        if($request->has('preview')){
+            $originalImage = $request->file('preview');
+            $imageInterventionObj = Image::make($originalImage);
+            $imageInterventionObj->resize('1000', '800')->save('assets/front/images/video-img/'.$originalImage->hashName());
+            $videoToUpdate->preview = $originalImage->hashName();
+        }
+
+        ($request->status=='on') ? $videoToUpdate->status = 1 : $videoToUpdate->status = 0;
+        $videoToUpdate->updated_admin_id = $currentAdmin->id;
+        $videoToUpdate->save();
+
+        return redirect()->route('admin.edit.video', $videoToUpdate->id)->with('updateMsg', 'Video is updated');
+    }
+
+    public function videoDeleteMethod($videoId){
+        Video::destroy($videoId);
+        return redirect()->route('admin.view.videos')->with('updateMsg', 'Video has been Deleted');
+    }
+
+    public function showCreateImageForm(){
+        return view('admin.create_image');
+    }
+
+    public function submitCreateImageForm(Request $request){
+
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'preview' => 'nullable|image',
+        ]);
+
+        $currentUser = Auth::guard('admin')->user();
+        $newImage = new ImageModel();
+        $newImage->created_admin_id = $currentUser->id;
+        $newImage->title = $request->title;
+
+        if($request->has('preview')){
+            $originalImage = $request->file('preview');
+            $imageInterventionObj = Image::make($originalImage);
+            $imageInterventionObj->resize('1000', '800')->save('assets/front/images/image-img/'.$originalImage->hashName());
+            $newImage->preview = $originalImage->hashName();
+        }
+
+        $newImage->description = $request->description;
+        ($request->status=='on') ? $newImage->status = 1 : $newVideo->status = 0;
+        $newImage->save();
+
+        return redirect()->back()->with('updateMsg', 'New Image is Added');
+    }
+
+    public function showAllImages(){
+        $allImages = ImageModel::orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->paginate(15);
+        return view('admin.all_images', compact('allImages'));
+    }
+
+    public function showImageEditForm($imageId){
+        $imageToUpdate = ImageModel::findOrFail($imageId);
+        return view('admin.edit_image', compact('imageToUpdate'));
+    }
+
+    public function submitImageEditForm(Request $request, $imageId){
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'preview' => 'nullable|image',
+        ]);
+
+        $currentAdmin = Auth::guard('admin')->user();
+
+        $imageToUpdate = ImageModel::findOrFail($imageId);
+        $imageToUpdate->title = $request->title;
+        $imageToUpdate->description = $request->description;
+
+        if($request->has('preview')){
+            $originalImage = $request->file('preview');
+            $imageInterventionObj = Image::make($originalImage);
+            $imageInterventionObj->resize('1000', '800')->save('assets/front/images/image-img/'.$originalImage->hashName());
+            $imageToUpdate->preview = $originalImage->hashName();
+        }
+
+        ($request->status=='on') ? $imageToUpdate->status = 1 : $imageToUpdate->status = 0;
+        $imageToUpdate->updated_admin_id = $currentAdmin->id;
+        $imageToUpdate->save();
+
+        return redirect()->route('admin.edit.video', $imageToUpdate->id)->with('updateMsg', 'Video is updated');
+    }
+
+    public function imageDeleteMethod($imageId){
+        ImageModel::destroy($imageId);
+        return redirect()->route('admin.view.images')->with('updateMsg', 'Image has been Deleted');
     }
 
     public function showCreateCategoryForm(){
@@ -337,7 +458,7 @@ class AdminController extends Controller
     }
 
     public function showAllNews(){
-        $allNews = News::paginate(1);
+        $allNews = News::orderBy('category_id', 'ASC')->orderBy('created_at', 'DESC')->paginate(15);
         return view('admin.all_news', compact('allNews'));
     }
 
@@ -383,7 +504,7 @@ class AdminController extends Controller
 
     public function showAllEditors()
     {
-        $editors = Editor::paginate(1);
+        $editors = Editor::paginate(15);
         return view('admin.all_editors', compact('editors'));
     }
 
@@ -427,7 +548,7 @@ class AdminController extends Controller
 
     public function showAllReporters()
     {
-        $reporters = Reporter::paginate(1);
+        $reporters = Reporter::paginate(15);
         return view('admin.all_reporters', compact( 'reporters'));
     }
 
@@ -468,7 +589,7 @@ class AdminController extends Controller
 
     public function showAllCategories()
     {
-        $categories = Category::paginate(2);
+        $categories = Category::paginate(15);
         return view('admin.all_categories', compact( 'categories'));
     }
 

@@ -7,6 +7,7 @@
                 <table class="table table-hover text-center" cellspacing="0" width="100%">
                     <thead>
                     <tr>
+                        <th>Category Id</th>
                         <th>Category Name</th>
                         <th>Category Url </th>
                         <th>Parent Category</th>
@@ -16,6 +17,7 @@
                     <tbody>
                     @foreach($categories as $category)
                         <tr>
+                            <td>{{ $category->id }}</td>
                             <td>{{ $category->name }}</td>
                             <td>{{ $category->url }}</td>
                             <td>{{ $category->name_parent }}</td>

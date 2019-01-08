@@ -8,7 +8,7 @@
             Post Updating Form
         </div>
         <legend class="text-center">
-            <img src="{{ asset('assets/front/images/'.$newsToUpdate->picpath) }}" class="img-thumbnail" alt="No Image">
+            <img src="{{ asset('assets/front/images/news-img/'.$newsToUpdate->picpath) }}" class="img-thumbnail" alt="No Image">
         </legend>
         <div class="card-body">
             <form method="POST" action = "{{ route('admin.edited.news.submit', $newsToUpdate->id) }}" enctype="multipart/form-data">

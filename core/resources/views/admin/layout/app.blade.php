@@ -63,6 +63,15 @@
                 </ul>
             </li>
             <li>
+                <a href="#image" data-toggle="collapse">
+                    <i class="fa fa-fw fa-cube"></i> Image
+                </a>
+                <ul id="image" class="list-unstyled collapse">
+                    <li><a href="{{ route('admin.create.image') }}">Create Image</a></li>
+                    <li><a href="{{route('admin.view.images')}}">View Images</a></li>
+                </ul>
+            </li>
+            <li>
                 <a href="#video" data-toggle="collapse">
                     <i class="fa fa-fw fa-cube"></i> Video
                 </a>

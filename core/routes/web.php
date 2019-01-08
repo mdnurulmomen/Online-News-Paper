@@ -34,6 +34,13 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth:admin'], function (){
     Route::put('video/edit/{videoId}', 'AdminController@submitVideoEditForm')->name('admin.edited.video.submit');
     Route::get('video/delete/{videoId}', 'AdminController@videoDeleteMethod')->name('admin.delete.video');
 
+    Route::get('create/image', 'AdminController@showCreateImageForm')->name('admin.create.image');
+    Route::put('create/image', 'AdminController@submitCreateImageForm')->name('admin.created.image.submit');
+    Route::get('images/all', 'AdminController@showAllImages')->name('admin.view.images');
+    Route::get('image/edit/{imageId}', 'AdminController@showImageEditForm')->name('admin.edit.image');
+    Route::put('image/edit/{imageId}', 'AdminController@submitImageEditForm')->name('admin.edited.image.submit');
+    Route::get('image/delete/{imageId}', 'AdminController@imageDeleteMethod')->name('admin.delete.image');
+
     Route::get('create/category', 'AdminController@showCreateCategoryForm')->name('admin.create.category');
     Route::put('create/category', 'AdminController@submitCreateCategoryForm')->name('admin.created.category.submit');
     Route::get('create/editor', 'AdminController@showCreateEditorForm')->name('admin.create.editor');
@@ -107,6 +114,7 @@ Route::group(['prefix'=>'reporter', 'middleware'=>'auth:reporter'], function(){
 
     Route::get('logout', 'ReporterController@logout')->name('reporter.logout');
 });
+
 
     Route::get('/', 'FrontController@showIndexMethod')->name('front.index');
     Route::get('category/{categoryUrl}', 'FrontController@showCategoryNews')->name('user.specific.category');
