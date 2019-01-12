@@ -16,6 +16,8 @@ class FrontController extends Controller
 
         $allSettings = Setting::first();
 
+        $allCategories = Category::select('id', 'name', 'url')->get();
+
         $headerCategories = Category::select('id', 'name', 'url')->whereIn('id', json_decode($allSettings->header_categories))->get();        
         
         $headlines = $allSettings->news_headlines->slice(0,7);
@@ -38,7 +40,7 @@ class FrontController extends Controller
 
         $footerCategories = Category::all('id', 'name', 'url')->whereIn('id', json_decode($allSettings->footer_categories));
 
-        return view('front.layout.app2', compact('allSettings', 'headerCategories', 'headlines', 'subHeadlines', 'allImages', 'allVideos', 'categoryNames', 'categorizedNews', 'footerCategories'));
+        return view('front.layout.app2', compact('allSettings', 'allCategories', 'headerCategories', 'headlines', 'subHeadlines', 'allImages', 'allVideos', 'categoryNames', 'categorizedNews', 'footerCategories'));
     }
 
     public  function  showCategoryNews($categoryUrl){
