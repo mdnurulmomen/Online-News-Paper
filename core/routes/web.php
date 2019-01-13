@@ -117,4 +117,7 @@ Route::group(['prefix'=>'reporter', 'middleware'=>'auth:reporter'], function(){
 
 
     Route::get('/', 'FrontController@showIndexMethod')->name('front.index');
+    Route::get('news/{newsId}', 'FrontController@showSpecificNews')->name('user.specific.category');
     Route::get('category/{categoryUrl}', 'FrontController@showCategoryNews')->name('user.specific.category');
+    Route::get('image/{imageId}', 'FrontController@showSpecificImage')->name('user.specific.image');
+    Route::get('video/{videoId}', 'FrontController@showSpecificVideo')->name('user.specific.video');

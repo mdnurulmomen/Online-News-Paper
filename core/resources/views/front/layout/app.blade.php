@@ -1,592 +1,393 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
-    <!-- Title -->
-    <title>The News Paper - News &amp; Lifestyle Magazine Template</title>
-    <!-- Favicon -->
-    <link rel="icon" href="{{asset('assets/front/images/setting-img/favicon.ico')}}">
-    <!-- Core Stylesheet -->
-    <link rel="stylesheet" href="{{asset('assets/front/css/style.css')}}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
-</head>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/front/css/custom.css') }}">
 
-<body>
-    <!-- ##### Header Area Start ##### -->
-    <header class="header-area">
+    <title>News Paper</title>
+    <style>
 
-        <!-- Top Header Area -->
-        <div class="top-header-area">
+        body {
+            font-size: 16px;
+            background: #f0f0ed;
+            color: #333;
+            cursor: default;
+            line-height: 24px;
+            min-height: 100%;
+        }
+        
+        .header-wrapper{
+            box-shadow: rgb(0, 0, 0) 0px 5px 5px -5px;
+            border-bottom: 0px none;
+            background: #fff;
+            position: fixed;
+            z-index: 999;
+            color:#fff;
+            top: 0;
+            right: 0;
+            left: 0;
+        }
+
+        .navbar-light .navbar-nav .nav-link{
+            font-weight: bold;
+            display: inline-block;
+            color: #05691c;
+        }
+
+        .navbar-nav li:hover, .nav-item:active {
+            background-color: #f0f0ed;
+            border-bottom: 1px solid red;
+        }
+
+        /*.navbar-light > ul > li:first-child a {
+            background-color: red;
+            color: #d40909;
+            text-shadow: -3px 0px 3px yellow, 3px 0px 3px yellow, 6px 0px 6px yellow, -6px 0px 6px yellow;
+            animation: blinker .7s linear 4 forwards;
+        }*/
+
+        .headlines-wrapper{
+            margin-top: 16px;
+        }
+
+        .captionUpper{
+            color : #FFC107;
+            margin-top: -3rem;
+            font-weight: bold;
+            font-size: 23px;
+            word-wrap: break-word;
+        }
+
+        .captionUpper:hover{
+            color : #fff;
+        }
+
+        .categoryName{
+            margin-top: 25px;
+            margin-bottom: 20px;
+            color: #4a4a4a;
+            font-size: 26px;
+            line-height: 32px;
+            font-weight: 400;
+            border-left: 5px solid red;
+            padding-left: 5px;
+        }
+
+        .break-block{
+            margin: 20px;
+        }
+
+        .ad-wrapper{
+            width: 100%;
+            background-color: #fff;
+            padding: 72px;
+            padding-bottom: : 30px;
+            margin-left: auto;
+            text-align: center;
+        }
+
+        .media-wrapper{
+            background-color:#212121;
+        }
+
+        .media-wrapper .container{
+            background-color: #545252;
+        }
+
+        .media-wrapper .categoryName{
+            color:#FFC107;
+            background-color: #212121;
+        }
+
+        .media-wrapper .title a{
+            color:#369;
+        }
+
+        .media-wrapper .title{
+            color:#fff;
+        }
+
+        .media-wrapper .image{
+            width: 100%;
+            display: block;
+            flex: 66%;
+            float: right;
+            margin-left: 12px;
+        }
+
+
+        .Video{
+            background-color: #000;
+        }
+
+        .date-wrapper{
+            text-align: left;
+            
+            background-color: #fff;
+        }
+
+        .parallal {
+            display: flex;
+            margin-right: 2px;
+            align-self: flex-start;
+            background-color: #fff;
+            clear: both;
+        }
+
+        .parallal .title {
+            flex: 67%;
+        }
+
+        .parallal .image{
+            float: left;
+            flex: 33%;
+            margin-right: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .Video .parallal{
+            background-color: inherit;
+        }
+
+        .title{
+            color : #000;
+            font-weight: bold;
+            font-size: 18px;
+            line-height: 26px;
+            word-wrap: break-word;
+        }
+
+        .title:hover{
+            color : #FFC107;
+        }
+
+        .location{
+            margin-right: 16px;
+            line-height: 24px;
+            color: #666;
+        }
+
+        .date{
+            margin-right: 16px;
+            line-height: 24px;
+            color: #666;
+        }
+
+        .footer-wrapper{
+            background: #282828;
+            color: #ccc;
+        }
+
+        .footer-wrapper a{
+            color: #ccc;
+            float: left;
+            display: block;
+            text-decoration: none;
+            font-size: 18px;
+            line-height: 40px;
+            font-weight: bold;
+        }
+
+        .footer-wrapper a:hover{
+            color: #FFC107;
+        }
+
+        #searchForm{
+            display:none;
+            width:100%;
+            /*width: 0;*/
+        }
+
+        #menuList {
+            height: 30%;
+            /*width:95%;*/
+            /*display: none;*/
+            width: 0;
+            position: fixed;
+            z-index: 99;
+            top: 74px;
+            left: 0;
+            /*background-color: #155724;*/
+            background-color: #fff;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 10px;
+        }
+        
+        a, a:hover{
+            text-decoration: none;
+            /*color:Ivory;*/
+            color: #155724;
+        }
+        
+        #menuList a {
+            padding: 0px 0px 0px 5px;
+            margin-top:28px;
+            text-decoration: none;
+            font-size: 15px;
+            color: #000;
+            display: block;
+            transition: 0.3s;
+            font-weight: bold;
+            font-size: 18px;
+            line-height: 40px;
+        }
+
+        #menuList a:hover {
+            /*background-color: #4c0000;*/
+        }
+
+        .closebtn {
+            position: absolute;
+            top: -30px;
+            right: 5px;
+            font-size: 25px;
+        }
+
+        @media screen and (max-height: 450px) {
+          #menuList {padding-top: 15px;}
+          #menuList a {font-size: 16px;}
+        }
+    </style>
+
+  </head>
+
+  <body>
+        <div class="header-wrapper">
             <div class="container">
                 <div class="row">
-                    <div class="col-12">
-                        <div class="top-header-content d-flex align-items-center justify-content-between">
-                            {{--compact('allCategories','allSettings', 'headlines', 'distinctCategoryNews', 'allVideos', 'categorizedFrontNews');--}}
-                            <!-- Logo -->
-                            <div class="logo">
-                                <a href="{{route('front.index')}}"><img src="{{asset('assets/front/images/setting-img/'.$allSettings->logo)}}" alt="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}"></a>
-                            </div>
+                    <nav class="navbar sticky-top navbar-expand-lg navbar-light">
+                        <a class="navbar-brand" href="{{ url('/') }}">
+                            <img src="{{asset('assets/front/images/setting-img/'.$allSettings->logo)}}">
+                        </a>
 
-                            <!-- Login Search Area -->
-                            <div class="login-search-area d-flex align-items-center">
-                                <!-- Login -->
-                                <div class="login d-flex">
-                                    <a href="#">Login</a>
-                                    <a href="#">Register</a>
-                                </div>
-                                <!-- Search Form -->
-                                <div class="search-form">
-                                    <form action="#" method="post">
-                                        <input type="search" name="search" class="form-control" placeholder="Search">
-                                        <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Navbar Area -->
-        <div class="newspaper-main-menu" id="stickyMenu">
-            <div class="classy-nav-container breakpoint-off">
-                <div class="container">
-                    <!-- Menu -->
-                    <nav class="classy-navbar justify-content-between" id="newspaperNav">
-                        <!-- Logo -->
-                        <div class="logo">
-                            <a href="{{route('front.index')}}"><img src="{{asset('assets/front/images/setting-img/'.$allSettings->logo)}}" alt="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}"></a>
-                        </div>
-
-                        <!-- Navbar Toggler -->
-                        <div class="classy-navbar-toggler">
-                            <span class="navbarToggler"><span></span><span></span><span></span></span>
-                        </div>
-
-                        <!-- Menu -->
-                        <div class="classy-menu">
-                            <!-- close btn -->
-                            <div class="classycloseIcon">
-                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
-                            </div>
-
-                            <!-- Nav Start -->
-                            <div class="classynav">
-                                <ul>
-                                    <li class="active"><a href="{{route('front.index')}}">Home</a></li>
-                                    @foreach($allCategories as $category)
-                                    <li><a href="{{ route('user.specific.category', $category->url)  }}">{{$category->name}}</a></li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            <!-- Nav End -->
+                        <div class="collapse navbar-collapse">
+                            <ul class="navbar-nav" id="navbar">
+                                @foreach($headerCategories as $headerCategory)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('category/'.$headerCategory->url) }}">{{ $headerCategory->name }}</a>
+                                </li>
+                                @endforeach
+                                <li class="nav-item">
+                                    <a class="nav-link" href="javascript:void(0);"> <i class="fas fa-bars" onclick="openMenuList(this)"></i> </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-search" aria-hidden="true" onclick="openSerachBox()"></i></a>
+                                </li>
+                            </ul>
                         </div>
                     </nav>
-                </div>
-            </div>
-        </div>
-    </header>
-    <!-- ##### Header Area End ##### -->
 
-    <!-- ##### Hero Area Start ##### -->
-    <div class="hero-area">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-12 col-lg-8">
-                    <!-- Breaking News Widget -->
-                    <div class="breaking-news-area d-flex align-items-center">
-                        <div class="news-title">
-                            <p>Breaking News</p>
-                        </div>
-                        <div id="breakingNewsTicker" class="ticker">
-                            <ul>
-                                <li><a href="#">asdfsdfsdfsdfsdfsdf</a></li>
-                                <li><a href="#">asdfsdfsdfsf</a></li>
-                                <li><a href="#">Nam eu metus sitsit amet, consec!</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Breaking News Widget -->
-                    <div class="breaking-news-area d-flex align-items-center mt-15">
-                        <div class="news-title title2">
-                            <p>International</p>
-                        </div>
-                        <div id="internationalTicker" class="ticker">
-                            <ul>
-                                <li><a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a></li>
-                                <li><a href="#">Welcome to Colorlib Family.</a></li>
-                                <li><a href="#">Nam eu metus sitsit amet, consec!</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Hero Add -->
-                <div class="col-12 col-lg-4">
-                    <div class="hero-add">
-                        <a href="#"><img src="" alt="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}"></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ##### Hero Area End ##### -->
-
-    <!-- ##### Featured Post Area Start ##### -->
-    <div class="featured-post-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-md-6 col-lg-8">
-                    <div class="row">
-
-                        <!-- Single Featured Post -->
-                        <div class="col-12 col-lg-7">
-                            <div class="single-blog-post featured-post">
-                                <div class="post-thumb">
-                                    <a href="#"><img src="{{ asset('assets/front/images/news-img/'.array_first($headlines)->picpath) }}" alt="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}"></a>
+                    <div id="searchForm">    
+                        <form class="col-sm-12 form-horizontal" action="">
+                            <div class="form-group row">
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="inputPassword3" placeholder="Plaese Search Here" required>
                                 </div>
-                                <div class="post-data">
-                                    <a href="#" class="post-catagory">{{ array_first($headlines)->category->name }}</a>
-                                    <a href="#" class="post-title">
-                                        <h6>{{ array_first($headlines)->title }}</h6>
-                                    </a>
-                                    <div class="post-meta">
-                                        <p class="post-author">@if(!empty(array_first($headlines)->reporter)) By <a href="#">{{ array_first($headlines)->reporter->firstname }} </a>@endif</p>
-                                        <p class="post-excerp">{{ array_first($headlines)->description }} </p>
-                                        <!-- Post Like & Post Comment -->
-                                        <div class="d-flex align-items-center">
-                                            {{--<a href="#" class="post-like"><img src="img/core-img/like.png" alt=""> <span>392</span></a>
-                                            <a href="#" class="post-comment"><img src="img/core-img/chat.png" alt=""> <span>10</span></a>--}}
-                                        </div>
-                                    </div>
-                                </div>
+                                <button class="btn btn-outline-success col-sm-2" type="submit">Search</button>
                             </div>
-                        </div>
-
-                        <div class="col-12 col-lg-5">
-                            <!-- Single Featured Post -->
-                            @foreach($headlines as $keys=>$value)
-                                @if($keys > 0)
-                            <div class="single-blog-post featured-post-2">
-                                <div class="post-thumb">
-                                    <a href="#"><img src="{{ asset('assets/front/images/news-img/'.$value->picpath) }}" alt="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}"></a>
-                                </div>
-                                <div class="post-data">
-                                    <a href="#" class="post-catagory">{{ $value->category->name }}</a>
-                                    <div class="post-meta">
-                                        <a href="#" class="post-title">
-                                            <h6>{{ $value->title }}</h6>
-                                        </a>
-                                    <!-- Post Like & Post Comment -->
-                                        <div class="d-flex align-items-center">
-                                            {{--<a href="#" class="post-like"><img src="" alt=""> <span>392</span></a>
-                                            <a href="#" class="post-comment"><img src="" alt=""> <span>10</span></a>--}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                                @endif
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-6 col-lg-4">
-                    <!-- Single Featured Post -->
-                    @foreach($distinctCategoryNews as $news)
-                    <div class="single-blog-post small-featured-post d-flex">
-                        <div class="post-thumb">
-                            <a href="#"><img src="{{asset('assets/front/images/news-img/'.$news->picpath)}}" alt="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}"></a>
-                        </div>
-                        <div class="post-data">
-                            <a href="#" class="post-catagory">{{$news->category->name}}</a>
-                            <div class="post-meta">
-                                <a href="#" class="post-title">
-                                    <h6>{{$news->title}}</h6>
-                                </a>
-                                <p class="post-date"><span>{{$news->created_at}}</span> | <span>April 14</span></p>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ##### Featured Post Area End ##### -->
-
-    <!-- ##### Popular News Area Start ##### -->
-    <div class="popular-news-area section-padding-80-50">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-lg-8">
-                    <div class="section-heading">
-                        <h6>Popular News</h6>
-                    </div>
-
-                    <div class="row">
-
-                        <!-- Single Post -->
-                        <div class="col-12 col-md-6">
-                            <div class="single-blog-post style-3">
-                                <div class="post-thumb">
-                                    <a href="#"><img src="img/bg-img/12.jpg" alt=""></a>
-                                </div>
-                                <div class="post-data">
-                                    <a href="#" class="post-catagory">Finance</a>
-                                    <a href="#" class="post-title">
-                                        <h6>Dolor sit amet, consectetur adipiscing elit. Nam eu metus sit amet odio sodales placer. Sed varius leo ac...</h6>
-                                    </a>
-                                    <div class="post-meta d-flex align-items-center">
-                                        <a href="#" class="post-like"><img src="img/core-img/like.png" alt=""> <span>392</span></a>
-                                        <a href="#" class="post-comment"><img src="img/core-img/chat.png" alt=""> <span>10</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Single Post -->
-                        <div class="col-12 col-md-6">
-                            <div class="single-blog-post style-3">
-                                <div class="post-thumb">
-                                    <a href="#"><img src="img/bg-img/13.jpg" alt=""></a>
-                                </div>
-                                <div class="post-data">
-                                    <a href="#" class="post-catagory">Finance</a>
-                                    <a href="#" class="post-title">
-                                        <h6>Dolor sit amet, consectetur adipiscing elit. Nam eu metus sit amet odio sodales placer. Sed varius leo ac...</h6>
-                                    </a>
-                                    <div class="post-meta d-flex align-items-center">
-                                        <a href="#" class="post-like"><img src="img/core-img/like.png" alt=""> <span>392</span></a>
-                                        <a href="#" class="post-comment"><img src="img/core-img/chat.png" alt=""> <span>10</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Single Post -->
-                        <div class="col-12 col-md-6">
-                            <div class="single-blog-post style-3">
-                                <div class="post-thumb">
-                                    <a href="#"><img src="img/bg-img/14.jpg" alt=""></a>
-                                </div>
-                                <div class="post-data">
-                                    <a href="#" class="post-catagory">Finance</a>
-                                    <a href="#" class="post-title">
-                                        <h6>Dolor sit amet, consectetur adipiscing elit. Nam eu metus sit amet odio sodales placer. Sed varius leo ac...</h6>
-                                    </a>
-                                    <div class="post-meta d-flex align-items-center">
-                                        <a href="#" class="post-like"><img src="img/core-img/like.png" alt=""> <span>392</span></a>
-                                        <a href="#" class="post-comment"><img src="img/core-img/chat.png" alt=""> <span>10</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Single Post -->
-                        <div class="col-12 col-md-6">
-                            <div class="single-blog-post style-3">
-                                <div class="post-thumb">
-                                    <a href="#"><img src="img/bg-img/15.jpg" alt=""></a>
-                                </div>
-                                <div class="post-data">
-                                    <a href="#" class="post-catagory">Finance</a>
-                                    <a href="#" class="post-title">
-                                        <h6>Dolor sit amet, consectetur adipiscing elit. Nam eu metus sit amet odio sodales placer. Sed varius leo ac...</h6>
-                                    </a>
-                                    <div class="post-meta d-flex align-items-center">
-                                        <a href="#" class="post-like"><img src="img/core-img/like.png" alt=""> <span>392</span></a>
-                                        <a href="#" class="post-comment"><img src="img/core-img/chat.png" alt=""> <span>10</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-lg-4">
-                    <div class="section-heading">
-                        <h6>Info</h6>
-                    </div>
-                    <!-- Popular News Widget -->
-                    <div class="popular-news-widget mb-30">
-                        <h3>4 Most Popular News</h3>
-
-                        <!-- Single Popular Blog -->
-                        <div class="single-popular-post">
-                            <a href="#">
-                                <h6><span>1.</span> Amet, consectetur adipiscing elit. Nam eu metus sit amet odio sodales.</h6>
-                            </a>
-                            <p>April 14, 2018</p>
-                        </div>
-
-                        <!-- Single Popular Blog -->
-                        <div class="single-popular-post">
-                            <a href="#">
-                                <h6><span>2.</span> Consectetur adipiscing elit. Nam eu metus sit amet odio sodales placer.</h6>
-                            </a>
-                            <p>April 14, 2018</p>
-                        </div>
-
-                        <!-- Single Popular Blog -->
-                        <div class="single-popular-post">
-                            <a href="#">
-                                <h6><span>3.</span> Adipiscing elit. Nam eu metus sit amet odio sodales placer. Sed varius leo.</h6>
-                            </a>
-                            <p>April 14, 2018</p>
-                        </div>
-
-                        <!-- Single Popular Blog -->
-                        <div class="single-popular-post">
-                            <a href="#">
-                                <h6><span>4.</span> Eu metus sit amet odio sodales placer. Sed varius leo ac...</h6>
-                            </a>
-                            <p>April 14, 2018</p>
-                        </div>
-                    </div>
-
-                    <!-- Newsletter Widget -->
-                    <div class="newsletter-widget">
-                        <h4>Newsletter</h4>
-                        <p>Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-                        <form action="#" method="post">
-                            <input type="text" name="text" placeholder="Name">
-                            <input type="email" name="email" placeholder="Email">
-                            <button type="submit" class="btn w-100">Subscribe</button>
                         </form>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <!-- ##### Popular News Area End ##### -->
+                <div class="row" id="menuList">    
+                    <div class="col-md-3">
+                        @foreach($allCategories as $key=>$category) 
+                        <a href="{{ url('category/'.$category->url) }}"> {{ $category->name }} </a>
 
-    <!-- ##### Video Post Area Start ##### -->
-    <div class="video-post-area bg-img bg-overlay" style="background-image: url({{ asset('assets/front/images/bg-img/bg1.jpg') }});">
-        <div class="container">
-            <div class="row justify-content-center">
-                <!-- Single Video Post -->
-            @foreach($allVideos as $video)
-                <div class="col-12 col-sm-6 col-md-4">
-                    <div class="single-video-post">
-                        <img src="{{ asset('assets/front/images/video-img/'.$video->preview) }}" alt="">
-                        <!-- Video Button -->
-                        <div class="videobtn">
-                            <a href="https://www.youtube.com/watch?v=5BQr-j3BBzU" class="videoPlayer"><i class="fa fa-play" aria-hidden="true"></i></a>
-                        </div>
-                    </div>
-                </div>
-        @endforeach
-            </div>
-        </div>
-    </div>
-    <!-- ##### Video Post Area End ##### -->
-
-    <!-- ##### Editorial Post Area Start ##### -->
-    <div class="editors-pick-post-area section-padding-80-50">
-        <div class="container">
-            <div class="row">
-                <!-- Editors Pick -->
-                <div class="col-12 col-md-7 col-lg-9">
-                    <div class="section-heading">
-                        <h6>{{ array_first($categorizedFrontNews)->category->name }}</h6>
-                        {{--@ $firstPrioritizedCategory = array_first($categorizedFrontNews)->category_id
-                        {{ $lastPrioritizedCategory = $categorizedFrontNews->last()->category_id }}--}}
-                    </div>
-                    <div class="row">
-                        @foreach($categorizedFrontNews as $frontNews)
-                            @if($frontNews->category_id==array_first($categorizedFrontNews)->category_id)
-                        <div class="col-12 col-lg-4">
-                            <div class="single-blog-post">
-                                <div class="post-thumb">
-                                    <a href="#"><img src="{{ 'assets/front/images/news-img/'.$frontNews->picpath }}" alt="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}"></a>
-                                </div>
-                                <div class="post-data">
-                                    <a href="#" class="post-title">
-                                        <h6>{{ $frontNews->title }}</h6>
-                                    </a>
-                                    <div class="post-meta">
-                                        <div class="post-date"><a href="#">{{ $frontNews->created_at }}</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                            @endif
-                      @endforeach
-                    </div>
-                </div>
-
-                <!-- World News -->
-                <div class="col-12 col-md-5 col-lg-3">
-                    <div class="section-heading">
-                        <h6> {{ $categorizedFrontNews->last()->category->name }}</h6>
-                    </div>
-                @foreach($categorizedFrontNews as $frontNews)
-                    @if($frontNews->category_id==$categorizedFrontNews->last()->category_id)
-                    <!-- Single Post -->
-                    <div class="single-blog-post style-2">
-                        <div class="post-thumb">
-                            <a href="#"><img src="{{ asset('assets/front/images/news-img/'.$frontNews->picpath) }}" alt="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}"></a>
-                        </div>
-                        <div class="post-data">
-                            <a href="#" class="post-title">
-                                <h6>{{ $frontNews->title }}</h6>
-                            </a>
-                            <div class="post-meta">
-                                <div class="post-date"><a href="#">{{ $frontNews->created_at }}</a></div>
-                            </div>
-                        </div>
-                    </div>
+                        @if($key>0 && $key%3==0)
+                            </div><div class="col-md-3">
                         @endif
-                    @endforeach
-                    <!-- Single Post -->
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ##### Editorial Post Area End ##### -->
 
-    <!-- ##### Footer Add Area Start ##### -->
-    <div class="footer-add-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="footer-add">
-                        <a href="#"><img src="img/bg-img/footer-add.gif" alt="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}"></a>
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- ##### Footer Add Area End ##### -->
 
-    <!-- ##### Footer Area Start ##### -->
-    <footer class="footer-area">
+        <div class="break-block"></div>
+        <div class="break-block"></div>
+        <div class="break-block"></div>
+        
+        @yield('contents')
 
-        <!-- Main Footer Area -->
-        <div class="main-footer-area">
+
+        <div class="break-block"></div>
+
+        <div class="ad-wrapper">Ad Space</div>
+   
+        <div class="footer-wrapper">
             <div class="container">
                 <div class="row">
+                    <div class="col-sm-2">
+                        <ul style="list-style: none;">
+                        @foreach($footerCategories as $key=>$category)
+                            <a href="{{$category->url}}">
+                            <li class="">
+                               {{$category->name}}
+                            </li>
+                            </a>
+                            @if($key>0 && ($key+1)%3==0)
+                                </ul></div><div class="col-sm-2"><ul style="list-style: none;">
+                           @endif
 
-                    <!-- Footer Widget Area -->
-                    <div class="col-12 col-sm-6 col-lg-4">
-                        <div class="footer-widget-area mt-80">
-                            <!-- Footer Logo -->
-                            <div class="footer-logo">
-                                <a href="index.html"><img src="img/core-img/logo.png" alt="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}"></a>
-                            </div>
-                            <!-- List -->
-                            <ul class="list">
-                                <li><a href="mailto:contact@youremail.com">contact@youremail.com</a></li>
-                                <li><a href="tel:+4352782883884">+43 5278 2883 884</a></li>
-                                <li><a href="http://yoursitename.com">www.yoursitename.com</a></li>
-                            </ul>
-                        </div>
+                        @endforeach
+                        </ul>
                     </div>
+                </div>
+                
+                <div class="break-block"></div>
 
-                    <!-- Footer Widget Area -->
-                    <div class="col-12 col-sm-6 col-lg-2">
-                        <div class="footer-widget-area mt-80">
-                            <!-- Title -->
-                            <h4 class="widget-title">Politics</h4>
-                            <!-- List -->
-                            <ul class="list">
-                                <li><a href="#">Business</a></li>
-                                <li><a href="#">Markets</a></li>
-                                <li><a href="#">Tech</a></li>
-                                <li><a href="#">Luxury</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Footer Widget Area -->
-                    <div class="col-12 col-sm-4 col-lg-2">
-                        <div class="footer-widget-area mt-80">
-                            <!-- Title -->
-                            <h4 class="widget-title">Featured</h4>
-                            <!-- List -->
-                            <ul class="list">
-                                <li><a href="#">Football</a></li>
-                                <li><a href="#">Golf</a></li>
-                                <li><a href="#">Tennis</a></li>
-                                <li><a href="#">Motorsport</a></li>
-                                <li><a href="#">Horseracing</a></li>
-                                <li><a href="#">Equestrian</a></li>
-                                <li><a href="#">Sailing</a></li>
-                                <li><a href="#">Skiing</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Footer Widget Area -->
-                    <div class="col-12 col-sm-4 col-lg-2">
-                        <div class="footer-widget-area mt-80">
-                            <!-- Title -->
-                            <h4 class="widget-title">FAQ</h4>
-                            <!-- List -->
-                            <ul class="list">
-                                <li><a href="#">Aviation</a></li>
-                                <li><a href="#">Business</a></li>
-                                <li><a href="#">Traveller</a></li>
-                                <li><a href="#">Destinations</a></li>
-                                <li><a href="#">Features</a></li>
-                                <li><a href="#">Food/Drink</a></li>
-                                <li><a href="#">Hotels</a></li>
-                                <li><a href="#">Partner Hotels</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Footer Widget Area -->
-                    <div class="col-12 col-sm-4 col-lg-2">
-                        <div class="footer-widget-area mt-80">
-                            <!-- Title -->
-                            <h4 class="widget-title">+More</h4>
-                            <!-- List -->
-                            <ul class="list">
-                                <li><a href="#">Fashion</a></li>
-                                <li><a href="#">Design</a></li>
-                                <li><a href="#">Architecture</a></li>
-                                <li><a href="#">Arts</a></li>
-                                <li><a href="#">Autos</a></li>
-                                <li><a href="#">Luxury</a></li>
-                            </ul>
-                        </div>
+                <div class="row">
+                    <div class="text-right">
+                        {{ $allSettings->footer }}
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Bottom Footer Area -->
-        <div class="bottom-footer-area">
-            <div class="container h-100">
-                <div class="row h-100 align-items-center">
-                    <div class="col-12">
-                        <!-- Copywrite -->
-                        <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- ##### Footer Area Start ##### -->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
-    <!-- ##### All Javascript Files ##### -->
-    <script src="{{asset('assets/front/js/jquery-2.2.4.min.js')}}"></script>
-    <script src="{{asset('assets/front/js/popper.min.js')}}"></script>
-    <script src="{{asset('assets/front/js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('assets/front/js/plugins.js')}}"></script>
-    <script src="{{asset('assets/front/js/active.js')}}"></script>
-</body>
+    <script type="text/javascript">
+        /* Set the width of the side navigation to 100% */
+        function openMenuList(element) {
+            document.getElementById("menuList").style.width = "100%";
+            element.className = element.className.replace("fa-bars", "fa-times");
+            element.setAttribute( "onClick", "javascript: closeMenuList(this, 'close');" );
+        }
 
+        /* Set the width of the side navigation to 0 */
+        function closeMenuList(element) {
+            document.getElementById("menuList").style.width = "0";
+            element.className = element.className.replace("fa-times", "fa-bars");
+            element.setAttribute( "onClick", "javascript: openMenuList(this);" );
+        }
+
+        function openSerachBox(){
+
+            var x = document.getElementById("searchForm");
+            // var y = document.getElementById('navbar');
+
+            if (x.style.display === "none")
+            {
+                // y.style.display = "none";
+                x.style.display = "block";
+            }else {
+                x.style.display = "none";
+                // y.style.display = "block";
+            }
+        }
+    </script>
+  </body>
 </html>

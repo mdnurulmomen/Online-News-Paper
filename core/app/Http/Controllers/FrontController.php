@@ -16,7 +16,7 @@ class FrontController extends Controller
 
         $allSettings = Setting::first();
 
-        $allCategories = Category::select('id', 'name', 'url')->get();
+        $allCategories = Category::all('id', 'name', 'url');
 
         $headerCategories = Category::select('id', 'name', 'url')->whereIn('id', json_decode($allSettings->header_categories))->get();        
         
@@ -25,12 +25,12 @@ class FrontController extends Controller
 
         $allImages = Image::select('id', 'title', 'description', 'preview')->orderBy('created_at', 'DESC')->take(5)->get();
 
-        $allVideos = Video::select('title', 'preview', 'videoaddress')->orderBy('created_at', 'desc')->take(3)->get();
+        $allVideos = Video::select('id', 'title', 'preview', 'videoaddress')->orderBy('created_at', 'desc')->take(3)->get();
 
 
 
         $categoryPrioritized = $allSettings->prioritized_categories;
-        $categoryNames = Category::select('name')->whereIn('id', $categoryPrioritized)->get();
+        $categoryNames = Category::select('name')->whereIn('id', $categoryPrioritized)->orderByRaw('FIELD(id,'.implode(',',$categoryPrioritized).')')->get();
 
         foreach ($categoryPrioritized as $key => $value) {
 
@@ -40,14 +40,41 @@ class FrontController extends Controller
 
         $footerCategories = Category::all('id', 'name', 'url')->whereIn('id', json_decode($allSettings->footer_categories));
 
-        return view('front.layout.app2', compact('allSettings', 'allCategories', 'headerCategories', 'headlines', 'subHeadlines', 'allImages', 'allVideos', 'categoryNames', 'categorizedNews', 'footerCategories'));
+        return view('front.index', compact('allSettings', 'allCategories', 'headerCategories', 'headlines', 'subHeadlines', 'allImages', 'allVideos', 'categoryNames', 'categorizedNews', 'footerCategories'));
     }
 
     public  function  showCategoryNews($categoryUrl){
-        $categoryId = Category::where('url', $categoryUrl)->first()->id;
-        $allRelatedNews = News::all()->where('category_id', $categoryId)->where('status', 1);
 
-        return $allRelatedNews;
+        $categoryDetails = Category::where('url', $categoryUrl)->first();
+        $categoryName = $categoryDetails->name;
+        $categoryId = $categoryDetails->id;
+
+        $allRelatedNews = News::all()->where('category_id', $categoryId)->where('status', 1);
+        // $allRelatedNews = News::select('id', 'title', 'picpath', 'description', 'status', 'created_at')->where('category_id', $categoryId)->where('status', 1)->get();
+
+        $allSettings = Setting::first();
+
+        $allCategories = Category::all('id', 'name', 'url');
+
+        $headerCategories = Category::select('id', 'name', 'url')->whereIn('id', json_decode($allSettings->header_categories))->get();
+
+        $footerCategories = Category::all('id', 'name', 'url')->whereIn('id', json_decode($allSettings->footer_categories));
+
+        return view('front.category_news', compact('allSettings', 'allCategories', 'headerCategories', 'categoryName', 'allRelatedNews', 'footerCategories'));
     }
 
+    public  function  showSpecificNews($newsId){
+        $specificNewsDetails = News::where('id', $newsId)->first();
+        return $specificNewsDetails;
+    }
+
+    public  function  showSpecificImage($imageId){
+        $specificImageDetails = Image::where('id', $imageId)->first();
+        return $specificImageDetails;
+    }
+
+    public  function  showSpecificVideo($videoId){
+        $specificVideoDetails = Video::where('id', $videoId)->first();
+        return $specificVideoDetails;
+    }
 }
