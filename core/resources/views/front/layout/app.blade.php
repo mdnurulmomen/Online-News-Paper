@@ -7,6 +7,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/front/css/custom.css') }}">
@@ -15,6 +17,7 @@
     <style>
 
         body {
+            font-family: Kiron, SolaimanLipi, Arial, Vrinda, FallbackBengaliFont, Helvetica, sans-serif !important;
             font-size: 16px;
             background: #f0f0ed;
             color: #333;
@@ -23,6 +26,13 @@
             min-height: 100%;
         }
         
+        .container-fluid{
+            padding-left: 5%;
+            padding-right: 5%;
+            margin: 0 auto;
+            width: 90%;
+        }
+
         .header-wrapper{
             box-shadow: rgb(0, 0, 0) 0px 5px 5px -5px;
             border-bottom: 0px none;
@@ -52,17 +62,29 @@
             text-shadow: -3px 0px 3px yellow, 3px 0px 3px yellow, 6px 0px 6px yellow, -6px 0px 6px yellow;
             animation: blinker .7s linear 4 forwards;
         }*/
+        hr{
+            margin: 10px 0;
+        }
 
         .headlines-wrapper{
             margin-top: 16px;
         }
 
+        .description{
+            text-align: justify;
+            padding: 10px;
+        }
+
         .captionUpper{
-            color : #FFC107;
-            margin-top: -3rem;
+            color: #FFC107;
+            margin-top: -15%;
+            margin-bottom: 15%;
             font-weight: bold;
             font-size: 23px;
             word-wrap: break-word;
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
+            position: absolute;
+            padding: 0px 8px 8px 5px;
         }
 
         .captionUpper:hover{
@@ -163,6 +185,8 @@
             font-size: 18px;
             line-height: 26px;
             word-wrap: break-word;
+            margin-bottom: 0;
+            padding: 10px;
         }
 
         .title:hover{
@@ -184,6 +208,7 @@
         .footer-wrapper{
             background: #282828;
             color: #ccc;
+            padding: 3% 3% 0 3% ;
         }
 
         .footer-wrapper a{
@@ -198,6 +223,12 @@
 
         .footer-wrapper a:hover{
             color: #FFC107;
+        }
+
+        .footer{
+            background-color: #000;
+            text-align: center;
+            width: 100%;
         }
 
         #searchForm{
@@ -255,6 +286,11 @@
         @media screen and (max-height: 450px) {
           #menuList {padding-top: 15px;}
           #menuList a {font-size: 16px;}
+        }
+
+        .newsDetails-wrapper .container{
+            background-color: #fff;
+            color:#000;
         }
     </style>
 
@@ -321,7 +357,7 @@
 
         <div class="break-block"></div>
 
-        <div class="ad-wrapper">Ad Space</div>
+        <div class="ad-wrapper container">Ad Space</div>
    
         <div class="footer-wrapper">
             <div class="container">
@@ -343,12 +379,14 @@
                     </div>
                 </div>
                 
-                <div class="break-block"></div>
+                <div class="break-block"></div> 
+            </div>
 
-                <div class="row">
-                    <div class="text-right">
-                        {{ $allSettings->footer }}
-                    </div>
+            <div class="footer">
+                <div class="text-center">
+                    
+                    <p>{{ $allSettings->footer }}</p>
+                    
                 </div>
             </div>
         </div>
@@ -387,6 +425,26 @@
                 x.style.display = "none";
                 // y.style.display = "block";
             }
+        }
+
+        function currentDiv(n) {
+            showDivs(slideIndex = n);
+        }
+
+        function showDivs(n) {
+            var i;
+            var x = document.getElementsByClassName("mySlides");
+            var dots = document.getElementsByClassName("demo");
+            if (n > x.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = x.length}
+            for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" w3-opacity-off", "");
+            }
+            x[slideIndex-1].style.display = "block";
+            dots[slideIndex-1].className += " w3-opacity-off";
         }
     </script>
   </body>

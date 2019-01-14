@@ -8,6 +8,7 @@ use App\News;
 use App\Image;
 use App\Video;
 use App\Setting;
+use App\Comment;
 use Illuminate\Http\Request;
 
 class FrontController extends Controller
@@ -64,13 +65,36 @@ class FrontController extends Controller
     }
 
     public  function  showSpecificNews($newsId){
+        
         $specificNewsDetails = News::where('id', $newsId)->first();
-        return $specificNewsDetails;
+        $categoryName = $specificNewsDetails->category->name;
+        $allRelatedComments = Comment::all()->where('news_id', $specificNewsDetails->id);
+        $moreRelatedNews = News::all()->where('category_id', $specificNewsDetails->category_id)->where('status', 1);
+
+
+        $allSettings = Setting::first();
+        $allCategories = Category::all('id', 'name', 'url');
+        $headerCategories = Category::select('id', 'name', 'url')->whereIn('id', json_decode($allSettings->header_categories))->get();
+
+        $footerCategories = Category::all('id', 'name', 'url')->whereIn('id', json_decode($allSettings->footer_categories));
+
+        return view('front.news', compact('allSettings', 'allCategories', 'headerCategories', 'categoryName', 'specificNewsDetails', 'allRelatedComments', 'moreRelatedNews', 'footerCategories'));
     }
 
     public  function  showSpecificImage($imageId){
+
+        $allSettings = Setting::first();
+        $allCategories = Category::all('id', 'name', 'url');
+        $headerCategories = Category::select('id', 'name', 'url')->whereIn('id', json_decode($allSettings->header_categories))->get();
+
         $specificImageDetails = Image::where('id', $imageId)->first();
-        return $specificImageDetails;
+
+        var_dump($specificImageDetails->preview);
+        exit;
+
+        $footerCategories = Category::all('id', 'name', 'url')->whereIn('id', json_decode($allSettings->footer_categories));
+
+        return view('front.image', compact('allSettings', 'allCategories', 'headerCategories', 'specificImageDetails', 'footerCategories'));
     }
 
     public  function  showSpecificVideo($videoId){

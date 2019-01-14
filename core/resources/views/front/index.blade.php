@@ -5,7 +5,7 @@
     <div class="ad-wrapper">Ad Space</div>
 
     <div class="date-wrapper">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <span class="location"> <i class="fas fa-map-marker-alt"></i> Dhaka </span>
                 <span class="date"> {{Carbon\Carbon::now()->format('l jS F Y')}} </span>
@@ -14,10 +14,10 @@
     </div>
     
     <div class="headlines-wrapper">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6">
-                    <div class="row mb-5">
+                    <div class="row mb-3">
                         <div class="col-sm-12">
                             <a href="{{ url('news/'.array_first($headlines)->id) }}"> 
                                 @if(file_exists('assets/front/images/news-img/'.array_first($headlines)->picpath))
@@ -95,11 +95,11 @@
 
     <div class="break-block"></div>
 
-    <div class="ad-wrapper">Ad Space</div>
+    <div class="ad-wrapper container">Ad Space</div>
 
     
     <div class="media-wrapper">
-        <div class="container">
+        <div class="container-fluid">
 
             <div class="row categoryName">
                 Images & Videos 
@@ -108,7 +108,7 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="row mb-3">
-                        <div class="title">
+                        <div class="title" style="padding-top: 15%;">
                             <a href="{{ url('image/'.array_first($allImages)->id) }}"> {{ array_first($allImages)->title }} </a>
                             <br>
                             {{ array_first($allImages)->description }} 
@@ -183,7 +183,7 @@
     <div class="break-block"></div>
 
     <div class="firstPrioritizedCategroy-wrapper">
-        <div class="container">
+        <div class="container-fluid">
         <div class="categoryName"> {{ $categoryNames[0]->name }} </div>
             <div class="row">
                 <div class="col-md-8">
@@ -217,7 +217,7 @@
     </div>
     
     <div class="secondPrioritizedCategory">
-        <div class="container">
+        <div class="container-fluid">
         <div class="categoryName"> {{ $categoryNames[1]->name }} </div>
             <div class="row">
                 <div class="col-md-9">
@@ -270,7 +270,7 @@
     <div class="break-block"></div>
 
     <div class="thirdPrioritizedCategory">
-        <div class="container">
+        <div class="container-fluid">
             <div class="categoryName"> {{ $categoryNames[2]->name }} </div>
             <div class="row">
 
@@ -308,7 +308,7 @@
     <div class="break-block"></div>
 
     <div class="fourthPrioritizedCategory">
-        <div class="container">
+        <div class="container-fluid">
         <div class="categoryName"> {{ $categoryNames[3]->name }} </div>
             <div class="row">
                 <div class="col-sm-4">

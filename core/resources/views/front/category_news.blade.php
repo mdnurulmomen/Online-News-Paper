@@ -2,7 +2,17 @@
 
 @section('contents')
 
-	<div class="categoryName-wrapper mt-5 pt-5">
+    <div class="ad-wrapper container mt-5 pt-5">
+        
+        <div class="row mb-3">
+            <div class="col-sm-12">
+                Space for ad images
+            </div>
+        </div>
+        
+     </div>
+
+	<div class="categoryName-wrapper">
         <div class="container">
     		<div class="categoryName">
                 {{ $categoryName }}
@@ -33,6 +43,8 @@
                         <div class="col-sm-4">
                             @foreach($allRelatedNews as $key => $nextNews)
 
+{{ $key }}
+
                             @if($key>0 && $key < 3)
                             <a href="{{ url('news/'.$nextNews->id) }}"> 
                                 @if(file_exists('assets/front/images/news-img/'.$nextNews->picpath))
@@ -58,6 +70,94 @@
                         </div>
                     </div>
                 </div>
-            </div>             
+            </div>
+
+            <div class="row mb-3">
+                @foreach($allRelatedNews as $key => $nextNews)
+                    @if($key>2 && $key < 7)
+                    <div class="col-md-3"> 
+                        <a href="{{ url('news/'.$nextNews->id) }}"> 
+                            @if(file_exists('assets/front/images/news-img/'.$nextNews->picpath))
+                                <img src="{{ asset('assets/front/images/news-img/'.$nextNews->picpath) }}" class="img-fluid" alt="Responsive image">
+                            @else
+                                <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
+                            @endif
+                            <div class="title">
+                                {{ $nextNews->title }}
+                            </div>
+                        </a>
+                    </div>
+                    @endif
+
+                @endforeach
+            </div>
+
+            <div class="row mb-3">
+                @foreach($allRelatedNews as $key => $nextNews)
+                    
+                    @if($key>6 && $key < 11)
+                    <div class="col-md-3"> 
+                        <a href="{{ url('news/'.$nextNews->id) }}"> 
+                            @if(file_exists('assets/front/images/news-img/'.$nextNews->picpath))
+                                <img src="{{ asset('assets/front/images/news-img/'.$nextNews->picpath) }}" class="img-fluid" alt="Responsive image">
+                            @else
+                                <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
+                            @endif
+                            <div class="title">
+                                {{ $nextNews->title }}
+                            </div>
+                        </a>
+                    </div>
+                    @endif
+
+                @endforeach
+            </div>          
         </div>
+    </div>
+
+    <div class="ad-wrapper container">
+        
+        <div class="row mb-3">
+            <div class="col-sm-12">
+                Space for ad images
+            </div>
+        </div>
+        
+     </div>
+
+     <div class="break-block"></div>
+
+    <div class="moreRelatedNews">
+        <div class="container">
+            <div class="row">
+
+                @foreach($allRelatedNews as $key => $moreRelatedNews)
+
+                    @if($key>10)
+                    <div class="col-sm-6 mb-3">
+                        <a href="{{ url('news/'.$moreRelatedNews->id) }}"> 
+                            <div class="parallal">
+                                <div class="image">
+                                    @if(file_exists('assets/front/images/news-img/'.$moreRelatedNews->picpath))
+                                        <img src="{{ asset('assets/front/images/news-img/'.$moreRelatedNews->picpath) }}" class="img-fluid pull-left" src="" alt="Responsive image">
+                                    @else
+                                        <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
+                                    @endif
+                                </div>
+                                <div class="title">
+                                    {{ $moreRelatedNews->title }}
+                                </div>
+                            </div>
+                        </a>
+                        <hr>
+                    </div>
+
+                        @if($key%2==0)
+                        </div><div class="row">
+                        @endif
+                    @endif
+                @endforeach
+                    
+            </div>
+         </div>
     </div>

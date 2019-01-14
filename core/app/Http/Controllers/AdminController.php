@@ -311,10 +311,16 @@ class AdminController extends Controller
         $newImage->title = $request->title;
 
         if($request->has('preview')){
+
+            foreach ($request->preview as $image) {
+                
+            }
+
             $originalImage = $request->file('preview');
             $imageInterventionObj = Image::make($originalImage);
             $imageInterventionObj->resize('1000', '800')->save('assets/front/images/image-img/'.$originalImage->hashName());
             $newImage->preview = $originalImage->hashName();
+
         }
 
         $newImage->description = $request->description;
