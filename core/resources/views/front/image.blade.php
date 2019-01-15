@@ -12,7 +12,7 @@
     <div class="imageName-wrapper">
         <div class="container">
             <div class="title">
-                Glimpse of {{Carbon\Carbon::now()->format('l jS F Y')}}
+                {{ $specificImageDetails->title }}
                 <hr>
             </div> 
         </div>

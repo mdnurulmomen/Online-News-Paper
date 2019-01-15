@@ -17,16 +17,16 @@ class FrontController extends Controller
 
         $allSettings = Setting::first();
 
-        $allCategories = Category::all('id', 'name', 'url');
+        $allCategories = Category::all();
 
-        $headerCategories = Category::select('id', 'name', 'url')->whereIn('id', json_decode($allSettings->header_categories))->get();        
+        $headerCategories = Category::whereIn('id', json_decode($allSettings->header_categories))->get();        
         
         $headlines = $allSettings->news_headlines->slice(0,7);
         $subHeadlines = $allSettings->news_subheadlines->slice(0,12);
 
-        $allImages = Image::select('id', 'title', 'description', 'preview')->orderBy('created_at', 'DESC')->take(5)->get();
+        $allImages = Image::orderBy('created_at', 'DESC')->take(5)->get();
 
-        $allVideos = Video::select('id', 'title', 'preview', 'videoaddress')->orderBy('created_at', 'desc')->take(3)->get();
+        $allVideos = Video::orderBy('created_at', 'desc')->take(3)->get();
 
 
 
@@ -39,7 +39,7 @@ class FrontController extends Controller
             // $categorizedNews[] = News::where('category_id', $value)->where('status', 1)->get();
         }
 
-        $footerCategories = Category::all('id', 'name', 'url')->whereIn('id', json_decode($allSettings->footer_categories));
+        $footerCategories = Category::all()->whereIn('id', json_decode($allSettings->footer_categories));
 
         return view('front.index', compact('allSettings', 'allCategories', 'headerCategories', 'headlines', 'subHeadlines', 'allImages', 'allVideos', 'categoryNames', 'categorizedNews', 'footerCategories'));
     }
@@ -50,16 +50,16 @@ class FrontController extends Controller
         $categoryName = $categoryDetails->name;
         $categoryId = $categoryDetails->id;
 
-        $allRelatedNews = News::all()->where('category_id', $categoryId)->where('status', 1);
+        $allRelatedNews = News::where('category_id', $categoryId)->where('status', 1)->get();
         // $allRelatedNews = News::select('id', 'title', 'picpath', 'description', 'status', 'created_at')->where('category_id', $categoryId)->where('status', 1)->get();
 
         $allSettings = Setting::first();
 
-        $allCategories = Category::all('id', 'name', 'url');
+        $allCategories = Category::all();
 
-        $headerCategories = Category::select('id', 'name', 'url')->whereIn('id', json_decode($allSettings->header_categories))->get();
+        $headerCategories = Category::whereIn('id', json_decode($allSettings->header_categories))->get();
 
-        $footerCategories = Category::all('id', 'name', 'url')->whereIn('id', json_decode($allSettings->footer_categories));
+        $footerCategories = Category::whereIn('id', json_decode($allSettings->footer_categories))->get();
 
         return view('front.category_news', compact('allSettings', 'allCategories', 'headerCategories', 'categoryName', 'allRelatedNews', 'footerCategories'));
     }
@@ -68,23 +68,23 @@ class FrontController extends Controller
         
         $specificNewsDetails = News::where('id', $newsId)->first();
         $categoryName = $specificNewsDetails->category->name;
-        $allRelatedComments = Comment::all()->where('news_id', $specificNewsDetails->id);
-        $moreRelatedNews = News::all()->where('category_id', $specificNewsDetails->category_id)->where('status', 1);
+        // $allRelatedComments = Comment::where('news_id', $specificNewsDetails->id)->get();
+        $moreRelatedNews = News::where('category_id', $specificNewsDetails->category_id)->where('status', 1)->get();
 
 
         $allSettings = Setting::first();
-        $allCategories = Category::all('id', 'name', 'url');
+        $allCategories = Category::all();
         $headerCategories = Category::select('id', 'name', 'url')->whereIn('id', json_decode($allSettings->header_categories))->get();
 
-        $footerCategories = Category::all('id', 'name', 'url')->whereIn('id', json_decode($allSettings->footer_categories));
+        $footerCategories = Category::whereIn('id', json_decode($allSettings->footer_categories))->get();
 
-        return view('front.news', compact('allSettings', 'allCategories', 'headerCategories', 'categoryName', 'specificNewsDetails', 'allRelatedComments', 'moreRelatedNews', 'footerCategories'));
+        return view('front.news', compact('allSettings', 'allCategories', 'headerCategories', 'categoryName', 'specificNewsDetails', 'moreRelatedNews', 'footerCategories'));
     }
 
     public  function  showSpecificImage($imageId){
 
         $allSettings = Setting::first();
-        $allCategories = Category::all('id', 'name', 'url');
+        $allCategories = Category::all();
         $headerCategories = Category::select('id', 'name', 'url')->whereIn('id', json_decode($allSettings->header_categories))->get();
 
         $specificImageDetails = Image::where('id', $imageId)->first();
@@ -92,13 +92,24 @@ class FrontController extends Controller
         var_dump($specificImageDetails->preview);
         exit;
 
-        $footerCategories = Category::all('id', 'name', 'url')->whereIn('id', json_decode($allSettings->footer_categories));
+        $footerCategories = Category::all()->whereIn('id', json_decode($allSettings->footer_categories));
 
         return view('front.image', compact('allSettings', 'allCategories', 'headerCategories', 'specificImageDetails', 'footerCategories'));
     }
 
     public  function  showSpecificVideo($videoId){
+
+        $allSettings = Setting::first();
+        $allCategories = Category::all();
+        $headerCategories = Category::select('id', 'name', 'url')->whereIn('id', json_decode($allSettings->header_categories))->get();
+
         $specificVideoDetails = Video::where('id', $videoId)->first();
-        return $specificVideoDetails;
+        $recentVideoDetails = Video::select()->orderBy('created_at', 'DESC')->take(6)->get();
+
+        $allRelatedComments = Comment::select('description', 'user_id')->where('id', $specificVideoDetails->id)->get();
+
+        $footerCategories = Category::all()->whereIn('id', json_decode($allSettings->footer_categories));
+
+        return view('front.video', compact('allSettings', 'allCategories', 'headerCategories', 'specificVideoDetails', 'recentVideoDetails', 'allRelatedComments', 'footerCategories'));
     }
 }

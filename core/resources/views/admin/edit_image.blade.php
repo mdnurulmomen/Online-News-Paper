@@ -25,9 +25,9 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Picture:</label>
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Preview:</label>
                     <div class="col-sm-10">
-                        <img src="{{ asset('assets/front/images/image-img/'.$imageToUpdate->preview) }}" width="100px" class="img-thumbnail img-fluid" alt="No Image">
+                        <img src="{{ asset('assets/front/images/preview-img/'.$imageToUpdate->preview) }}" width="100px" class="img-thumbnail img-fluid" alt="No Image">
                         <input type="file" name="preview" class="form-control" accept="image/*" placeholder="choose new preview">
                     </div>
                 </div>

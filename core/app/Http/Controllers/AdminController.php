@@ -9,6 +9,7 @@ use App\Category;
 use App\Reporter;
 use App\Setting;
 use App\Video;
+use App\Preview;
 use App\Image as ImageModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -302,31 +303,30 @@ class AdminController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'preview' => 'nullable|image',
+            'preview.*' => 'image'
         ]);
 
         $currentUser = Auth::guard('admin')->user();
         $newImage = new ImageModel();
         $newImage->created_admin_id = $currentUser->id;
         $newImage->title = $request->title;
+        $newImage->description = $request->description;
 
-        if($request->has('preview')){
 
-            foreach ($request->preview as $image) {
-                
-            }
+        if($request->hasfile('preview')){
 
             $originalImage = $request->file('preview');
             $imageInterventionObj = Image::make($originalImage);
-            $imageInterventionObj->resize('1000', '800')->save('assets/front/images/image-img/'.$originalImage->hashName());
+            $imageInterventionObj->resize('1000', '800')->save('assets/front/images/preview-img/'.$originalImage->hashName());
+
             $newImage->preview = $originalImage->hashName();
 
         }
 
-        $newImage->description = $request->description;
-        ($request->status=='on') ? $newImage->status = 1 : $newVideo->status = 0;
+        $request->status=='on' ? $newImage->status = 1 : $newImage->status = 0;
+        
         $newImage->save();
-
+        
         return redirect()->back()->with('updateMsg', 'New Image is Added');
     }
 
@@ -344,7 +344,7 @@ class AdminController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'preview' => 'nullable|image',
+            'preview.*' => 'image',
         ]);
 
         $currentAdmin = Auth::guard('admin')->user();
@@ -353,18 +353,22 @@ class AdminController extends Controller
         $imageToUpdate->title = $request->title;
         $imageToUpdate->description = $request->description;
 
-        if($request->has('preview')){
+        if($request->hasfile('preview')){
+
             $originalImage = $request->file('preview');
             $imageInterventionObj = Image::make($originalImage);
-            $imageInterventionObj->resize('1000', '800')->save('assets/front/images/image-img/'.$originalImage->hashName());
-            $imageToUpdate->preview = $originalImage->hashName();
+            $imageInterventionObj->resize('1000', '800')->save('assets/front/images/preview-img/'.$originalImage->hashName());
+
+            $newImage->preview = $originalImage->hashName();
+
         }
 
-        ($request->status=='on') ? $imageToUpdate->status = 1 : $imageToUpdate->status = 0;
         $imageToUpdate->updated_admin_id = $currentAdmin->id;
+        ($request->status=='on') ? $imageToUpdate->status = 1 : $imageToUpdate->status = 0;
+
         $imageToUpdate->save();
 
-        return redirect()->route('admin.edit.video', $imageToUpdate->id)->with('updateMsg', 'Video is updated');
+        return redirect()->route('admin.edit.image', $imageToUpdate->id)->with('updateMsg', 'Video is updated');
     }
 
     public function imageDeleteMethod($imageId){

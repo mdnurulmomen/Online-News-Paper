@@ -13,4 +13,8 @@ class News extends Model
     public function reporter(){
         return $this->belongsTo('App\Reporter', 'created_reporter_id');
     }
+
+    public function comments(){
+    	return $this->morphMany('App\Comment', 'commentable');
+    }
 }

@@ -88,6 +88,12 @@
                             Space for ad images
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 ad-wrapper">
+                            Space for ad images
+                        </div>
+                    </div>
                 </div>
             </div>             
         </div>
@@ -311,30 +317,32 @@
         <div class="container-fluid">
         <div class="categoryName"> {{ $categoryNames[3]->name }} </div>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-md-8">
+                    <div class="row mb-3">
                     @foreach ($categorizedNews[1] as $key=>$value)
-                    <div class="row mb-3 mr-1">
-                        <a href="{{ url('news/'.$value->id) }}"> 
-                            <div class="parallal">
-                                <div class="image">
-                                    @if(file_exists('assets/front/images/news-img/'.$value->picpath))
-                                        <img src="{{ asset('assets/front/images/news-img/'.$value->picpath) }}" class="img-fluid" alt="Responsive image">
-                                    @else
-                                        <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
-                                    @endif
+                        <div class="col-sm-6">
+                            <a href="{{ url('news/'.$value->id) }}"> 
+                                <div class="parallal">
+                                    <div class="image">
+                                        @if(file_exists('assets/front/images/news-img/'.$value->picpath))
+                                            <img src="{{ asset('assets/front/images/news-img/'.$value->picpath) }}" class="img-fluid" alt="Responsive image">
+                                        @else
+                                            <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
+                                        @endif
+                                    </div>
+                                    <div class="title">
+                                        {{ $value->title }}
+                                    </div>
                                 </div>
-                                <div class="title">
-                                    {{ $value->title }}
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <hr>
-                    @if($key>0 && ($key+1)%4==0)
-                        </div><div class="col-sm-4">
-                    @endif
-
+                            </a>
+                        </div>
+                        @if($key>0 && ($key+1)%2==0)
+                            </div><div class="row mb-3">
+                        @endif
+                        
+                        <hr>
                     @endforeach
+                    </div>
                 </div>
                 
                 <div class="col-sm-4">

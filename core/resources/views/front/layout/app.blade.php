@@ -84,7 +84,7 @@
             word-wrap: break-word;
             background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
             position: absolute;
-            padding: 0px 8px 8px 5px;
+            padding: 0px 5px 8px 8px;
         }
 
         .captionUpper:hover{
@@ -165,6 +165,7 @@
 
         .parallal .title {
             flex: 67%;
+            padding-top: 9%;
         }
 
         .parallal .image{
@@ -288,9 +289,16 @@
           #menuList a {font-size: 16px;}
         }
 
-        .newsDetails-wrapper .container{
+        .newsDetails-wrapper .container-fluid{
             background-color: #fff;
             color:#000;
+        }
+
+        .item-box-light-lg {
+            padding: 3rem 3.5rem;
+            -webkit-box-shadow: 0 1px 0 0 rgba(225, 225, 225, .75);
+            -moz-box-shadow: 0 1px 0 0 rgba(225, 225, 225, .75);
+            box-shadow: 0 1px 0 0 rgba(225, 225, 225, .75);
         }
     </style>
 
@@ -357,7 +365,7 @@
 
         <div class="break-block"></div>
 
-        <div class="ad-wrapper container">Ad Space</div>
+        <div class="ad-wrapper container mb-3">Ad Space</div>
    
         <div class="footer-wrapper">
             <div class="container">

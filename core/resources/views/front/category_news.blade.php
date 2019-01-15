@@ -2,7 +2,7 @@
 
 @section('contents')
 
-    <div class="ad-wrapper container mt-5 pt-5">
+    <div class="ad-wrapper container-fluid mt-5 pt-5">
         
         <div class="row mb-3">
             <div class="col-sm-12">
@@ -13,7 +13,7 @@
      </div>
 
 	<div class="categoryName-wrapper">
-        <div class="container">
+        <div class="container-fluid">
     		<div class="categoryName">
                 {{ $categoryName }}
             </div> 
@@ -23,10 +23,10 @@
     <div class="break-block"></div>
 
 	<div class="categoryNews-wrapper">
-        <div class="container">
-            <div class="row">
+        <div class="container-fluid">
+            <div class="row mb-3">
                 <div class="col-md-8">
-                    <div class="row mb-5">
+                    <div class="row">
                         <div class="col-sm-8">
                             <a href="{{ url('news/'.array_first($allRelatedNews)->id) }}"> 
                                 @if(file_exists('assets/front/images/news-img/'.array_first($allRelatedNews)->picpath))
@@ -43,8 +43,6 @@
                         <div class="col-sm-4">
                             @foreach($allRelatedNews as $key => $nextNews)
 
-{{ $key }}
-
                             @if($key>0 && $key < 3)
                             <a href="{{ url('news/'.$nextNews->id) }}"> 
                                 @if(file_exists('assets/front/images/news-img/'.$nextNews->picpath))
@@ -52,7 +50,7 @@
                                 @else
                                     <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
                                 @endif
-                                <div class="captionUpper">
+                                <div class="captionUpper" style="color:#fff;">
                                     {{ $nextNews->title }}
                                 </div>
                             </a>
@@ -75,17 +73,19 @@
             <div class="row mb-3">
                 @foreach($allRelatedNews as $key => $nextNews)
                     @if($key>2 && $key < 7)
-                    <div class="col-md-3"> 
-                        <a href="{{ url('news/'.$nextNews->id) }}"> 
-                            @if(file_exists('assets/front/images/news-img/'.$nextNews->picpath))
-                                <img src="{{ asset('assets/front/images/news-img/'.$nextNews->picpath) }}" class="img-fluid" alt="Responsive image">
-                            @else
-                                <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
-                            @endif
-                            <div class="title">
-                                {{ $nextNews->title }}
-                            </div>
-                        </a>
+                    <div class="col-md-3">
+                        <div class="bg-white">
+                            <a href="{{ url('news/'.$nextNews->id) }}"> 
+                                @if(file_exists('assets/front/images/news-img/'.$nextNews->picpath))
+                                    <img src="{{ asset('assets/front/images/news-img/'.$nextNews->picpath) }}" class="img-fluid" alt="Responsive image">
+                                @else
+                                    <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
+                                @endif
+                                <div class="title">
+                                    {{ $nextNews->title }}
+                                </div>
+                            </a>
+                        </div>
                     </div>
                     @endif
 
@@ -96,17 +96,19 @@
                 @foreach($allRelatedNews as $key => $nextNews)
                     
                     @if($key>6 && $key < 11)
-                    <div class="col-md-3"> 
-                        <a href="{{ url('news/'.$nextNews->id) }}"> 
-                            @if(file_exists('assets/front/images/news-img/'.$nextNews->picpath))
-                                <img src="{{ asset('assets/front/images/news-img/'.$nextNews->picpath) }}" class="img-fluid" alt="Responsive image">
-                            @else
-                                <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
-                            @endif
-                            <div class="title">
-                                {{ $nextNews->title }}
-                            </div>
-                        </a>
+                    <div class="col-md-3">
+                        <div class="bg-white">
+                            <a href="{{ url('news/'.$nextNews->id) }}"> 
+                                @if(file_exists('assets/front/images/news-img/'.$nextNews->picpath))
+                                    <img src="{{ asset('assets/front/images/news-img/'.$nextNews->picpath) }}" class="img-fluid" alt="Responsive image">
+                                @else
+                                    <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
+                                @endif
+                                <div class="title">
+                                    {{ $nextNews->title }}
+                                </div>
+                            </a>
+                        </div>
                     </div>
                     @endif
 
@@ -115,7 +117,7 @@
         </div>
     </div>
 
-    <div class="ad-wrapper container">
+    <div class="ad-wrapper container-fluid">
         
         <div class="row mb-3">
             <div class="col-sm-12">
@@ -128,13 +130,13 @@
      <div class="break-block"></div>
 
     <div class="moreRelatedNews">
-        <div class="container">
-            <div class="row">
+        <div class="container-fluid">
+            <div class="row mb-3">
 
                 @foreach($allRelatedNews as $key => $moreRelatedNews)
 
                     @if($key>10)
-                    <div class="col-sm-6 mb-3">
+                    <div class="col-sm-6">
                         <a href="{{ url('news/'.$moreRelatedNews->id) }}"> 
                             <div class="parallal">
                                 <div class="image">
@@ -153,7 +155,7 @@
                     </div>
 
                         @if($key%2==0)
-                        </div><div class="row">
+                        </div><div class="row mb-3">
                         @endif
                     @endif
                 @endforeach

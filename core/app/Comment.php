@@ -14,4 +14,7 @@ class Comment extends Model
     public function relatedUser(){
     	return $this->belongsTo('App/User');
     }
+    public function parent(){
+    	return $this->morphTo();
+    }
 }

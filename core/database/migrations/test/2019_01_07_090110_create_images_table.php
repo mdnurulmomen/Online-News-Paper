@@ -15,23 +15,14 @@ class CreateImagesTable extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->increments('id');
-
             $table->string('created_admin_id')->nullable();
             $table->string('created_reporter_id')->nullable();
             $table->string('title');
             $table->string('description');
-            $table->string('preview1');
-            $table->string('preview2')->nullable();
-            $table->string('preview3')->nullable();
-            $table->string('preview4')->nullable();
-            $table->string('preview5')->nullable();
-            $table->string('preview6')->nullable();
-            $table->string('preview7')->nullable();
-            $table->string('preview8')->nullable();
+            $table->string('preview')->nullable();
             $table->string('updated_admin_id')->nullable();
             $table->string('updated_editor_id')->nullable();
             $table->string('status');
-
             $table->timestamps();
         });
     }
