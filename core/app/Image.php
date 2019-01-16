@@ -3,11 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Preview;
+use App\Comment;
 
 class Image extends Model
-{
-    public function Preview(){
-    	$this->hasOne('App/Preview');
+{  
+    public function comments(){
+    	return $this->morphMany('App\Comment', 'commentable');
     }
 }

@@ -35,7 +35,7 @@ class FrontController extends Controller
 
         foreach ($categoryPrioritized as $key => $value) {
 
-            $categorizedNews[] = News::select('id','category_id', 'title', 'picpath', 'status', 'created_at')->where('category_id', $value)->where('status', 1)->orderBy('created_at', 'desc')->take(6)->get();
+            $categorizedNews[] = News::where('category_id', $value)->where('status', 1)->orderBy('created_at', 'desc')->take(6)->get();
             // $categorizedNews[] = News::where('category_id', $value)->where('status', 1)->get();
         }
 
@@ -74,7 +74,7 @@ class FrontController extends Controller
 
         $allSettings = Setting::first();
         $allCategories = Category::all();
-        $headerCategories = Category::select('id', 'name', 'url')->whereIn('id', json_decode($allSettings->header_categories))->get();
+        $headerCategories = Category::whereIn('id', json_decode($allSettings->header_categories))->get();
 
         $footerCategories = Category::whereIn('id', json_decode($allSettings->footer_categories))->get();
 
@@ -88,10 +88,7 @@ class FrontController extends Controller
         $headerCategories = Category::select('id', 'name', 'url')->whereIn('id', json_decode($allSettings->header_categories))->get();
 
         $specificImageDetails = Image::where('id', $imageId)->first();
-
-        var_dump($specificImageDetails->preview);
-        exit;
-
+        
         $footerCategories = Category::all()->whereIn('id', json_decode($allSettings->footer_categories));
 
         return view('front.image', compact('allSettings', 'allCategories', 'headerCategories', 'specificImageDetails', 'footerCategories'));

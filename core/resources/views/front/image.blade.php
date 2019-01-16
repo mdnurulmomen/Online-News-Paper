@@ -15,6 +15,7 @@
                 {{ $specificImageDetails->title }}
                 <hr>
             </div> 
+            {{ $specificImageDetails->created_at }}
         </div>
     </div>
 
@@ -23,25 +24,13 @@
 	<div class="imageDetails-wrapper">
         <div class="container">
             <div class="row">
-                <div class="col-md-8"> 
+                <div class="col-md-8">
 
-                    <div class="w3-content" style="max-width:1200px">
-
-                        @foreach($specificImageDetails->preview as $preview)
-                        <img class="mySlides" src="{{ asset('assets/front/images/image-img/'.$preview) }}" style="width:100%;display:none">
-                        @endforeach
-
-                        <div class="w3-row-padding w3-section">
-                            
-                            @foreach($specificImageDetails->preview as $preview)
-                            <div class="w3-col s4">
-                                <img class="demo w3-opacity w3-hover-opacity-off" src="{{ asset('assets/front/images/image-img/'.$preview) }}" style="width:100%;cursor:pointer" onclick="currentDiv(1)">
-                            </div>
-                            @endforeach
-
-                        </div>
-                        
-                    </div>
+                    @if(file_exists('assets/front/images/news-img/'.$specificImageDetails->preview))
+                        <img src="{{ asset('assets/front/images/preview-img/'.$specificImageDetails->preview) }}" class="img-fluid pull-left" src="" alt="Responsive image">
+                    @else
+                        <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
+                    @endif
 
                     <div class="description">
                         {{ $specificImageDetails->description }}

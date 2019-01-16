@@ -44,13 +44,13 @@
                             @foreach($allRelatedNews as $key => $nextNews)
 
                             @if($key>0 && $key < 3)
-                            <a href="{{ url('news/'.$nextNews->id) }}"> 
+                            <a href="{{ url('news/'.$nextNews->id) }}" class="mb-3"> 
                                 @if(file_exists('assets/front/images/news-img/'.$nextNews->picpath))
                                     <img src="{{ asset('assets/front/images/news-img/'.$nextNews->picpath) }}" class="img-fluid" alt="Responsive image">
                                 @else
                                     <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
                                 @endif
-                                <div class="captionUpper" style="color:#fff;">
+                                <div class="captionUpperSecond">
                                     {{ $nextNews->title }}
                                 </div>
                             </a>

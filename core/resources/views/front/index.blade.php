@@ -114,17 +114,17 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="row mb-3">
-                        <div class="title" style="padding-top: 15%;">
-                            <a href="{{ url('image/'.array_first($allImages)->id) }}"> {{ array_first($allImages)->title }} </a>
-                            <br>
-                            {{ array_first($allImages)->description }} 
-                        </div>
-                        <div class="image">
+                        <div class="">
+                            <div class="title">
+                                <a href="{{ url('image/'.array_first($allImages)->id) }}"> {{ array_first($allImages)->title }} </a>
+                            </div>
+                            
                             @if(file_exists('assets/front/images/image-img/'.array_first($allImages)->preview))
                                 <img src="{{ asset('assets/front/images/image-img/'.array_first($allImages)->preview) }}" class="img-fluid" alt="Responsive image">
                             @else
                                 <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
                             @endif
+                            
                         </div>
 
                     </div>
@@ -195,6 +195,7 @@
                 <div class="col-md-8">
                     <div class="row">
                         @foreach($categorizedNews[0] as $key => $value)
+                        @if($key < 6 )
                         <div class="col-md-4 mb-3">
                             <a href="{{ url('news/'.$value->id) }}"> 
                                 <div class="bg-white"> 
@@ -210,10 +211,11 @@
                             </a>
                         </div>
 
-                        @if($key==1 && $key%3==0)
-                            </div><div class="row">
-                        @endif
+                            @if($key>0 && $key%3==0)
+                                </div><div class="row">
+                            @endif
 
+                        @endif
                         @endforeach
                     </div>
                 </div>
@@ -232,12 +234,15 @@
                             <a href="{{ url('news/'.array_first($categorizedNews[1])->id) }}"> 
                                 <div class="bg-white"> 
                                 @if(file_exists('assets/front/images/news-img/'.array_first($categorizedNews[1])->picpath))
-                                    <img src="{{ asset('assets/front/images/news-img/'.array_first($categorizedNews[2])->picpath) }}" class="img-fluid" alt="Responsive image">
+                                    <img src="{{ asset('assets/front/images/news-img/'.array_first($categorizedNews[1])->picpath) }}" class="img-fluid" alt="Responsive image">
                                 @else
                                     <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}" class="img-fluid" alt="Responsive image">
                                 @endif
                                     <div class="title">
                                        {{ array_first($categorizedNews[1])->title }} 
+                                    </div>
+                                    <div class="description">
+                                       {{ str_limit(array_first($categorizedNews[1])->description, 60) }} 
                                     </div>
                                 </div>
                             </a>

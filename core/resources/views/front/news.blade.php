@@ -94,7 +94,6 @@
                                 <div class="help-block with-errors"></div>
                             </div>
                        
-                        
                             <div class="form-group mb-none">
                                 <button type="submit" class="btn-ftg-ptp-45"> Comment</button>
                             </div>

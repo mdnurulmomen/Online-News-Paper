@@ -30,7 +30,7 @@
             padding-left: 5%;
             padding-right: 5%;
             margin: 0 auto;
-            width: 90%;
+            width: 80%;
         }
 
         .header-wrapper{
@@ -72,7 +72,8 @@
 
         .description{
             text-align: justify;
-            padding: 10px;
+            padding: 28px 10px 10px 0px;
+            text-indent: 10px;
         }
 
         .captionUpper{
@@ -85,11 +86,31 @@
             background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
             position: absolute;
             padding: 0px 5px 8px 8px;
+            margin-right: 15px;
         }
 
         .captionUpper:hover{
             color : #fff;
         }
+
+        .captionUpperSecond{
+            color: #fff;
+            padding: 0 0 0px 5px;
+            margin-top: -25%;
+            margin-right: 15px;
+            margin-bottom: 1rem;
+            font-weight: bold;
+            font-size: 17px;
+            word-wrap: break-word;
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
+            /*position: absolute;*/
+        }
+
+        .captionUpperSecond:hover{
+            color : #fff;
+        }
+
+
 
         .categoryName{
             margin-top: 25px;
@@ -106,7 +127,7 @@
             margin: 20px;
         }
 
-        .ad-wrapper{
+        .ad-wrapper {
             width: 100%;
             background-color: #fff;
             padding: 72px;
@@ -115,35 +136,41 @@
             text-align: center;
         }
 
-        .media-wrapper{
+        .media-wrapper {
             background-color:#212121;
-        }
-
-        .media-wrapper .container{
-            background-color: #545252;
         }
 
         .media-wrapper .categoryName{
             color:#FFC107;
-            background-color: #212121;
-        }
-
-        .media-wrapper .title a{
-            color:#369;
         }
 
         .media-wrapper .title{
             color:#fff;
         }
 
-        .media-wrapper .image{
-            width: 100%;
-            display: block;
-            flex: 66%;
-            float: right;
-            margin-left: 12px;
+        .media-wrapper .title a{
+            color:#fff;
         }
 
+        .media-wrapper .parallal{
+            background-color: inherit;
+        }
+
+        .Image{
+            display: flex;
+            clear: both;
+            justify-content: center;
+            flex-direction: column;
+            
+        }
+
+        .Image .title{
+            flex: 50%;
+        }
+
+        .Image img{
+            flex: 50%;
+        }
 
         .Video{
             background-color: #000;
@@ -157,7 +184,7 @@
 
         .parallal {
             display: flex;
-            margin-right: 2px;
+            margin-right: 5px;
             align-self: flex-start;
             background-color: #fff;
             clear: both;
@@ -165,7 +192,7 @@
 
         .parallal .title {
             flex: 67%;
-            padding-top: 9%;
+            
         }
 
         .parallal .image{
@@ -174,11 +201,9 @@
             margin-right: 10px;
             position: relative;
             overflow: hidden;
+            /*padding-top: 2%;*/
         }
 
-        .Video .parallal{
-            background-color: inherit;
-        }
 
         .title{
             color : #000;
