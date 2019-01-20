@@ -56,12 +56,6 @@
             border-bottom: 1px solid red;
         }
 
-        /*.navbar-light > ul > li:first-child a {
-            background-color: red;
-            color: #d40909;
-            text-shadow: -3px 0px 3px yellow, 3px 0px 3px yellow, 6px 0px 6px yellow, -6px 0px 6px yellow;
-            animation: blinker .7s linear 4 forwards;
-        }*/
         hr{
             margin: 10px 0;
         }
@@ -96,9 +90,9 @@
         .captionUpperSecond{
             color: #fff;
             padding: 0 0 0px 5px;
-            margin-top: -25%;
+            margin-top: -15%;
             margin-right: 15px;
-            margin-bottom: 1rem;
+            margin-bottom: 8%;
             font-weight: bold;
             font-size: 17px;
             word-wrap: break-word;
@@ -110,17 +104,15 @@
             color : #fff;
         }
 
-
-
         .categoryName{
-            margin-top: 25px;
+            margin-top: 35px;
             margin-bottom: 20px;
             color: #4a4a4a;
             font-size: 26px;
             line-height: 32px;
             font-weight: 400;
             border-left: 5px solid red;
-            padding-left: 5px;
+            padding-left: 10px;
         }
 
         .break-block{
@@ -156,22 +148,6 @@
             background-color: inherit;
         }
 
-        .Image{
-            display: flex;
-            clear: both;
-            justify-content: center;
-            flex-direction: column;
-            
-        }
-
-        .Image .title{
-            flex: 50%;
-        }
-
-        .Image img{
-            flex: 50%;
-        }
-
         .Video{
             background-color: #000;
         }
@@ -204,9 +180,30 @@
             /*padding-top: 2%;*/
         }
 
+        .imageDiv{
+            display: flex;
+            align-self: flex-start;
+            clear: both;
+        }
+
+        .imageDiv .title {
+            flex: 33%;
+            
+        }
+
+        .imageDiv .image{
+            float: left;
+            flex: 67%;
+            margin-right: 10px;
+            position: relative;
+            overflow: hidden;
+            /*padding-top: 2%;*/
+        }
 
         .title{
             color : #000;
+            justify-content: center;
+            align-self: center;
             font-weight: bold;
             font-size: 18px;
             line-height: 26px;
@@ -231,23 +228,26 @@
             color: #666;
         }
 
-        .footer-wrapper{
+        .footer-menu{
             background: #282828;
             color: #ccc;
-            padding: 3% 3% 0 3% ;
+            padding: 3% 5% 3% 5%;
         }
 
-        .footer-wrapper a{
+        .footer-menu li{
+            padding: 3%;
+        }
+
+        .footer-menu a{
             color: #ccc;
             float: left;
             display: block;
             text-decoration: none;
             font-size: 18px;
-            line-height: 40px;
             font-weight: bold;
         }
 
-        .footer-wrapper a:hover{
+        .footer-menu a:hover{
             color: #FFC107;
         }
 
@@ -255,6 +255,8 @@
             background-color: #000;
             text-align: center;
             width: 100%;
+            color: #ccc;
+            padding: 10px;
         }
 
         #searchForm{
@@ -265,8 +267,6 @@
 
         #menuList {
             height: 30%;
-            /*width:95%;*/
-            /*display: none;*/
             width: 0;
             position: fixed;
             z-index: 99;
@@ -293,7 +293,6 @@
             color: #000;
             display: block;
             transition: 0.3s;
-            font-weight: bold;
             font-size: 18px;
             line-height: 40px;
         }
@@ -325,11 +324,32 @@
             -moz-box-shadow: 0 1px 0 0 rgba(225, 225, 225, .75);
             box-shadow: 0 1px 0 0 rgba(225, 225, 225, .75);
         }
+
+
     </style>
 
   </head>
 
-  <body>
+    <div id="menuList">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-md-2">
+                @foreach($allCategories as $key=>$category) 
+                <a href="{{ url('category/'.$category->url) }}"> {{ $category->name }} </a>
+
+                @if($key>0 && $key%3==0)
+                    </div><div class="col-md-2">
+                @endif
+
+                @endforeach
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <body>
         <div class="header-wrapper">
             <div class="container">
                 <div class="row">
@@ -366,61 +386,44 @@
                         </form>
                     </div>
                 </div>
-                <div class="row" id="menuList">    
-                    <div class="col-md-3">
-                        @foreach($allCategories as $key=>$category) 
-                        <a href="{{ url('category/'.$category->url) }}"> {{ $category->name }} </a>
-
-                        @if($key>0 && $key%3==0)
-                            </div><div class="col-md-3">
-                        @endif
-
-                        @endforeach
-                    </div>
-                </div>
             </div>
         </div>
 
-        <div class="break-block"></div>
-        <div class="break-block"></div>
         <div class="break-block"></div>
         
         @yield('contents')
 
 
         <div class="break-block"></div>
-
-        <div class="ad-wrapper container mb-3">Ad Space</div>
    
-        <div class="footer-wrapper">
+        <div class="footer-menu">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-2">
-                        <ul style="list-style: none;">
+                        <ul style="list-style-type: circle;">
                         @foreach($footerCategories as $key=>$category)
-                            <a href="{{$category->url}}">
-                            <li class="">
-                               {{$category->name}}
+                            <li>
+                                <a href="{{$category->url}}">
+                                   {{$category->name}}
+                                </a>
                             </li>
-                            </a>
                             @if($key>0 && ($key+1)%3==0)
-                                </ul></div><div class="col-sm-2"><ul style="list-style: none;">
+                                </ul></div><div class="col-sm-2"><ul style="list-style-type: circle;">
                            @endif
 
                         @endforeach
                         </ul>
                     </div>
-                </div>
-                
-                <div class="break-block"></div> 
+                </div> 
             </div>
-
-            <div class="footer">
-                <div class="text-center">
+        </div>
+        
+        <div class="footer">
                     
-                    <p>{{ $allSettings->footer }}</p>
-                    
-                </div>
+            <div class="text-center">
+                
+                {{ $allSettings->footer }}
+                
             </div>
         </div>
 
@@ -436,6 +439,13 @@
             document.getElementById("menuList").style.width = "100%";
             element.className = element.className.replace("fa-bars", "fa-times");
             element.setAttribute( "onClick", "javascript: closeMenuList(this, 'close');" );
+            // document.getElementsByTagName('body').style.opacity = 0;
+            document.getElementsByClassName('headlines-wrapper')[0].style.opacity = 0.5;
+            document.getElementsByClassName('media-wrapper')[0].style.opacity = 0.5;
+            document.getElementsByClassName('firstPrioritizedCategroy-wrapper')[0].style.opacity = 0.5;
+            document.getElementsByClassName('secondPrioritizedCategory-wrapper')[0].style.opacity = 0.5;
+            document.getElementsByClassName('thirdPrioritizedCategory-wrapper')[0].style.opacity = 0.5;
+            document.getElementsByClassName('fourthPrioritizedCategory-wrapper')[0].style.opacity = 0.5;
         }
 
         /* Set the width of the side navigation to 0 */
@@ -480,5 +490,5 @@
             dots[slideIndex-1].className += " w3-opacity-off";
         }
     </script>
-  </body>
+    </body>
 </html>

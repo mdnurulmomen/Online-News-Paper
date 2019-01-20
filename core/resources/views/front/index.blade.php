@@ -2,7 +2,15 @@
 
 @section('contents')
 
-    <div class="ad-wrapper">Ad Space</div>
+    <div class="ad-wrapper">
+        <div class="container">
+            <div class="row mb-3">
+                <div class="col-sm-12">
+                    Space for ad images
+                </div>
+            </div>   
+        </div>
+    </div>
 
     <div class="date-wrapper">
         <div class="container-fluid">
@@ -114,17 +122,18 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="row mb-3">
-                        <div class="">
+                        <div class="imageDiv">
                             <div class="title">
                                 <a href="{{ url('image/'.array_first($allImages)->id) }}"> {{ array_first($allImages)->title }} </a>
                             </div>
                             
+                            <div class="image"> 
                             @if(file_exists('assets/front/images/image-img/'.array_first($allImages)->preview))
                                 <img src="{{ asset('assets/front/images/image-img/'.array_first($allImages)->preview) }}" class="img-fluid" alt="Responsive image">
                             @else
                                 <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
                             @endif
-                            
+                            </div> 
                         </div>
 
                     </div>
@@ -224,7 +233,7 @@
         </div>
     </div>
     
-    <div class="secondPrioritizedCategory">
+    <div class="secondPrioritizedCategory-wrapper">
         <div class="container-fluid">
         <div class="categoryName"> {{ $categoryNames[1]->name }} </div>
             <div class="row">
@@ -280,7 +289,7 @@
 
     <div class="break-block"></div>
 
-    <div class="thirdPrioritizedCategory">
+    <div class="thirdPrioritizedCategory-wrapper">
         <div class="container-fluid">
             <div class="categoryName"> {{ $categoryNames[2]->name }} </div>
             <div class="row">
@@ -288,7 +297,7 @@
             @foreach($categorizedNews[2] as $key => $thirdCategorizedNews)
                 
                 @if($key < 3)
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <a href="{{ url('news/'.$thirdCategorizedNews->id) }}"> 
                         <div class="parallal">
                             <div class="image">
@@ -308,17 +317,13 @@
 
             @endforeach
 
-                <div class="col-md-3 ad-wrapper">
-                    Space for Ad Image
-                </div>
-
             </div>
         </div>
     </div>
 
     <div class="break-block"></div>
 
-    <div class="fourthPrioritizedCategory">
+    <div class="fourthPrioritizedCategory-wrapper">
         <div class="container-fluid">
         <div class="categoryName"> {{ $categoryNames[3]->name }} </div>
             <div class="row">
@@ -361,4 +366,7 @@
         </div>
     </div>
 
+    <div class="ad-wrapper container mb-3">Ad Space</div>
+
 @endsection
+

@@ -1,7 +1,7 @@
 @extends('front.layout.app')
 @section('contents')
 
-    <div class="ad-wrapper container-fluid mt-5 pt-5"> 
+    <div class="ad-wrapper container mt-5 pt-5"> 
         <div class="row mb-3">
             <div class="col-sm-12">
                 Space for ad images
@@ -23,7 +23,7 @@
 	<div class="newsDetails-wrapper mb-3">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-7">
                     <div class="title">
                         {{ $specificNewsDetails->title }}
                     </div>
@@ -40,7 +40,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-5">
 
                     <div class="row mb-3">
                         <div class="col-sm-12 ad-wrapper">
@@ -50,7 +50,7 @@
                     
                     @foreach($moreRelatedNews as $key => $relatedNews)
                        
-                    @if($key < 4)
+                    @if($key >0 && $key < 6)
                     <a href="{{ url('news/'.$relatedNews->id) }}"> 
                         <div class="parallal">
                             <div class="image">
@@ -61,7 +61,7 @@
                                 @endif
                             </div>
                             <div class="title">
-                                {{ $relatedNews->title }}
+                                {{ $relatedNews->title }} {{ $key }}
                             </div>
                         </div>
                     </a>
@@ -69,6 +69,13 @@
                     @endif
 
                     @endforeach
+
+                     <div class="row mb-3">
+                        <div class="col-sm-12 ad-wrapper">
+                            Space for ad images
+                        </div>
+                    </div>
+
                 </div>
             </div>         
         </div>
@@ -136,28 +143,31 @@
             <div class="row">
             @foreach($moreRelatedNews as $key => $relatedNews)
 
-                @if($key > 3)
+                @if($key > 5 && $key < 14)
                 <div class="col-sm-3">
-                    <a href="{{ url('news/'.$relatedNews->id) }}">    
-                            
-                        @if(file_exists('assets/front/images/news-img/'.$relatedNews->picpath))
-                            <img src="{{ asset('assets/front/images/news-img/'.$relatedNews->picpath) }}" class="img-fluid pull-left" src="" alt="Responsive image">
-                        @else
-                            <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
-                        @endif
+                    <div class="bg-white">
                         
-                        <div class="title">
-                            {{ $relatedNews->title }}
-                        </div>
-                       
-                    </a>
+                        <a href="{{ url('news/'.$relatedNews->id) }}">    
+                            @if(file_exists('assets/front/images/news-img/'.$relatedNews->picpath))
+                                <img src="{{ asset('assets/front/images/news-img/'.$relatedNews->picpath) }}" class="img-fluid pull-left" src="" alt="Responsive image">
+                            @else
+                                <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
+                            @endif
+                            
+                            <div class="title">
+                                {{ $relatedNews->title }}
+                            </div> 
+                        </a>
+
+                    </div>       
                     <hr>
                 </div>
 
 
-                @if($key>4 && ($key+1)%4==0)
+                @if(($key-5)%4==0)
                 </div>
                 <div class="ad-wrapper"> Ad Space </div>
+                <div class="break-block"></div>
                 <div class="row">
                 @endif
 

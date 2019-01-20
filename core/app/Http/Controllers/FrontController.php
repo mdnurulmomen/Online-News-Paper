@@ -26,16 +26,14 @@ class FrontController extends Controller
 
         $allImages = Image::orderBy('created_at', 'DESC')->take(5)->get();
 
-        $allVideos = Video::orderBy('created_at', 'desc')->take(3)->get();
-
-
+        $allVideos = Video::orderBy('created_at', 'DESC')->take(3)->get();
 
         $categoryPrioritized = $allSettings->prioritized_categories;
-        $categoryNames = Category::select('name')->whereIn('id', $categoryPrioritized)->orderByRaw('FIELD(id,'.implode(',',$categoryPrioritized).')')->get();
+        $categoryNames = Category::whereIn('id', $categoryPrioritized)->orderByRaw('FIELD(id,'.implode(',',$categoryPrioritized).')')->get();
 
         foreach ($categoryPrioritized as $key => $value) {
 
-            $categorizedNews[] = News::where('category_id', $value)->where('status', 1)->orderBy('created_at', 'desc')->take(6)->get();
+            $categorizedNews[] = News::where('category_id', $value)->where('status', 1)->orderBy('created_at', 'DESC')->take(6)->get();
             // $categorizedNews[] = News::where('category_id', $value)->where('status', 1)->get();
         }
 
@@ -50,7 +48,7 @@ class FrontController extends Controller
         $categoryName = $categoryDetails->name;
         $categoryId = $categoryDetails->id;
 
-        $allRelatedNews = News::where('category_id', $categoryId)->where('status', 1)->get();
+        $allRelatedNews = News::where('category_id', $categoryId)->where('status', 1)->orderBy('created_at', 'DESC')->get();
         // $allRelatedNews = News::select('id', 'title', 'picpath', 'description', 'status', 'created_at')->where('category_id', $categoryId)->where('status', 1)->get();
 
         $allSettings = Setting::first();
@@ -66,15 +64,13 @@ class FrontController extends Controller
 
     public  function  showSpecificNews($newsId){
         
-        $specificNewsDetails = News::where('id', $newsId)->first();
-        $categoryName = $specificNewsDetails->category->name;
-        // $allRelatedComments = Comment::where('news_id', $specificNewsDetails->id)->get();
-        $moreRelatedNews = News::where('category_id', $specificNewsDetails->category_id)->where('status', 1)->get();
-
-
         $allSettings = Setting::first();
         $allCategories = Category::all();
         $headerCategories = Category::whereIn('id', json_decode($allSettings->header_categories))->get();
+        
+        $specificNewsDetails = News::where('id', $newsId)->first();
+        $categoryName = $specificNewsDetails->category->name;
+        $moreRelatedNews = News::where('category_id', $specificNewsDetails->category_id)->where('status', 1)->orderBy('created_at', 'DESC')->get();
 
         $footerCategories = Category::whereIn('id', json_decode($allSettings->footer_categories))->get();
 
