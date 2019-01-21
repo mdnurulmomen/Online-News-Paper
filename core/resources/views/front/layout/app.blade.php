@@ -325,7 +325,13 @@
             box-shadow: 0 1px 0 0 rgba(225, 225, 225, .75);
         }
 
-
+        .commentTitle{
+            color: #424242;
+            font-size: 24px;
+            line-height: 30px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
     </style>
 
   </head>
@@ -351,30 +357,60 @@
 
     <body>
         <div class="header-wrapper">
-            <div class="container">
-                <div class="row">
-                    <nav class="navbar sticky-top navbar-expand-lg navbar-light">
+            <div class="container-fluid">
+                <div class="row text-center">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="menuNav"> 
                         <a class="navbar-brand" href="{{ url('/') }}">
                             <img src="{{asset('assets/front/images/setting-img/'.$allSettings->logo)}}">
                         </a>
 
                         <div class="collapse navbar-collapse">
-                            <ul class="navbar-nav" id="navbar">
+                            <ul class="navbar-nav">
                                 @foreach($headerCategories as $headerCategory)
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ url('category/'.$headerCategory->url) }}">{{ $headerCategory->name }}</a>
                                 </li>
                                 @endforeach
-                                <li class="nav-item">
-                                    <a class="nav-link" href="javascript:void(0);"> <i class="fas fa-bars" onclick="openMenuList(this)"></i> </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-search" aria-hidden="true" onclick="openSerachBox()"></i></a>
-                                </li>
                             </ul>
                         </div>
                     </nav>
 
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="barNav"> 
+                        <div class="collapse navbar-collapse">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="javascript:void(0);">
+                                        <i class="fas fa-bars" onclick="openMenuList(this)"></i>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="javascript:void(0);">
+                                        <i class="fa fa-search" aria-hidden="true" onclick="openSerachBox()"></i>
+                                    </a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-user"></i>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="#">Not Fixed</a>
+
+                                        <div class="dropdown-divider"></div>
+
+                                        @if(Auth::check())
+                                        <a href="{{route('user.logout')}}" class="dropdown-item">Logout</a>
+                                        @else
+                                        <a href="{{ route('user.login') }}" class="dropdown-item">Login</a>
+                                        <a href="{{ route('user.register') }}" class="dropdown-item">Register</a>
+                                        @endif
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>  
+                </div>
+
+                <div class="row">
                     <div id="searchForm">    
                         <form class="col-sm-12 form-horizontal" action="">
                             <div class="form-group row">
@@ -384,7 +420,7 @@
                                 <button class="btn btn-outline-success col-sm-2" type="submit">Search</button>
                             </div>
                         </form>
-                    </div>
+                    </div>                    
                 </div>
             </div>
         </div>
@@ -419,11 +455,8 @@
         </div>
         
         <div class="footer">
-                    
-            <div class="text-center">
-                
+            <div class="text-center">  
                 {{ $allSettings->footer }}
-                
             </div>
         </div>
 

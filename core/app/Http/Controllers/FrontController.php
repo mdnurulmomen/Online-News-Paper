@@ -70,7 +70,8 @@ class FrontController extends Controller
         
         $specificNewsDetails = News::where('id', $newsId)->first();
         $categoryName = $specificNewsDetails->category->name;
-        $moreRelatedNews = News::where('category_id', $specificNewsDetails->category_id)->where('status', 1)->orderBy('created_at', 'DESC')->get();
+
+        $moreRelatedNews = News::where('category_id', $specificNewsDetails->category_id)->where('id', '!=', $specificNewsDetails->id)->where('status', 1)->orderBy('created_at', 'DESC')->get();
 
         $footerCategories = Category::whereIn('id', json_decode($allSettings->footer_categories))->get();
 

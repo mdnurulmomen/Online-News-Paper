@@ -25,7 +25,7 @@
             <div class="row">
                 <div class="col-md-7">
                     <div class="title">
-                        {{ $specificNewsDetails->title }}
+                        {{ $specificNewsDetails->title }} {{ $specificNewsDetails->id }}
                     </div>
                     <div class="newsDetails">
                         @if(file_exists('assets/front/images/news-img/'.$specificNewsDetails->picpath))
@@ -50,7 +50,7 @@
                     
                     @foreach($moreRelatedNews as $key => $relatedNews)
                        
-                    @if($key >0 && $key < 6)
+                    @if($key < 6)
                     <a href="{{ url('news/'.$relatedNews->id) }}"> 
                         <div class="parallal">
                             <div class="image">
@@ -61,7 +61,7 @@
                                 @endif
                             </div>
                             <div class="title">
-                                {{ $relatedNews->title }} {{ $key }}
+                                {{ $relatedNews->title }}
                             </div>
                         </div>
                     </a>
@@ -83,56 +83,77 @@
 
     <div class="break-block"></div>
 
-    <div class="comment-wrapper">
-        <div class="container-fluid">
-                
-            @if(Auth::check())
-            <div class="row">
-                <div class="leave-comments">
-                    <h2 class="title mb-40 pb-20">Leave Comments</h2>
-                    <div class="item-box-light-lg">
-                        <form action="{{ route('submit.comment.form') }}" method="post">
-                                
-                            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                            <input type="hidden" name="news_id" value="{{ $specificNewsDetails->id }}">
+    <div class="comment-wrapper mb-5">
 
-                            <div class="form-group">
-                                <textarea placeholder="Message*" class="textarea form-control" name="message" id="form-message" rows="8" cols="20"></textarea>
-                                <div class="help-block with-errors"></div>
-                            </div>
-                       
-                            <div class="form-group mb-none">
-                                <button type="submit" class="btn-ftg-ptp-45"> Comment</button>
-                            </div>
-                                
-                        </form>
+        <div class="container-fluid"> 
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="commentTitle">
+                        Comments ( {{ $specificNewsDetails->comments->count() }} )
                     </div>
                 </div>
-            </div>
-            @endif
 
-            <div class="row">
-                @foreach($specificNewsDetails->comments as $comment)
-                    <div class="col-sm-12"> 
-                        <div class="parallal">
-                            <div class="image">
-                                @if(file_exists('assets/front/images/users-img/'.$comment->relatedUser->picpath))
-                                    <img src="{{ asset('assets/front/images/users-img/'.$comment->relatedUser->picpath) }}" class="img-fluid pull-left" src="" alt="Responsive image">
-                                @else
-                                    <i class="fas fa-user"></i>
-                                @endif
-                            </div>
-                            <div class="title">
-                                {{ $comment->relatedUser->username }}
-                            </div>
-                            <div class="description">
-                                {{ $comment->body }}
-                            </div>
+                <div class="col-sm-10">  
+
+                    @if(Auth::check())
+                    <div class="leave-comments">
+                        <div class="item-box-light-lg">
+                            <h2 class="title">Leave Your Comment</h2>
+
+                            <form action="{{ route('user.comment.submit', $specificNewsDetails->id, Auth::user()->id) }}" method="post">
+                                
+                                @csrf
+
+                                <div class="form-group">
+                                    <textarea placeholder="Your Message*" class="textarea form-control" name="body" id="form-message" rows="8" cols="20"></textarea>
+                                    <div class="help-block with-errors" required></div>
+                                </div>
+                           
+                                <div class="form-group mb-none">
+                                    <button type="submit" class="btn btn-success"> Comment</button>
+                                </div>         
+                            </form>
                         </div>
                     </div>
 
+                    @else
+                    <div class="title pt-5 pb-5 text-center">
+                        Please  <a href="{{ route('user.login') }}" class="btn btn-success" role="button">Login</a>  or  <a href="{{ route('user.register') }}" class="btn btn-primary" role="button">Sign up</a> to Comment
+                    </div>
+                    @endif
+
+
+                    @foreach($specificNewsDetails->comments as $comment)
+                    <div class="parallal">
+                        <div class="image">
+                            @if(file_exists('assets/front/images/users-img/'.$comment->relatedUser->picpath))
+                                <img src="{{ asset('assets/front/images/users-img/'.$comment->relatedUser->picpath) }}" class="img-fluid pull-left" src="" alt="Responsive image">
+                            @else
+                                <i class="fas fa-user"></i>
+                            @endif
+                        </div>
+                        <div class="title">
+                            {{ $comment->relatedUser->username }}
+                        </div>
+                        <div class="description">
+                            {{ $comment->body }}
+                        </div>
+                    </div>
                     <hr>
-                @endforeach
+                    @endforeach
+
+                </div>
+            </div>
+
+           
+            
+                
+            
+
+            
+
+            <div class="row">
+                
             </div>
 
          </div>

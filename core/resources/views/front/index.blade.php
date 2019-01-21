@@ -260,7 +260,7 @@
                         <div class="col-md-6">
                             @foreach($categorizedNews[1] as $key => $value)
                             
-                            @if($key>0)
+                            @if($key>0 && $key < 5)
                             <a href="{{ url('news/'.$value->id) }}">     
                                 <div class="parallal">
                                     <div class="image">
