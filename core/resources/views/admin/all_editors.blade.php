@@ -2,7 +2,7 @@
 @extends('admin.layout.app')
 @section('contents')
 
-        <h2 class="mb-4"> Employee List </h2>
+        <h2 class="mb-4"> Editor List </h2>
         <div class="card mb-4">
             <div class="card-body">
                 <table class="table table-hover text-center" cellspacing="0" width="100%">

@@ -19,7 +19,7 @@ class CreateVideosTable extends Migration
             $table->string('created_reporter_id')->nullable();
             $table->string('title');
             $table->string('preview');
-            $table->string('videoaddress');
+            $table->string('url');
             $table->string('updated_admin_id')->nullable();
             $table->string('updated_editor_id')->nullable();
             $table->string('status');

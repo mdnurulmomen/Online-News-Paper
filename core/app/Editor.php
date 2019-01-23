@@ -16,11 +16,11 @@ class Editor extends Authenticatable
 //    }
     public function setEditorCategoriesAttribute($categories = array())
     {
-        $this->attributes['category_id'] = json_encode($categories);
+        $this->attributes['categories_id'] = json_encode($categories);
     }
 
     public function getEditorCategoriesAttribute(){
-        $caregoryIds = json_decode($this->category_id);
+        $caregoryIds = json_decode($this->categories_id);
         return Category::whereIn('id', $caregoryIds)->get(['id','name']);
     }
 }

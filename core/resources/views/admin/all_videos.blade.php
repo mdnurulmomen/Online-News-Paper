@@ -22,7 +22,7 @@
                             <td>{{$video->id}}</td>
                             <td>{{ $video->title }}</td>
                             <td>
-                                <img src="{{ asset('assets/front/images/video-img/'.$video->preview) }}" width="100px" height="auto" alt="No Image">
+                                <img src="{{ asset('assets/front/images/video/'.$video->preview) }}" width="120" alt="No Image">
                             </td>
                             <td>{{ $video->videoaddress }}</td>
                             <td>

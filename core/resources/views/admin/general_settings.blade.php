@@ -12,26 +12,26 @@
                     @Method('put')
                     <div class="form-group row">
                         <div class="col-md-6 mb-6">
-                            <label for="validationServer01">Name</label>
-                            <input type="text" name="name" class="form-control is-valid" value="{{ $newsPaperName }}" required>
+                            <label class="col-form-label" for="validationServer01">Name</label>
+                            <input type="text" name="name" class="form-control form-control-lg is-valid" value="{{ $settings->name }}" required>
                         </div>
                         <div class="col-md-6 mb-6">
-                            <label for="validationServer02">Color</label>
-                            <input type="text" name="color" value="{{ $color }}" class="form-control is-valid" onkeyup="backgroundColor()">
+                            <label class="col-form-label" for="validationServer02">Color</label>
+                            <input type="text" name="color" value="{{ $settings->color }}" class="form-control form-control-lg is-valid" onkeyup="backgroundColor()">
                         </div>
                     </div>
                     <br>
                     <div class="form-group row">
                         <div class="col-sm-12">
-                            <label for="validationServer03">Set Footer:</label>
-                            <textarea name="footer" class="form-control is-valid" rows="5" id="textArea"> {{$footer}} </textarea>
+                            <label class="col-form-label" for="validationServer03">Set Footer:</label>
+                            <textarea name="footer" class="form-control is-valid" rows="7" id="textArea"> {{ $settings->footer }} </textarea>
                         </div>
                     </div>
                     <br>
                     <br>
                     <div class="form-group row">
                         <div class="col-sm-12">
-                            <button type="submit" class="btn btn-block btn-primary">Update</button>
+                            <button type="submit" class="btn btn-block btn-lg btn-primary">Update</button>
                         </div>
                     </div>
                 </form>

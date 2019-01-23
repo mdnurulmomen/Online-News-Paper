@@ -15,18 +15,18 @@ class CreateReportersTable extends Migration
     {
         Schema::create('reporters', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('firstname')->nullable();
-            $table->string('lastname')->nullable();
-            $table->string('username')->unique();
+            $table->string('firstname')->nullable()->default('first');
+            $table->string('lastname')->nullable()->default('last');
+            $table->string('username')->unique()->default('reporter');
             $table->string('password');
             $table->string('email')->unique()->nullable();
-            $table->string('picpath')->nullable();
+            $table->string('profile_pic')->nullable();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->string('city')->nullable();
             $table->string('country')->nullable();
-            $table->string('emailverification')->nullable();
-            $table->string('smsverification')->nullable();
+            $table->string('email_verification')->nullable();
+            $table->string('sms_verification')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

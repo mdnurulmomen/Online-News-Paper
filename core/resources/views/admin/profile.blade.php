@@ -13,7 +13,7 @@
                 <div class="form-row">
                     <div class="col-md-6 mb-6">
                         <label for="validationServer01">First name</label>
-                        <input type="text" name="firstname" class="form-control is-valid"  placeholder="First Name" value="{{ $firstname }}">
+                        <input type="text" name="firstname" class="form-control is-valid"  placeholder="First Name" value="{{ $sbvrfbre->firstname }}">
 
                     </div>
                     <div class="col-md-6 mb-6">
