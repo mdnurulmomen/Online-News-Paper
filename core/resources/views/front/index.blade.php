@@ -1,5 +1,4 @@
 @extends('front.layout.app')
-
 @section('contents')
 
     <div class="ad-wrapper">Ad Space</div>

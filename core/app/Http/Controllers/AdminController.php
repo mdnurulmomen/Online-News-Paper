@@ -21,83 +21,96 @@ use \Intervention\Image\Facades\Image;
 
 class AdminController extends Controller
 {
-    public function showLoginForm(){
+    public function showLoginForm()
+    {
         return view('admin.login');
     }
 
-    public function login(Request $request){
-        if(Auth::guard('admin')->attempt(['username'=>$request->adminName, 'password'=>$request->adminPassword])){
+    public function login(Request $request)
+    {
+        if(Auth::guard('admin')->attempt(['username'=>$request->username, 'password'=>$request->password])){
             return redirect()->route('admin.home');
         }
         return redirect()->back()->withErrors('Wrong Username or Password');
     }
 
-    public function homeMethod(){
+    public function homeMethod()
+    {
         return view('admin.layout.app', compact(''));
     }
 
-    public function showProfileForm(){
+    public function showProfileForm()
+    {
         $currentAdmin =  Auth::guard('admin')->user();
-        $profileData = array('firstname'=>$currentAdmin->firstname, 'lastname'=>$currentAdmin->lastname, 'username'=>$currentAdmin->username, 'email'=>$currentAdmin->email, 'picpath'=>$currentAdmin->picpath, 'phone'=>$currentAdmin->phone, 'address'=>$currentAdmin->address, 'city'=>$currentAdmin->city, 'country'=>$currentAdmin->country);
-
         return view('admin.profile', $profileData);
     }
 
-    public function submitProfileForm(Request $request){
-
+    public function submitProfileForm(Request $request)
+    {
         $profileToUpdate = Auth::guard('admin')->user();
 
         $request->validate([
             'username'=>'required|unique:admins,username,'.$profileToUpdate->id,
             'email'=>'nullable|unique:admins,email,'.$profileToUpdate->id,
-            'picpath'=>'nullable|image',
+            'profile_pic'=>'nullable|image',
             'phone'=>'nullable|numeric',
         ]);
 
-        if($request->has('picpath')){
-            $originImageFile = $request->file('picpath');
+        if($request->has('profile_pic')){
+            $originImageFile = $request->file('profile_pic');
             $imageObject = Image::make($originImageFile);
             $imageObject->resize(200, 200)->save('assets/admin/images/'.$originImageFile->hashname());
         }
 
-        if($request->has('picpath')){
-            $profileToUpdate->update(['firstname'=>$request->firstname, 'lastName'=>$request->lastname, 'username'=>$request->username, 'email'=>$request->email, 'picpath'=>$originImageFile->hashname(), 'phone'=> $request->phone, 'address'=> $request->address, 'city'=> $request->city, 'country'=>$request->country]);
-        }
-        else{
-            $profileToUpdate->update($request->all());
-        }
+            $profileToUpdate->firstname = $request->firstname,
+            $profileToUpdate->lastname = $request->lastname,
+            $profileToUpdate->username = $request->username,
+            $profileToUpdate->email = $request->email,
+            
+            if($request->has('profile_pic')){
+                $profileToUpdate->profile_pic = $originImageFile->hashname(),
+            }
 
-        return redirect()->back()->with('updateMsg', 'Profile Successfully Updated');
+            $profileToUpdate->phone = $request->phone,
+            $profileToUpdate->address = $request->address,
+            $profileToUpdate->city = $request->city,
+            $profileToUpdate->country = $request->country,
+            $profileToUpdate->save();
+
+        return redirect()->back()->with('success', 'Profile Successfully Updated');
     }
 
-    public function showPasswordForm(){
+    public function showPasswordForm()
+    {
 
         return view('admin.password');
     }
 
-    public function submitPasswordForm(Request $request){
+    public function submitPasswordForm(Request $request)
+    {
         $request->validate([
             'currentPassword' => 'required',
             'password' => 'required|confirmed',
         ]);
 
         $profileToUpdate = Auth::guard('admin')->user();
-        if(Hash::check($request->currentPassword, $profileToUpdate->password))
-        {
+
+        if(Hash::check($request->currentPassword, $profileToUpdate->password)){
             Auth::guard('admin')->user()->password = Hash::make($request->password);
-            return redirect()->back()->with('updateMsg', 'Password is Updated');
+            return redirect()->back()->with('success', 'Password is Updated');
         }
 
         return redirect()->back()->withErrors('Current Password is not Correct');
     }
 
-    public function showGeneralSettingsForm(){
+    public function showGeneralSettingsForm()
+    {
         $settings = Setting::first();
-        $settingsData = array('newsPaperName'=>$settings->name, 'color'=>$settings->color, 'footer'=>$settings->footer);
-        return view('admin.general_settings')->with($settingsData);
+        return view('admin.general_settings')->with($settings);
     }
 
-    public function submitGeneralSettingsForm(Request $request){
+    public function submitGeneralSettingsForm(Request $request)
+    {
         $request->validate([]);
 
         $settings = Setting::first();
@@ -107,16 +120,17 @@ class AdminController extends Controller
 
         $settings->save();
 
-        return redirect()->route('admin.settings.general')->with('updateMsg', 'Settings are Updated');
+        return redirect()->route('admin.settings.general')->with('success', 'Settings are Updated');
     }
 
-    public function showMediaSettingsForm(){
+    public function showMediaSettingsForm()
+    {
         $settings = Setting::first();
-        $settingsData = array('logo'=>$settings->logo, 'defaultIcon'=>$settings->default_icon, 'newsverification'=>$settings->news_verification, 'userRegistration'=>$settings->user_registration, 'emailverification'=>$settings->email_verification, 'smsverification'=>$settings->sms_verification);
-        return view('admin.media_settings')->with($settingsData);
+        return view('admin.media_settings')->with($settings);
     }
 
-    public function submitMediaSettingsForm(Request $request){
+    public function submitMediaSettingsForm(Request $request)
+    {
         $request->validate([]);
 
         $settings = Setting::first();
@@ -124,7 +138,7 @@ class AdminController extends Controller
         if($request->has('logo')){
             $originImageFile = $request->file('logo');
             $imageObject = Image::make($originImageFile);
-            $imageObject->resize(200, 50)->save('assets/front/images/setting-img/'.$originImageFile->hashname());
+            $imageObject->save('assets/front/images/setting-img/'.$originImageFile->hashname());
             $settings->logo= $originImageFile->hashName();
         }
 
@@ -136,17 +150,18 @@ class AdminController extends Controller
             $settings->default_icon= $originImageFile->hashName();
         }
 
-        ($request->newsverification == 'on') ? $settings->news_verification = 1 : $settings->news_verification = 0;
-        ($request->userregistration == 'on') ? $settings->user_registration = 1 : $settings->user_registration = 0;
-        ($request->emailverification == 'on') ? $settings->email_verification = 1 : $settings->email_verification = 0;
-        ($request->smsverification == 'on') ? $settings->sms_verification = 1 : $settings->sms_verification = 0;
+        $request->newsverification == 'on' ? $settings->news_verification = 1 : $settings->news_verification = 0;
+        $request->userregistration == 'on' ? $settings->user_registration = 1 : $settings->user_registration = 0;
+        $request->emailverification == 'on' ? $settings->email_verification = 1 : $settings->email_verification = 0;
+        $request->smsverification == 'on' ? $settings->sms_verification = 1 : $settings->sms_verification = 0;
 
         $settings->save();
 
-        return redirect()->route('admin.settings.media')->with('updateMsg', 'Settings are Updated');
+        return redirect()->route('admin.settings.media')->with('success', 'Settings are Updated');
     }
 
-    public function showNewsSettingsForm(){
+    public function showNewsSettingsForm()
+    {
         $headlines = Setting::first()->headlines;
         $headlines = json_decode($headlines);
 
@@ -159,17 +174,20 @@ class AdminController extends Controller
         return redirect()->back()->withErrors('No Headline is Defined yet.');
     }
 
-    public function submitNewsSettingsForm(Request $request){
+    public function submitNewsSettingsForm(Request $request)
+    {
         $request->validate([
             'newsId'=>'nullable|exists:news,id'
         ]);
+
         $settings = Setting::first();
         $settings->settings_headlines = $request->newsId;
         $settings->save();
-        return redirect()->route('admin.settings.news')->with('updateMsg', 'Headlines are Updated');
+        return redirect()->route('admin.settings.news')->with('success', 'Headlines are Updated');
     }
 
-    public function showCategorySettingsForm(){
+    public function showCategorySettingsForm()
+    {
         $prioritizedCategories = Setting::firstOrFail()->frontcategories;
         $prioritizedCategories = json_decode($prioritizedCategories);
 //        ->orderByRaw('FIELD(id,5,3,7,1,6,12,8)')
@@ -177,7 +195,8 @@ class AdminController extends Controller
         return view('admin.category_priority', compact('prioritizedCategoryDetails'));
     }
 
-    public function submitCategorySettingsForm(Request $request){
+    public function submitCategorySettingsForm(Request $request)
+    {
         $request->validate([
             'categoryId'=>'nullable|exists:categories,id'
         ]);
@@ -185,20 +204,22 @@ class AdminController extends Controller
         $settings = Setting::first();
         $settings->category_priority = $request->categoryId;
         $settings->save();
-        return redirect()->route('admin.settings.categories')->with('updateMsg', 'Categories are Prioritized');
+        return redirect()->route('admin.settings.categories')->with('success', 'Categories are Prioritized');
     }
 
-    public function showCreateNewsForm(){
-        $allCategories = Category::all('id', 'name');
+    public function showCreateNewsForm()
+    {
+        $allCategories = Category::all();
         return view('admin.create_news', compact('allCategories'));
     }
 
-    public function submitCreateNewsForm(Request $request){
+    public function submitCreateNewsForm(Request $request)
+    {
         $request->validate([
             'category' => 'required',
             'title' => 'required',
             'description' => 'required',
-            'picpath' => 'required|image',
+            'preview' => 'required|image',
         ]);
 
         $currentUser = Auth::guard('admin')->user();
@@ -208,28 +229,30 @@ class AdminController extends Controller
         $newPost->title = $request->title;
         $newPost->description = $request->description;
 
-        if($request->has('picpath')){
-            $originalImage = $request->file('picpath');
+        if($request->has('preview')){
+            $originalImage = $request->file('preview');
             $imageInterventionObj = Image::make($originalImage);
             $imageInterventionObj->resize('1000', '800')->save('assets/front/images/news-img/'.$originalImage->hashName());
-            $newPost->picpath = $originalImage->hashName();
+            $newPost->preview = $originalImage->hashName();
         }
 
-        ($request->status=='on') ? $newPost->status = 1 : $newPost->status = 0;
+        $request->status=='on' ? $newPost->status = 1 : $newPost->status = 0;
         $newPost->save();
 
-        return redirect()->back()->with('updateMsg', 'New News is Added');
+        return redirect()->back()->with('success', 'New News is Added');
     }
 
-    public function showCreateVideoForm(){
+    public function showCreateVideoForm()
+    {
         return view('admin.create_video');
     }
 
-    public function submitCreateVideoForm(Request $request){
+    public function submitCreateVideoForm(Request $request)
+    {
         $request->validate([
             'title' => 'required',
             'preview' => 'nullable|image',
-            'videoaddress' => 'required',
+            'url' => 'required',
             'status' => 'required',
         ]);
 
@@ -241,31 +264,34 @@ class AdminController extends Controller
         if($request->has('preview')){
             $originalImage = $request->file('preview');
             $imageInterventionObj = Image::make($originalImage);
-            $imageInterventionObj->resize('1000', '800')->save('assets/front/images/video-img/'.$originalImage->hashName());
+            $imageInterventionObj->resize('640', '400')->save('assets/front/images/video-img/'.$originalImage->hashName());
             $newVideo->preview = $originalImage->hashName();
         }
 
-        $newVideo->videoaddress = $request->videoaddress;
-        ($request->status=='on') ? $newVideo->status = 1 : $newVideo->status = 0;
+        $newVideo->url = $request->url;
+        $request->status=='on' ? $newVideo->status = 1 : $newVideo->status = 0;
         $newVideo->save();
 
-        return redirect()->back()->with('updateMsg', 'New Video is Added');
+        return redirect()->back()->with('success', 'New Video is Added');
     }
 
-    public function showAllVideos(){
+    public function showAllVideos()
+    {
         $allVideos = Video::orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->paginate(15);
         return view('admin.all_videos', compact('allVideos'));
     }
 
-    public function showVideoEditForm($videoId){
+    public function showVideoEditForm($videoId)
+    {
         $videoToUpdate = Video::findOrFail($videoId);
         return view('admin.edit_video', compact('videoToUpdate'));
     }
 
-    public function submitVideoEditForm(Request $request, $videoId){
+    public function submitVideoEditForm(Request $request, $videoId)
+    {
         $request->validate([
             'title' => 'required',
-            'videoaddress' => 'required',
+            'url' => 'required',
             'preview' => 'nullable|image',
         ]);
 
@@ -273,7 +299,7 @@ class AdminController extends Controller
 
         $videoToUpdate = Video::findOrFail($videoId);
         $videoToUpdate->title = $request->title;
-        $videoToUpdate->videoaddress = $request->videoaddress;
+        $videoToUpdate->url = $request->ur;l
 
         if($request->has('preview')){
             $originalImage = $request->file('preview');
@@ -282,23 +308,26 @@ class AdminController extends Controller
             $videoToUpdate->preview = $originalImage->hashName();
         }
 
-        ($request->status=='on') ? $videoToUpdate->status = 1 : $videoToUpdate->status = 0;
+        $request->status=='on' ? $videoToUpdate->status = 1 : $videoToUpdate->status = 0;
         $videoToUpdate->updated_admin_id = $currentAdmin->id;
         $videoToUpdate->save();
 
-        return redirect()->route('admin.edit.video', $videoToUpdate->id)->with('updateMsg', 'Video is updated');
+        return redirect()->route('admin.edit.video', $videoToUpdate->id)->with('success', 'Video is updated');
     }
 
-    public function videoDeleteMethod($videoId){
+    public function videoDeleteMethod($videoId)
+    {
         Video::destroy($videoId);
-        return redirect()->route('admin.view.videos')->with('updateMsg', 'Video has been Deleted');
+        return redirect()->route('admin.view.videos')->with('success', 'Video has been Deleted');
     }
 
-    public function showCreateImageForm(){
+    public function showCreateImageForm()
+    {
         return view('admin.create_image');
     }
 
-    public function submitCreateImageForm(Request $request){
+    public function submitCreateImageForm(Request $request)
+    {
 
         $request->validate([
             'title' => 'required',
@@ -317,7 +346,7 @@ class AdminController extends Controller
 
             $originalImage = $request->file('preview');
             $imageInterventionObj = Image::make($originalImage);
-            $imageInterventionObj->resize('1000', '800')->save('assets/front/images/preview-img/'.$originalImage->hashName());
+            $imageInterventionObj->resize('640', '400')->save('assets/front/images/preview-img/'.$originalImage->hashName());
 
             $newImage->preview = $originalImage->hashName();
 
@@ -327,15 +356,17 @@ class AdminController extends Controller
         
         $newImage->save();
         
-        return redirect()->back()->with('updateMsg', 'New Image is Added');
+        return redirect()->back()->with('success', 'New Image is Added');
     }
 
-    public function showAllImages(){
+    public function showAllImages()
+    {
         $allImages = ImageModel::orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->paginate(15);
         return view('admin.all_images', compact('allImages'));
     }
 
-    public function showImageEditForm($imageId){
+    public function showImageEditForm($imageId)
+    {
         $imageToUpdate = ImageModel::findOrFail($imageId);
         return view('admin.edit_image', compact('imageToUpdate'));
     }
@@ -368,20 +399,23 @@ class AdminController extends Controller
 
         $imageToUpdate->save();
 
-        return redirect()->route('admin.edit.image', $imageToUpdate->id)->with('updateMsg', 'Video is updated');
+        return redirect()->route('admin.edit.image', $imageToUpdate->id)->with('success', 'Video is updated');
     }
 
-    public function imageDeleteMethod($imageId){
+    public function imageDeleteMethod($imageId)
+    {
         ImageModel::destroy($imageId);
-        return redirect()->route('admin.view.images')->with('updateMsg', 'Image has been Deleted');
+        return redirect()->route('admin.view.images')->with('success', 'Image has been Deleted');
     }
 
-    public function showCreateCategoryForm(){
+    public function showCreateCategoryForm()
+    {
         $allCategories = Category::all('id', 'name');
         return view('admin.create_category', compact('allCategories'));
     }
 
-    public function submitCreateCategoryForm(Request $request){
+    public function submitCreateCategoryForm(Request $request)
+    {
         $request->validate([
             'categoryName' => 'required|unique:categories,name',
             'categoryURl' => 'required|unique:categories,url',
@@ -392,21 +426,23 @@ class AdminController extends Controller
         $newCategory->url = $request->categoryURl;
         $request->has('categoryParent') ? $newCategory->parent = $request->categoryParent : $newCategory->parent = 0;
         $newCategory->save();
-        return redirect()->back()->with('updateMsg', 'New Category is Added');
+        return redirect()->back()->with('success', 'New Category is Added');
     }
 
-    public function showCreateEditorForm(){
+    public function showCreateEditorForm()
+    {
         $allCategories = Category::all(['id', 'name']);
         return view('admin.create_editor', compact('allCategories'));
     }
 
-    public function submitCreateEditorForm(Request $request){
+    public function submitCreateEditorForm(Request $request)
+    {
         $request->validate([
             'username' => 'required||unique:editors,username',
             'password' => 'required',
             'email' => 'nullable|email|unique:editors,email',
             'categories' => 'required',
-            'picpath' => 'nullable|image',
+            'profile_pic' => 'nullable|image',
         ]);
 
         $newEditor = new Editor();
@@ -416,11 +452,11 @@ class AdminController extends Controller
         $newEditor->password = Hash::make($request->password);
         $newEditor->email = $request->email;
         $newEditor->editor_categories = $request->categories;
-        if($request->has('picpath')){
-            $originalImageFile = $request->picpath;
+        if($request->has('profile_pic')){
+            $originalImageFile = $request->profile_pic;
             $imageObject = Image::make($originalImageFile);
             $imageObject->resize(200, 200)->save('assets/editor/images/'.$originalImageFile->hashname());
-            $newEditor->picpath = $originalImageFile->hashname();
+            $newEditor->profile_pic = $originalImageFile->hashname();
         }
 
         $newEditor->phone = $request->phone;
@@ -429,10 +465,11 @@ class AdminController extends Controller
         $newEditor->country = $request->country;
         $newEditor->save();
 
-        return redirect()->back()->with('updateMsg', 'New Editor has been Created');
+        return redirect()->back()->with('success', 'New Editor has been Created');
     }
 
-    public function showCreateReporterForm(){
+    public function showCreateReporterForm()
+    {
         return view('admin.create_reporter');
     }
 
@@ -441,7 +478,7 @@ class AdminController extends Controller
             'username' => 'required||unique:reporters,username|max:255',
             'password' => 'required',
             'email' => 'nullable|email|unique:reporters,email',
-            'picpath' => 'nullable|image',
+            'profile_pic' => 'nullable|image',
         ]);
 
         $newReporter = new Reporter();
@@ -451,11 +488,11 @@ class AdminController extends Controller
         $newReporter->password = Hash::make($request->password);
         $newReporter->email = $request->email;
 
-        if($request->has('picpath')){
-            $originalImageFile = $request->picpath;
+        if($request->has('profile_pic')){
+            $originalImageFile = $request->profile_pic;
             $imageObject = Image::make($originalImageFile);
-            $imageObject->resize(150, 150)->save('assets/reporter/images/'.$originalImageFile->hashname());
-            $newReporter->picpath = $originalImageFile->hashname();
+            $imageObject->resize(200, 200)->save('assets/reporter/images/'.$originalImageFile->hashname());
+            $newReporter->profile_pic = $originalImageFile->hashname();
         }
 
         $newReporter->phone = $request->phone;
@@ -464,26 +501,29 @@ class AdminController extends Controller
         $newReporter->country = $request->country;
         $newReporter->save();
 
-        return redirect()->back()->with('updateMsg', 'New Reporter has been Created');
+        return redirect()->back()->with('success', 'New Reporter has been Created');
     }
 
-    public function showAllNews(){
+    public function showAllNews()
+    {
         $allNews = News::orderBy('category_id', 'ASC')->orderBy('created_at', 'DESC')->paginate(15);
         return view('admin.all_news', compact('allNews'));
     }
 
-    public function showNewsEditForm($newsId){
+    public function showNewsEditForm($newsId)
+    {
         $newsToUpdate = News::findOrFail($newsId);
         $allCategories = Category::all('id', 'name');
         return view('admin.edit_news', compact('newsToUpdate', 'allCategories'));
     }
 
-    public function submitNewsEditForm(Request $request, $newsId){
+    public function submitNewsEditForm(Request $request, $newsId)
+    {
         $request->validate([
             'categoryId'=> 'required',
             'title' => 'required',
             'description' => 'required',
-            'picpath' => 'nullable|image',
+            'preview' => 'nullable|image',
         ]);
 
         $currentAdmin = Auth::guard('admin')->user();
@@ -493,23 +533,24 @@ class AdminController extends Controller
         $newsToUpdate->title = $request->title;
         $newsToUpdate->description = $request->description;
 
-        if($request->has('picpath')){
-            $originalImage = $request->file('picpath');
+        if($request->has('preview')){
+            $originalImage = $request->file('preview');
             $imageInterventionObj = Image::make($originalImage);
-            $imageInterventionObj->resize('1000', '800')->save('assets/front/images/news-img/'.$originalImage->hashName());
-            $newsToUpdate->picpath = $originalImage->hashName();
+            $imageInterventionObj->resize('640', '360')->save('assets/front/images/news-img/'.$originalImage->hashName());
+            $newsToUpdate->preview = $originalImage->hashName();
         }
 
-        ($request->status=='on') ? $newsToUpdate->status = 1 : $newsToUpdate->status = 0;
+        $request->status=='on' ? $newsToUpdate->status = 1 : $newsToUpdate->status = 0;
         $newsToUpdate->updated_admin_id = $currentAdmin->id;
         $newsToUpdate->save();
 
-        return redirect()->route('admin.edit.news', $newsToUpdate->id)->with('updateMsg', 'Post is updated');
+        return redirect()->route('admin.edit.news', $newsToUpdate->id)->with('success', 'Post is updated');
     }
 
-    public function newsDeleteMethod($newsId){
+    public function newsDeleteMethod($newsId)
+    {
         News::destroy($newsId);
-        return redirect()->route('admin.view.news')->with('updateMsg', 'News has been Deleted');
+        return redirect()->route('admin.view.news')->with('success', 'News has been Deleted');
     }
 
     public function showAllEditors()
@@ -518,40 +559,52 @@ class AdminController extends Controller
         return view('admin.all_editors', compact('editors'));
     }
 
-    public function showEditorEditForm($editorId){
+    public function showEditorEditForm($editorId)
+    {
         $editorToUpdate = Editor::findOrFail($editorId);
         $allCategories = Category::all('id', 'name');
         return view('admin.edit_editor', compact('editorToUpdate', 'allCategories'));
     }
 
-    public function submitEditorEditForm(Request $request, $editorId){
-
+    public function submitEditorEditForm(Request $request, $editorId)
+    {
         $profileToUpdate = Editor::findOrFail($editorId);
 
         $request->validate([
             'username'=>'required|unique:editors,username,'.$profileToUpdate->id,
             'email'=>'nullable|email|unique:editors,email,'.$profileToUpdate->id,
             'categories'=>'required',
-            'picpath'=>'nullable|image',
+            'preview'=>'nullable|image',
             'phone'=>'nullable|numeric',
         ]);
 
-        if($request->has('picpath')){
-            $originImageFile = $request->file('picpath');
+        if($request->has('preview')){
+            $originImageFile = $request->file('preview');
             $imageObject = Image::make($originImageFile);
-            $imageObject->resize(150, 150)->save('assets/editor/images/'.$originImageFile->hashname());
+            $imageObject->resize(200, 200)->save('assets/editor/images/'.$originImageFile->hashname());
         }
 
-        if($request->has('picpath')) {
-            $profileToUpdate->update(['firstname'=>$request->firstname, 'lastname'=>$request->lastname, 'username'=>$request->username, 'email'=>$request->email, 'editor_categories'=>$request->categories, 'picpath'=>$originImageFile->hashname(), 'phone'=>$request->phone, 'address'=>$request->address, 'city'=>$request->city, 'country'=>$request->country]);
-        } else {
-            $profileToUpdate->update(['firstname'=>$request->firstname, 'lastname'=>$request->lastname, 'username'=>$request->username, 'email'=>$request->email, 'editor_categories'=>$request->categories, 'phone'=>$request->phone, 'address'=>$request->address, 'city'=>$request->city, 'country'=>$request->country]);
-        }
+        $profileToUpdate->firstname => $request->firstname; 
+        $profileToUpdate->lastname => $request->lastname; 
+        $profileToUpdate->username => $request->username; 
+        $profileToUpdate->email => $request->email; 
+        $profileToUpdate->editor_categories => $request->categories; 
 
-        return redirect()->route('admin.edit.editor', $profileToUpdate->id)->with('updateMsg', 'Profile is Updated');
+        if($request->has('preview')) {
+            $profileToUpdate->preview => originImageFile->hashname();
+        }
+        $profileToUpdate->phone => $request->phone; 
+        $profileToUpdate->address => $request->address; 
+        $profileToUpdate->city => $request->city; 
+        $profileToUpdate->country => $request->country; 
+        $profileToUpdate->save(); 
+
+
+        return redirect()->route('admin.edit.editor', $profileToUpdate->id)->with('success', 'Profile is Updated');
     }
 
-    public function editorDeleteMethod($editorId){
+    public function editorDeleteMethod($editorId)
+    {
         Editor::destroy($editorId);
         return redirect()->route('admin.view.editors')->with('udpateMsg', 'Profile is Deleted');
     }
@@ -572,29 +625,38 @@ class AdminController extends Controller
         $request->validate([
             'username'=>'required|unique:reporters,username,'.$profileToUpdate->id,
             'email'=>'nullable|email|unique:reporters,email,'.$profileToUpdate->id,
-            'picpath'=>'nullable|image',
+            'preview'=>'nullable|image',
             'phone'=>'nullable|numeric',
         ]);
 
-        if($request->has('picpath')){
-            $originImageFile = $request->file('picpath');
+        if($request->has('preview')){
+            $originImageFile = $request->file('preview');
             $imageObject = Image::make($originImageFile);
             $imageObject->resize(150, 150)->save('assets/reporter/images/'.$originImageFile->hashname());
         }
 
-        if($request->has('picpath')){
-            $profileToUpdate->update(['firstname'=>$request->firstname, 'lastname'=>$request->lastname, 'username'=>$request->username, 'email'=>$request->email, 'picpath'=>$originImageFile->hashname(), 'phone'=>$request->phone, 'address'=>$request->address, 'city'=>$request->city, 'country'=>$request->country]);
-        } else {
-            $profileToUpdate->update($request->all());
+        $profileToUpdate->firstname => $request->firstname; 
+        $profileToUpdate->lastname => $request->lastname; 
+        $profileToUpdate->username => $request->username; 
+        $profileToUpdate->email => $request->email;
+
+        if($request->has('preview')) {
+            $profileToUpdate->preview => $originImageFile->hashname();
         }
 
-        return redirect()->route('admin.edit.reporter', $profileToUpdate->id)->with('updateMsg', 'Profile is Updated');
+        $profileToUpdate->phone => $request->phone; 
+        $profileToUpdate->address => $request->address; 
+        $profileToUpdate->city => $request->city; 
+        $profileToUpdate->country => $request->country; 
+        $profileToUpdate->save();
+
+        return redirect()->route('admin.edit.reporter', $profileToUpdate->id)->with('success', 'Profile is Updated');
     }
 
-    public function reporterDeleteMethod($reporterId){
+    public function reporterDeleteMethod($reporterId)
+    {
         Reporter::destroy($reporterId);
-
-        return redirect()->route('admin.view.reporters')->with('updateMsg', 'Profile is Deleted');
+        return redirect()->route('admin.view.reporters')->with('success', 'Profile is Deleted');
     }
 
     public function showAllCategories()
@@ -603,13 +665,15 @@ class AdminController extends Controller
         return view('admin.all_categories', compact( 'categories'));
     }
 
-    public function showCategoryEditForm($categoryId){
+    public function showCategoryEditForm($categoryId)
+    {
         $categoryToUpdate = Category::findOrFail($categoryId);
         $allCategories = Category::all('id', 'name');
         return view('admin.edit_category', compact('categoryToUpdate', 'allCategories'));
     }
 
-    public function submitCategoryEditForm(Request $request, $categoryId){
+    public function submitCategoryEditForm(Request $request, $categoryId)
+    {
         $request->validate([
             'name'=>'required',
             'url'=>'required',
@@ -621,18 +685,20 @@ class AdminController extends Controller
         $request->has('parent') ? $categoryToUpdate->parent = $request->parent : $categoryToUpdate->parent = 0;
 
         $categoryToUpdate->save();
-        return redirect()->route('admin.edit.category', $categoryToUpdate->id)->with('updateMsg', 'Category is Updated');
+        return redirect()->route('admin.edit.category', $categoryToUpdate->id)->with('success', 'Category is Updated');
     }
 
-    public function categoryDeleteMethod($categoryId){
+    public function categoryDeleteMethod($categoryId)
+    {
         $category = Category::findOrFail($categoryId);
         $category->childNews()->delete();
         $category->delete();
 
-        return redirect()->route('admin.view.categories')->with('updateMsg', 'Category is Deleted');
+        return redirect()->route('admin.view.categories')->with('success', 'Category is Deleted');
     }
 
-    public function logout(){
+    public function logout()
+    {
         Auth::guard('admin')->logout();
         return redirect()->route('admin.login');
     }

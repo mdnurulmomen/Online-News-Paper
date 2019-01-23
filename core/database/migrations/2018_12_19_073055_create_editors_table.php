@@ -21,7 +21,7 @@ class CreateEditorsTable extends Migration
             $table->string('password');
             $table->string('email')->unique()->nullable();
             $table->string('category_id');
-            $table->string('picpath')->nullable();
+            $table->string('profile_pic')->nullable();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->string('city')->nullable();
