@@ -56,12 +56,6 @@
             border-bottom: 1px solid red;
         }
 
-        /*.navbar-light > ul > li:first-child a {
-            background-color: red;
-            color: #d40909;
-            text-shadow: -3px 0px 3px yellow, 3px 0px 3px yellow, 6px 0px 6px yellow, -6px 0px 6px yellow;
-            animation: blinker .7s linear 4 forwards;
-        }*/
         hr{
             margin: 10px 0;
         }
@@ -96,9 +90,9 @@
         .captionUpperSecond{
             color: #fff;
             padding: 0 0 0px 5px;
-            margin-top: -25%;
+            margin-top: -15%;
             margin-right: 15px;
-            margin-bottom: 1rem;
+            margin-bottom: 8%;
             font-weight: bold;
             font-size: 17px;
             word-wrap: break-word;
@@ -110,17 +104,15 @@
             color : #fff;
         }
 
-
-
         .categoryName{
-            margin-top: 25px;
+            margin-top: 35px;
             margin-bottom: 20px;
             color: #4a4a4a;
             font-size: 26px;
             line-height: 32px;
             font-weight: 400;
             border-left: 5px solid red;
-            padding-left: 5px;
+            padding-left: 10px;
         }
 
         .break-block{
@@ -156,22 +148,6 @@
             background-color: inherit;
         }
 
-        .Image{
-            display: flex;
-            clear: both;
-            justify-content: center;
-            flex-direction: column;
-            
-        }
-
-        .Image .title{
-            flex: 50%;
-        }
-
-        .Image img{
-            flex: 50%;
-        }
-
         .Video{
             background-color: #000;
         }
@@ -204,9 +180,30 @@
             /*padding-top: 2%;*/
         }
 
+        .imageDiv{
+            display: flex;
+            align-self: flex-start;
+            clear: both;
+        }
+
+        .imageDiv .title {
+            flex: 33%;
+            
+        }
+
+        .imageDiv .image{
+            float: left;
+            flex: 67%;
+            margin-right: 10px;
+            position: relative;
+            overflow: hidden;
+            /*padding-top: 2%;*/
+        }
 
         .title{
             color : #000;
+            justify-content: center;
+            align-self: center;
             font-weight: bold;
             font-size: 18px;
             line-height: 26px;
@@ -231,23 +228,26 @@
             color: #666;
         }
 
-        .footer-wrapper{
+        .footer-menu{
             background: #282828;
             color: #ccc;
-            padding: 3% 3% 0 3% ;
+            padding: 3% 5% 3% 5%;
         }
 
-        .footer-wrapper a{
+        .footer-menu li{
+            padding: 3%;
+        }
+
+        .footer-menu a{
             color: #ccc;
             float: left;
             display: block;
             text-decoration: none;
             font-size: 18px;
-            line-height: 40px;
             font-weight: bold;
         }
 
-        .footer-wrapper a:hover{
+        .footer-menu a:hover{
             color: #FFC107;
         }
 
@@ -255,6 +255,8 @@
             background-color: #000;
             text-align: center;
             width: 100%;
+            color: #ccc;
+            padding: 10px;
         }
 
         #searchForm{
@@ -265,8 +267,6 @@
 
         #menuList {
             height: 30%;
-            /*width:95%;*/
-            /*display: none;*/
             width: 0;
             position: fixed;
             z-index: 99;
@@ -293,7 +293,6 @@
             color: #000;
             display: block;
             transition: 0.3s;
-            font-weight: bold;
             font-size: 18px;
             line-height: 40px;
         }
@@ -325,36 +324,93 @@
             -moz-box-shadow: 0 1px 0 0 rgba(225, 225, 225, .75);
             box-shadow: 0 1px 0 0 rgba(225, 225, 225, .75);
         }
+
+        .commentTitle{
+            color: #424242;
+            font-size: 24px;
+            line-height: 30px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
     </style>
 
   </head>
 
-  <body>
+    <div id="menuList">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-md-2">
+                @foreach($allCategories as $key=>$category) 
+                <a href="{{ url('category/'.$category->url) }}"> {{ $category->name }} </a>
+
+                @if($key>0 && $key%3==0)
+                    </div><div class="col-md-2">
+                @endif
+
+                @endforeach
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <body>
         <div class="header-wrapper">
-            <div class="container">
-                <div class="row">
-                    <nav class="navbar sticky-top navbar-expand-lg navbar-light">
+            <div class="container-fluid">
+                <div class="row text-center">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="menuNav"> 
                         <a class="navbar-brand" href="{{ url('/') }}">
                             <img src="{{asset('assets/front/images/setting-img/'.$allSettings->logo)}}">
                         </a>
 
                         <div class="collapse navbar-collapse">
-                            <ul class="navbar-nav" id="navbar">
+                            <ul class="navbar-nav">
                                 @foreach($headerCategories as $headerCategory)
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ url('category/'.$headerCategory->url) }}">{{ $headerCategory->name }}</a>
                                 </li>
                                 @endforeach
-                                <li class="nav-item">
-                                    <a class="nav-link" href="javascript:void(0);"> <i class="fas fa-bars" onclick="openMenuList(this)"></i> </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-search" aria-hidden="true" onclick="openSerachBox()"></i></a>
-                                </li>
                             </ul>
                         </div>
                     </nav>
 
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="barNav"> 
+                        <div class="collapse navbar-collapse">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="javascript:void(0);">
+                                        <i class="fas fa-bars" onclick="openMenuList(this)"></i>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="javascript:void(0);">
+                                        <i class="fa fa-search" aria-hidden="true" onclick="openSerachBox()"></i>
+                                    </a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-user"></i>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="#">Not Fixed</a>
+
+                                        <div class="dropdown-divider"></div>
+
+                                        @if(Auth::check())
+                                        <a href="{{route('user.logout')}}" class="dropdown-item">Logout</a>
+                                        @else
+                                        <a href="{{ route('user.login') }}" class="dropdown-item">Login</a>
+                                        <a href="{{ route('user.register') }}" class="dropdown-item">Register</a>
+                                        @endif
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>  
+                </div>
+
+                <div class="row">
                     <div id="searchForm">    
                         <form class="col-sm-12 form-horizontal" action="">
                             <div class="form-group row">
@@ -364,63 +420,43 @@
                                 <button class="btn btn-outline-success col-sm-2" type="submit">Search</button>
                             </div>
                         </form>
-                    </div>
-                </div>
-                <div class="row" id="menuList">    
-                    <div class="col-md-3">
-                        @foreach($allCategories as $key=>$category) 
-                        <a href="{{ url('category/'.$category->url) }}"> {{ $category->name }} </a>
-
-                        @if($key>0 && $key%3==0)
-                            </div><div class="col-md-3">
-                        @endif
-
-                        @endforeach
-                    </div>
+                    </div>                    
                 </div>
             </div>
         </div>
 
-        <div class="break-block"></div>
-        <div class="break-block"></div>
         <div class="break-block"></div>
         
         @yield('contents')
 
 
         <div class="break-block"></div>
-
-        <div class="ad-wrapper container mb-3">Ad Space</div>
    
-        <div class="footer-wrapper">
+        <div class="footer-menu">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-2">
-                        <ul style="list-style: none;">
+                        <ul style="list-style-type: circle;">
                         @foreach($footerCategories as $key=>$category)
-                            <a href="{{$category->url}}">
-                            <li class="">
-                               {{$category->name}}
+                            <li>
+                                <a href="{{$category->url}}">
+                                   {{$category->name}}
+                                </a>
                             </li>
-                            </a>
                             @if($key>0 && ($key+1)%3==0)
-                                </ul></div><div class="col-sm-2"><ul style="list-style: none;">
+                                </ul></div><div class="col-sm-2"><ul style="list-style-type: circle;">
                            @endif
 
                         @endforeach
                         </ul>
                     </div>
-                </div>
-                
-                <div class="break-block"></div> 
+                </div> 
             </div>
-
-            <div class="footer">
-                <div class="text-center">
-                    
-                    <p>{{ $allSettings->footer }}</p>
-                    
-                </div>
+        </div>
+        
+        <div class="footer">
+            <div class="text-center">  
+                {{ $allSettings->footer }}
             </div>
         </div>
 
@@ -436,6 +472,13 @@
             document.getElementById("menuList").style.width = "100%";
             element.className = element.className.replace("fa-bars", "fa-times");
             element.setAttribute( "onClick", "javascript: closeMenuList(this, 'close');" );
+            // document.getElementsByTagName('body').style.opacity = 0;
+            document.getElementsByClassName('headlines-wrapper')[0].style.opacity = 0.5;
+            document.getElementsByClassName('media-wrapper')[0].style.opacity = 0.5;
+            document.getElementsByClassName('firstPrioritizedCategroy-wrapper')[0].style.opacity = 0.5;
+            document.getElementsByClassName('secondPrioritizedCategory-wrapper')[0].style.opacity = 0.5;
+            document.getElementsByClassName('thirdPrioritizedCategory-wrapper')[0].style.opacity = 0.5;
+            document.getElementsByClassName('fourthPrioritizedCategory-wrapper')[0].style.opacity = 0.5;
         }
 
         /* Set the width of the side navigation to 0 */
@@ -443,6 +486,14 @@
             document.getElementById("menuList").style.width = "0";
             element.className = element.className.replace("fa-times", "fa-bars");
             element.setAttribute( "onClick", "javascript: openMenuList(this);" );
+
+            // document.getElementsByTagName('body').style.opacity = 0;
+            document.getElementsByClassName('headlines-wrapper')[0].style.opacity = 1;
+            document.getElementsByClassName('media-wrapper')[0].style.opacity = 1;
+            document.getElementsByClassName('firstPrioritizedCategroy-wrapper')[0].style.opacity = 1;
+            document.getElementsByClassName('secondPrioritizedCategory-wrapper')[0].style.opacity = 1;
+            document.getElementsByClassName('thirdPrioritizedCategory-wrapper')[0].style.opacity = 1;
+            document.getElementsByClassName('fourthPrioritizedCategory-wrapper')[0].style.opacity = 1;
         }
 
         function openSerachBox(){
@@ -464,21 +515,13 @@
             showDivs(slideIndex = n);
         }
 
-        function showDivs(n) {
-            var i;
-            var x = document.getElementsByClassName("mySlides");
-            var dots = document.getElementsByClassName("demo");
-            if (n > x.length) {slideIndex = 1}
-            if (n < 1) {slideIndex = x.length}
-            for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-            }
-            for (i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" w3-opacity-off", "");
-            }
-            x[slideIndex-1].style.display = "block";
-            dots[slideIndex-1].className += " w3-opacity-off";
-        }
+        $(document).ready(function () {
+            var url = window.location;
+            $('ul.nav a[href="'+ url +'"]').parent().addClass('active');
+            $('ul.nav a').filter(function() {
+                 return this.href == url;
+            }).parent().addClass('active');
+        });
     </script>
-  </body>
+    </body>
 </html>

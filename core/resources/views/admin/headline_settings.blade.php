@@ -25,10 +25,10 @@
                             <button type="button" class="btn btn-outline-primary">Number {{$i+1}} </button>
                         </div>
                         <div class="col-sm-4">
-                            <input type="text" name="newsId[]" value="{{$allNews[$i]->id}}" class="form-control" placeholder="Insert News Id">
+                            <input type="text" name="news_id[]" value="{{ $allNews[$i]->id }}" class="form-control" placeholder="Insert News Id">
                         </div>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" value="{{$allNews[$i]->title}}">
+                            <input type="text" class="form-control" value="{{ $allNews[$i]->title }}">
                         </div>
                     </div>
                     <br>

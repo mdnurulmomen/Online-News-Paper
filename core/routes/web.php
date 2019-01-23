@@ -121,3 +121,13 @@ Route::group(['prefix'=>'reporter', 'middleware'=>'auth:reporter'], function(){
     Route::get('category/{categoryUrl}', 'FrontController@showCategoryNews')->name('user.specific.category');
     Route::get('image/{imageId}', 'FrontController@showSpecificImage')->name('user.specific.image');
     Route::get('video/{videoId}', 'FrontController@showSpecificVideo')->name('user.specific.video');
+
+    Route::get('user', 'UserController@showLoginForm')->name('user.login');
+    Route::post('user', 'UserController@login')->name('user.login.submit');
+
+    Route::get('user/registration', 'UserController@showRegistrationForm')->name('user.register');
+    Route::post('user/registration', 'UserController@register')->name('user.register.submit');
+
+    Route::post('user/comment', 'UserController@submitCommentForm')->name('user.comment.submit');
+
+    Route::get('user/logout', 'UserController@logout')->name('user.logout');

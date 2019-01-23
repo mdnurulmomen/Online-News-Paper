@@ -2,7 +2,7 @@
 
 @section('contents')
 
-    <div class="ad-wrapper container-fluid mt-5 pt-5">
+    <div class="ad-wrapper container mt-5 pt-5">
         
         <div class="row mb-3">
             <div class="col-sm-12">
@@ -51,9 +51,10 @@
                                     <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
                                 @endif
                                 <div class="captionUpperSecond">
-                                    {{ $nextNews->title }}
+                                    {{ $nextNews->title }} {{ $key }}
                                 </div>
                             </a>
+                            <hr>
                             @endif
 
                             @endforeach
@@ -67,8 +68,16 @@
                             Space for ad images
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 ad-wrapper">
+                            Space for ad images
+                        </div>
+                    </div>
                 </div>
             </div>
+            
+            <div class="break-block"></div>
 
             <div class="row mb-3">
                 @foreach($allRelatedNews as $key => $nextNews)
@@ -82,7 +91,7 @@
                                     <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
                                 @endif
                                 <div class="title">
-                                    {{ $nextNews->title }}
+                                    {{ $nextNews->title }} {{ $key }}
                                 </div>
                             </a>
                         </div>
@@ -105,7 +114,7 @@
                                     <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
                                 @endif
                                 <div class="title">
-                                    {{ $nextNews->title }}
+                                    {{ $nextNews->title }} {{ $key }}
                                 </div>
                             </a>
                         </div>
@@ -117,7 +126,7 @@
         </div>
     </div>
 
-    <div class="ad-wrapper container-fluid">
+    <div class="ad-wrapper container">
         
         <div class="row mb-3">
             <div class="col-sm-12">
@@ -135,7 +144,7 @@
 
                 @foreach($allRelatedNews as $key => $moreRelatedNews)
 
-                    @if($key>10)
+                    @if($key>10 && $key < 19)
                     <div class="col-sm-6">
                         <a href="{{ url('news/'.$moreRelatedNews->id) }}"> 
                             <div class="parallal">
@@ -147,7 +156,7 @@
                                     @endif
                                 </div>
                                 <div class="title">
-                                    {{ $moreRelatedNews->title }}
+                                    {{ $moreRelatedNews->title }} {{ 'allrelated'.$key }}
                                 </div>
                             </div>
                         </a>

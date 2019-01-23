@@ -127,8 +127,8 @@
         });
 
         $('[data-toggle="tooltip"]').tooltip();
-        @if(session()->has('updateMsg'))
-        toastr.success("{{ session('updateMsg') }}", "Success")
+        @if(session()->has('success'))
+        toastr.success("{{ session('success') }}", "Success")
         @endif
         @if($errors->any())
         @foreach($errors->all() as $error)

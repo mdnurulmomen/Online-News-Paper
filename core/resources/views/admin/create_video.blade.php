@@ -11,13 +11,13 @@
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Video Title:</label>
                     <div class="col-sm-10">
-                        <input type="text" name="title" class="form-control" placeholder="Title of Video" required>
+                        <input type="text" name="title" class="form-control form-control-lg" placeholder="Title of Video" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Video Preview:</label>
                     <div class="col-sm-3">
-                        <input type="file" name="preview" class="form-control" accept="image/*">
+                        <input type="file" name="preview" class="form-control form-control-lg" accept="image/*">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -30,7 +30,7 @@
                         </select>
                     </div>
                     <div class="col-sm-7">
-                        <input type="text" id="displayValue" name="videoaddress" class="form-control" placeholder="video Identifier Text" required>
+                        <input type="text" id="displayValue" name="url" class="form-control form-control-lg" placeholder="video Identifier Text" required>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -41,7 +41,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-12">
-                        <button type="submit" class="btn btn-block btn-primary">Create</button>
+                        <button type="submit" class="btn btn-block btn-lg btn-primary">Create</button>
                     </div>
                 </div>
             </form>

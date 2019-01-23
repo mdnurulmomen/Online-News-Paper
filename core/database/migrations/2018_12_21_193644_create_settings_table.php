@@ -15,13 +15,13 @@ class CreateSettingsTable extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->nullable()->default('admin');
+            $table->string('name')->nullable()->default('name');
             $table->string('color')->nullable()->default('color');
-            $table->string('header_categories')->nullable();
-            $table->string('headlines')->nullable();
-            $table->string('sub_headlines')->nullable();
-            $table->string('categories_priority')->nullable();
-            $table->string('footer_categories')->nullable();
+            $table->string('header_categories')->nullable()->default('[]');
+            $table->string('headlines')->nullable()->default('[]');
+            $table->string('sub_headlines')->nullable()->default('[]');
+            $table->string('index_categories')->nullable()->default('[]');
+            $table->string('footer_categories')->nullable()->default('[]');
             $table->string('footer')->nullable()->default('footer');
             $table->string('logo')->nullable()->default('logo');
             $table->string('default_icon')->nullable()->default('defaulticon');

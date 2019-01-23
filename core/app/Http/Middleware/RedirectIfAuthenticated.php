@@ -17,15 +17,26 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        // dd(Auth::guard($guard)->check());
+
         if (Auth::guard($guard)->check()) {
-            if($request->is('admin')){
-                return redirect()->route('admin.home');
-            }
-            else if($request->is('editor')){
-                return redirect()->route('editor.home');
-            }
-            else if($request->is('reporter')){
-                return redirect()->route('reporter.home');
+            
+            switch ($guard) {
+                case 'admin':
+                    return redirect()->route('admin.home');
+                    break;
+
+                case 'editor':
+                    return redirect()->route('editor.home');
+                    break;
+
+                case 'reporter':
+                    return redirect()->route('reporter.home');
+                    break;
+
+                // default:
+                //     return redirect('/');
+                //     break;
             }
         }
 
