@@ -73,19 +73,19 @@ class AdminController extends Controller
             $imageObject = Image::make($originImageFile);
             $imageObject->resize(200, 200)->save('assets/admin/images/'.$originImageFile->hashname());
 
-            $profileToUpdate->firstname = $request->firstname,
-            $profileToUpdate->lastname = $request->lastname,
-            $profileToUpdate->username = $request->username,
-            $profileToUpdate->email = $request->email,
+            $profileToUpdate->firstname = $request->firstname;
+            $profileToUpdate->lastname = $request->lastname;
+            $profileToUpdate->username = $request->username;
+            $profileToUpdate->email = $request->email;
             
             if($request->has('profile_pic')){
-                $profileToUpdate->profile_pic = $originImageFile->hashname(),
+                $profileToUpdate->profile_pic = $originImageFile->hashname();
             }
 
-            $profileToUpdate->phone = $request->phone,
-            $profileToUpdate->address = $request->address,
-            $profileToUpdate->city = $request->city,
-            $profileToUpdate->country = $request->country,
+            $profileToUpdate->phone = $request->phone;
+            $profileToUpdate->address = $request->address;
+            $profileToUpdate->city = $request->city;
+            $profileToUpdate->country = $request->country;
             $profileToUpdate->save();
 
             $profileToUpdate->profile_pic = $originImageFile->hashname();
@@ -151,7 +151,6 @@ class AdminController extends Controller
         return view('admin.media_settings')->with($settings);
 
         return view('admin.media_settings', compact('settings'));
-
     }
 
     public function submitMediaSettingsForm(Request $request)
@@ -285,12 +284,14 @@ class AdminController extends Controller
     }
 
 
-    public function showAllNews(){
+    public function showAllNews()
+    {
         $allNews = News::orderBy('category_id', 'ASC')->orderBy('created_at', 'DESC')->paginate(15);
         return view('admin.all_news', compact('allNews'));
     }
 
-    public function showNewsEditForm($newsId){
+    public function showNewsEditForm($newsId)
+    {
         $newsToUpdate = News::findOrFail($newsId);
         $allCategories = Category::all('id', 'name');
         return view('admin.edit_news', compact('newsToUpdate', 'allCategories'));
@@ -328,10 +329,9 @@ class AdminController extends Controller
 
     public function showCreateVideoForm()
     {
-
-            $imageInterventionObj->resize('640', '360')->save('assets/front/images/news/'.$originalImage->hashName());
-            $newsToUpdate->preview = $originalImage->hashName();
-        }
+        $imageInterventionObj->resize('640', '360')->save('assets/front/images/news/'.$originalImage->hashName());
+        $newsToUpdate->preview = $originalImage->hashName();
+    }
 
         $request->status=='on' ? $newsToUpdate->status = 1 : $newsToUpdate->status = 0;
         $newsToUpdate->updated_admin_id = $currentAdmin->id;
@@ -554,13 +554,15 @@ class AdminController extends Controller
         return view('admin.all_categories', compact( 'categories'));
     }
 
-    public function showCategoryEditForm($categoryId){
+    public function showCategoryEditForm($categoryId)
+    {
         $categoryToUpdate = Category::findOrFail($categoryId);
         $allCategories = Category::all('id', 'name');
         return view('admin.edit_category', compact('categoryToUpdate', 'allCategories'));
     }
 
-    public function submitCategoryEditForm(Request $request, $categoryId){
+    public function submitCategoryEditForm(Request $request, $categoryId)
+    {
         $request->validate([
             'name'=>'required',
             'url'=>'required',
