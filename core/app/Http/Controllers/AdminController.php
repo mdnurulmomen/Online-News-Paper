@@ -37,9 +37,15 @@ class AdminController extends Controller
     }
 
     public function showProfileForm(){
-        $currentAdmin =  Auth::guard('admin')->user();
-        $profileData = array('firstname'=>$currentAdmin->firstname, 'lastname'=>$currentAdmin->lastname, 'username'=>$currentAdmin->username, 'email'=>$currentAdmin->email, 'picpath'=>$currentAdmin->picpath, 'phone'=>$currentAdmin->phone, 'address'=>$currentAdmin->address, 'city'=>$currentAdmin->city, 'country'=>$currentAdmin->country);
+       $profileData =  Auth::guard('admin')->user();
 
+       return $profileData->firstname;
+
+        // $profileData = array('firstname'=>$currentAdmin->firstname, 'lastname'=>$currentAdmin->lastname, 'username'=>$currentAdmin->username, 'email'=>$currentAdmin->email, 'picpath'=>$currentAdmin->picpath, 'phone'=>$currentAdmin->phone, 'address'=>$currentAdmin->address, 'city'=>$currentAdmin->city, 'country'=>$currentAdmin->country);
+
+
+
+// return $profileData;
         return view('admin.profile', $profileData);
     }
 
@@ -107,7 +113,9 @@ class AdminController extends Controller
 
         $settings->save();
 
-        return redirect()->route('admin.settings.general')->with('updateMsg', 'Settings are Updated');
+        return redirect()->route('admin.settings.general')->with('success', 'Settings are Updated');
+        return redirect()->route('admin.settings.general')->with('error', 'Settings NOT Updated');
+
     }
 
     public function showMediaSettingsForm(){
@@ -156,7 +164,7 @@ class AdminController extends Controller
             return view('admin.headline_settings', compact('allNews'));
         }
 
-        return redirect()->back()->withErrors('No Headline is Defined yet.');
+        return redirect()->back()->with('error','No Headline is Defined yet.');
     }
 
     public function submitNewsSettingsForm(Request $request){
@@ -211,7 +219,7 @@ class AdminController extends Controller
         if($request->has('picpath')){
             $originalImage = $request->file('picpath');
             $imageInterventionObj = Image::make($originalImage);
-            $imageInterventionObj->resize('1000', '800')->save('assets/front/images/news-img/'.$originalImage->hashName());
+            $imageInterventionObj->resize('400', '260')->save('assets/front/images/news-img/'.$originalImage->hashName());
             $newPost->picpath = $originalImage->hashName();
         }
 

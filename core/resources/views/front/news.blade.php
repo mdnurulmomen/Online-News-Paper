@@ -87,22 +87,22 @@
 
         <div class="container-fluid"> 
             <div class="row">
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                     <div class="commentTitle">
                         Comments ( {{ $specificNewsDetails->comments->count() }} )
                     </div>
                 </div>
 
-                <div class="col-sm-10">  
+                <div class="col-sm-9">  
 
                     @if(Auth::check())
                     <div class="leave-comments">
                         <div class="item-box-light-lg">
                             <h2 class="title">Leave Your Comment</h2>
 
-                            <form action="{{ route('user.comment.submit', $specificNewsDetails->id, Auth::user()->id) }}" method="post">
-                                
-                                @csrf
+                            <form action="{{ route('user.comment.submit') }}" method="post">
+                                @csrf  
+                                <input type="hidden" name="user" value="{{ Auth::user()->id }}">
 
                                 <div class="form-group">
                                     <textarea placeholder="Your Message*" class="textarea form-control" name="body" id="form-message" rows="8" cols="20"></textarea>
@@ -117,7 +117,7 @@
                     </div>
 
                     @else
-                    <div class="title pt-5 pb-5 text-center">
+                    <div class="title pt-5 pb-5">
                         Please  <a href="{{ route('user.login') }}" class="btn btn-success" role="button">Login</a>  or  <a href="{{ route('user.register') }}" class="btn btn-primary" role="button">Sign up</a> to Comment
                     </div>
                     @endif

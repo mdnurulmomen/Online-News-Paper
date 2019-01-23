@@ -486,6 +486,14 @@
             document.getElementById("menuList").style.width = "0";
             element.className = element.className.replace("fa-times", "fa-bars");
             element.setAttribute( "onClick", "javascript: openMenuList(this);" );
+
+            // document.getElementsByTagName('body').style.opacity = 0;
+            document.getElementsByClassName('headlines-wrapper')[0].style.opacity = 1;
+            document.getElementsByClassName('media-wrapper')[0].style.opacity = 1;
+            document.getElementsByClassName('firstPrioritizedCategroy-wrapper')[0].style.opacity = 1;
+            document.getElementsByClassName('secondPrioritizedCategory-wrapper')[0].style.opacity = 1;
+            document.getElementsByClassName('thirdPrioritizedCategory-wrapper')[0].style.opacity = 1;
+            document.getElementsByClassName('fourthPrioritizedCategory-wrapper')[0].style.opacity = 1;
         }
 
         function openSerachBox(){
@@ -507,21 +515,13 @@
             showDivs(slideIndex = n);
         }
 
-        function showDivs(n) {
-            var i;
-            var x = document.getElementsByClassName("mySlides");
-            var dots = document.getElementsByClassName("demo");
-            if (n > x.length) {slideIndex = 1}
-            if (n < 1) {slideIndex = x.length}
-            for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-            }
-            for (i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" w3-opacity-off", "");
-            }
-            x[slideIndex-1].style.display = "block";
-            dots[slideIndex-1].className += " w3-opacity-off";
-        }
+        $(document).ready(function () {
+            var url = window.location;
+            $('ul.nav a[href="'+ url +'"]').parent().addClass('active');
+            $('ul.nav a').filter(function() {
+                 return this.href == url;
+            }).parent().addClass('active');
+        });
     </script>
     </body>
 </html>

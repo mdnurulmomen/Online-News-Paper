@@ -128,6 +128,6 @@ Route::group(['prefix'=>'reporter', 'middleware'=>'auth:reporter'], function(){
     Route::get('user/registration', 'UserController@showRegistrationForm')->name('user.register');
     Route::post('user/registration', 'UserController@register')->name('user.register.submit');
 
-    Route::post('user/comment/{newsId}/{userId}', 'UserController@submitCommentForm')->name('user.comment.submit');
+    Route::post('user/comment', 'UserController@submitCommentForm')->name('user.comment.submit');
 
     Route::get('user/logout', 'UserController@logout')->name('user.logout');
