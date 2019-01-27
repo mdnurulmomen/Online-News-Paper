@@ -18,8 +18,11 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth:admin'], function (){
     Route::get('settings/media', 'AdminController@showMediaSettingsForm')->name('admin.settings.media');
     Route::put('settings/media', 'AdminController@submitMediaSettingsForm')->name('admin.settings.media.submit');
 
-    Route::get('settings/news', 'AdminController@showNewsSettingsForm')->name('admin.settings.news');
-    Route::put('settings/news', 'AdminController@submitNewsSettingsForm')->name('admin.settings.news.submit');
+    Route::get('settings/headlines', 'AdminController@showHeadlinesSettingForm')->name('admin.settings_headlines');
+    Route::put('settings/headlines', 'AdminController@submitHeadlinesSettingForm')->name('admin.settings_headlines_submit');
+
+    Route::get('settings/headlines/sub', 'AdminController@showSubHeadlinesSettingForm')->name('admin.settings_sub_headlines');
+    Route::put('settings/headlines/sub', 'AdminController@submitSubHeadlinesSettingForm')->name('admin.settings_sub_headlines_submit');
 
     Route::get('settings/categories/front', 'AdminController@showFrontCategoriesForm')->name('admin.settings.index_categories');
     Route::put('settings/categories/front', 'AdminController@submitFrontCategoriesForm')->name('admin.settings.index_categories.submit');

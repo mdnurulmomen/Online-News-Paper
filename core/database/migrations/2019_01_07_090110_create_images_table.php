@@ -18,7 +18,7 @@ class CreateImagesTable extends Migration
             $table->string('created_admin_id')->nullable();
             $table->string('created_reporter_id')->nullable();
             $table->string('title');
-            $table->string('description');
+            $table->longText('description');
             $table->string('preview')->nullable();
             $table->string('updated_admin_id')->nullable();
             $table->string('updated_editor_id')->nullable();

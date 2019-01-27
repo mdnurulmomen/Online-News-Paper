@@ -23,7 +23,7 @@
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Video Link:</label>
                     <div class="col-sm-3">
-                        <select class="form-control" onchange="document.getElementById('displayValue').value=this.options[this.selectedIndex].value" required>
+                        <select class="form-control form-control-lg" onchange="document.getElementById('displayValue').value=this.options[this.selectedIndex].value" required>
                             <option selected disabled>--Please Select an Option--</option>
                             <option value="https://www.youtube.com/">YouTube</option>
                             <option value="https://vimeo.com/">Vimeo</option>

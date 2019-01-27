@@ -28,7 +28,6 @@ class AdminController extends Controller
 
     public function login(Request $request)
     {
-
         if(Auth::guard('admin')->attempt(['username'=>$request->username, 'password'=>$request->password])){
             return redirect()->route('admin.home');
         }
@@ -43,7 +42,7 @@ class AdminController extends Controller
 
     public function showProfileForm()
     {
-       $profileData =  Auth::guard('admin')->user();
+        $profileData =  Auth::guard('admin')->user();
         return view('admin.profile', compact('profileData'));
     }
 
@@ -102,12 +101,14 @@ class AdminController extends Controller
         return redirect()->back()->withErrors('Current Password is not Correct');
     }
 
-    public function showGeneralSettingsForm(){
+    public function showGeneralSettingsForm()
+    {
         $settings = Setting::first();
         return view('admin.general_settings', compact('settings'));
     }
 
-    public function submitGeneralSettingsForm(Request $request){
+    public function submitGeneralSettingsForm(Request $request)
+    {
         $request->validate([]);
 
         $settings = Setting::first();
@@ -116,7 +117,7 @@ class AdminController extends Controller
         $settings->footer = $request->footer;
         $settings->save();
 
-        return redirect()->route('admin.settings.general')->with('success', 'Settings are Updated');
+        return redirect()->back()->with('success', 'Settings are Updated');
     }
 
     public function showMediaSettingsForm()
@@ -152,37 +153,72 @@ class AdminController extends Controller
 
         $settings->save();
 
-        return redirect()->route('admin.settings.media')->with('success', 'Settings are Updated');
+        return redirect()->back()->with('success', 'Settings are Updated');
     }
 
-    public function showNewsSettingsForm(){
+    public function showHeadlinesSettingForm()
+    {
         $headlines = Setting::first()->headlines;
         $headlines = json_decode($headlines);
 
         if(!empty($headlines)){
 //          ->orderByRaw('FIELD(id,5,3,7,1,6,12,8)')
-            $allNews = News::select('id','title')->whereIn('id', $headlines)->orderByRaw('FIELD(id, '.implode(',', $headlines).')')->get();
+            $allNews = News::whereIn('id', $headlines)->orderByRaw('FIELD(id, '.implode(',', $headlines).')')->get();
+
             return view('admin.headline_settings', compact('allNews'));
         }
 
         return redirect()->back()->withErrors('No Headline is Defined yet.');
     }
 
-    public function submitNewsSettingsForm(Request $request)
+    public function submitHeadlinesSettingForm(Request $request)
     {
         $request->validate([
-            'newsId'=>'nullable|exists:news,id'
+            'news_id.*'=>'nullable|exists:news,id'
         ]);
+
         $settings = Setting::first();
-        $settings->settings_headlines = $request->newsId;
+        
+        $headlines = array_filter($request->news_id);
+        return $headlines;
+        $settings->settings_headlines = $headlines;
         $settings->save();
-        return redirect()->route('admin.settings.news')->with('success', 'Headlines are Updated');
+
+        return redirect()->back()->with('success', 'Headlines are Updated');
+    }
+
+    public function showSubHeadlinesSettingForm()
+    {
+        $subHeadlines = Setting::first()->sub_headlines;
+        $subHeadlines = json_decode($subHeadlines);
+
+        if(!empty($subHeadlines)){
+//          ->orderByRaw('FIELD(id,5,3,7,1,6,12,8)')
+            $allNews = News::whereIn('id', $subHeadlines)->orderByRaw('FIELD(id, '.implode(',', $subHeadlines).')')->get();
+
+            return view('admin.sub_headline_settings', compact('allNews'));
+        }
+
+        return redirect()->back()->withErrors('No Sub Headline is Defined yet.');
+    }
+
+    public function submitSubHeadlinesSettingForm(Request $request)
+    {
+        $request->validate([
+            'news_id.*'=>'nullable|exists:news,id'
+        ]);
+
+        $settings = Setting::first();
+        $subHeadlines = array_filter($request->news_id);
+        $settings->settings_sub_headlines = $subHeadlines;
+        $settings->save();
+
+        return redirect()->back()->with('success', 'Sub Headlines are Updated');
     }
 
     public function showFrontCategoriesForm()
-    {
+    {   
         $settings = Setting::firstOrFail();
-        return $settings->index_categories;
         $prioritizedCategories = $settings->front_categories;
         
 //        ->orderByRaw('FIELD(id,5,3,7,1,6,12,8)')
@@ -206,15 +242,13 @@ class AdminController extends Controller
         $settings->category_priority = $categories_id;
         $settings->save();
 
-        return redirect()->route('admin.settings.index_categories')->with('success', 'Categories are Prioritized');
+        return redirect()->back()->with('success', 'Front Categories are Updated');
     }
 
     public function showFooterCategoriesForm()
     {
         $settings = Setting::firstOrFail();
-
-        return $settings;
-        return $footerCategories = $settings->footer_categories;
+        $footerCategories = $settings->footer_categories;
         
 //        ->orderByRaw('FIELD(id,5,3,7,1,6,12,8)')
         if(!empty($footerCategories)){    
@@ -235,10 +269,10 @@ class AdminController extends Controller
         $categories_id = array_filter($request->categories_id);
         
         $settings = Setting::first();
-        $settings->category_priority = $categories_id;
+        $settings->category_footer = $categories_id;
         $settings->save();
 
-        return redirect()->route('admin.settings.index_categories')->with('success', 'Categories are Prioritized');
+        return redirect()->back()->with('success', 'Footer Categories are Updated');
     }
 
     public function showCreateNewsForm()
@@ -329,7 +363,7 @@ class AdminController extends Controller
     public function newsDeleteMethod($newsId)
     {
         News::destroy($newsId);
-        return redirect()->route('admin.view.news')->with('success', 'News has been Deleted');
+        return redirect()->back()->with('success', 'News has been Deleted');
     }
 
 
@@ -410,7 +444,7 @@ class AdminController extends Controller
     public function videoDeleteMethod($videoId)
     {
         Video::destroy($videoId);
-        return redirect()->route('admin.view.videos')->with('success', 'Video has been Deleted');
+        return redirect()->back()->with('success', 'Video has been Deleted');
     }
 
     public function showCreateImageForm()
@@ -458,7 +492,8 @@ class AdminController extends Controller
         return view('admin.all_images', compact('allImages'));
     }
 
-    public function showImageEditForm($imageId){
+    public function showImageEditForm($imageId)
+    {
         $imageToUpdate = ImageModel::findOrFail($imageId);
         return view('admin.edit_image', compact('imageToUpdate'));
     }
@@ -496,7 +531,7 @@ class AdminController extends Controller
     public function imageDeleteMethod($imageId)
     {
         ImageModel::destroy($imageId);
-        return redirect()->route('admin.view.images')->with('success', 'Image has been Deleted');
+        return redirect()->back()->with('success', 'Image has been Deleted');
     }
 
     public function showCreateCategoryForm()
@@ -556,7 +591,7 @@ class AdminController extends Controller
         $category->childNews()->delete();
         $category->delete();
 
-        return redirect()->route('admin.view.categories')->with('success', 'Category is Deleted');
+        return redirect()->back()->with('success', 'Category is Deleted');
     }
 
     public function showCreateEditorForm()
@@ -584,7 +619,7 @@ class AdminController extends Controller
         $newEditor->editor_categories = $request->categories_id;
         
         if($request->has('profile_pic')){
-            $originalImageFile = $request->profile_pic;
+            $originalImageFile = $request->file('profile_pic');
             $imageObject = Image::make($originalImageFile)->encode('jpg');
             $imageObject->resize(200, 200)->save('assets/editor/images/'.$originalImageFile->hashname());
             $newEditor->profile_pic = $originalImageFile->hashname();
@@ -649,7 +684,7 @@ class AdminController extends Controller
     public function editorDeleteMethod($editorId)
     {
         Editor::destroy($editorId);
-        return redirect()->route('admin.view.editors')->with('success', 'Profile is Deleted');
+        return redirect()->back()->with('success', 'Profile is Deleted');
     }
 
 
@@ -675,7 +710,7 @@ class AdminController extends Controller
         $newReporter->email = $request->email;
 
         if($request->has('profile_pic')){
-            $originalImageFile = $request->profile_pic;
+            $originalImageFile = $request->file('profile_pic');
             $imageObject = Image::make($originalImageFile)->encode('jpg');
             $imageObject->resize(200, 200)->save('assets/reporter/images/'.$originalImageFile->hashname());
             $newReporter->profile_pic = $originalImageFile->hashname();
@@ -737,7 +772,7 @@ class AdminController extends Controller
     public function reporterDeleteMethod($reporterId)
     {
         Reporter::destroy($reporterId);
-        return redirect()->route('admin.view.reporters')->with('success', 'Profile is Deleted');
+        return redirect()->back()->with('success', 'Profile is Deleted');
     }
 
     public function logout()

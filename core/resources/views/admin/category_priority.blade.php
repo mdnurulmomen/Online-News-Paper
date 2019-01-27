@@ -31,10 +31,10 @@
                             <input type="text" name="categoryId[]" value="{{$prioritizedCategoryDetails[$i]->id}}" class="form-control" placeholder="Insert News Id">
                         </div>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control" value="{{$prioritizedCategoryDetails[$i]->name}}">
+                            <input type="text" class="form-control form-control-lg" value="{{$prioritizedCategoryDetails[$i]->name}}">
                         </div>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control" value="{{$prioritizedCategoryDetails[$i]->name_parent}}">
+                            <input type="text" class="form-control form-control-lg" value="{{$prioritizedCategoryDetails[$i]->name_parent}}">
                         </div>
                     </div>
                     <br>
@@ -47,7 +47,7 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-12">
-                            <button type="submit" class="btn btn-block btn-primary">Update</button>
+                            <button type="submit" class="btn btn-block btn-lg btn-primary">Update</button>
                         </div>
                     </div>
                 </form>

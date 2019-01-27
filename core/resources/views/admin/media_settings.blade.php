@@ -10,14 +10,18 @@
                 <form method="post" action = "{{ route('admin.settings.media.submit') }}" enctype="multipart/form-data">
                     @csrf
                     @Method('put')
-                    <div class="row text-center">
+                    <div class="form-row row">
                         <div class="col-md-6 mb-6">
                             <label class="col-form-label" for="validationServer01">Logo</label>
-                            <img src="{{ asset('assets/front/images/setting-img/'.$settings->logo) }}" class="img-thumbnail" alt="No Image">
+                            <div>
+                                <img src="{{ asset('assets/front/images/setting/'.$settings->logo) }}" class="img-thumbnail" alt="No Image"> 
+                            </div>
                         </div>
                         <div class="col-md-6 mb-6">
                             <label class="col-form-label" for="validationServer02">Default Icon:</label>
-                            <img src="{{ asset('assets/front/images/setting-img/'.$settings->default_icon) }}" class="img-thumbnail" alt="No Image">
+                            <div>
+                                <img src="{{ asset('assets/front/images/setting/'.$settings->default_icon) }}" class="img-thumbnail" alt="No Image">
+                            </div>
                         </div>
                     </div>
                     <br>

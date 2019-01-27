@@ -29,19 +29,19 @@
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">News Title:</label>
                     <div class="col-sm-10">
-                        <input type="text" name="title" class="form-control" value="{{$newsToUpdate->title}}" placeholder="Title of Post">
+                        <input type="text" name="title" class="form-control form-control-lg" value="{{$newsToUpdate->title}}" placeholder="Title of Post">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Description:</label>
                     <div class="col-sm-10">
-                        <textarea name="description" class="form-control" rows="5" id="textArea"> {{$newsToUpdate->description}} </textarea>
+                        <textarea name="description" class="form-control form-control-lg" rows="5" id="textArea"> {{$newsToUpdate->description}} </textarea>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Picture:</label>
                     <div class="col-sm-10">
-                        <input type="file" name="preview" class="form-control" accept="image/*">
+                        <input type="file" name="preview" class="form-control form-control-lg" accept="image/*">
                     </div>
                 </div>
                 <div class="form-group row">

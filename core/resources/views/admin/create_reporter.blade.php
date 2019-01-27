@@ -41,7 +41,7 @@
                     </div>
                     <div class="col-md-4 mb-4">
                         <label for="validationServer01">Password</label>
-                        <input type="password" name="password" class="form-control form-control-lg" placeholder="Chosse a Suitable Password" required>
+                        <input type="password" name="password" class="form-control form-control-lg is-invalid" placeholder="Chosse a Suitable Password" required>
                     </div>
                 </div>
                 <br>

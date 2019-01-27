@@ -61,9 +61,18 @@
                         <i class="fa fa-fw fa-cube"></i> News
                     </a>
                     <ul id="news" class="list-unstyled collapse">
-                        <li><a href="{{ route('admin.create.news') }}">Create News</a></li>
-                        <li><a href="{{route('admin.view.news')}}">View News</a></li>
-                        <li><a href="{{route('admin.settings.news')}}">Headline Settings</a></li>
+                        <li>
+                            <a href="{{ route('admin.create.news') }}">Create News</a>
+                        </li>
+                        <li>
+                            <a href="{{route('admin.view.news')}}">View News</a>
+                        </li>
+                        <li>
+                            <a href="{{route('admin.settings_headlines')}}">Headline Settings</a>
+                        </li>
+                        <li>
+                            <a href="{{route('admin.settings_sub_headlines')}}">Sub-Headline Settings</a>
+                        </li>
                     </ul>
                 </li>
                 <li>

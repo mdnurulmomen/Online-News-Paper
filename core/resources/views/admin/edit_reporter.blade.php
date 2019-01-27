@@ -71,7 +71,7 @@
                 <br>
                 <div class="form-group row">
                     <div class="col-sm-12">
-                        <button type="submit" class="btn btn-block btn-primary">Update</button>
+                        <button type="submit" class="btn btn-block btn-lg btn-primary">Update</button>
                     </div>
                 </div>
             </form>

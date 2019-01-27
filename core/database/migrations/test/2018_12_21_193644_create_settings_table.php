@@ -21,7 +21,7 @@ class CreateSettingsTable extends Migration
             $table->string('headlines')->nullable()->default('[]');
             $table->string('sub_headlines')->nullable()->default('[]');
             $table->string('index_categories')->nullable()->default('[]');
-            $table->string('footer_categories')->nullable()->default('[]');
+            $table->string('categories_footer')->nullable()->default('[]');
             $table->string('footer')->nullable()->default('footer');
             $table->string('logo')->nullable()->default('logo');
             $table->string('default_icon')->nullable()->default('defaulticon');

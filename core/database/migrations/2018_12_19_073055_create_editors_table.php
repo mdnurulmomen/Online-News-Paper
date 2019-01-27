@@ -20,11 +20,7 @@ class CreateEditorsTable extends Migration
             $table->string('username')->unique()->default('editor');
             $table->string('password');
             $table->string('email')->unique()->nullable();
-<<<<<<< HEAD:core/database/migrations/2018_12_19_073055_create_editors_table.php
-            $table->string('category_id');
-=======
             $table->string('categories_id');
->>>>>>> f0f8a7997cc10443d00a54414f8a5ee6ed9392eb:core/database/migrations/2018_12_19_073055_create_editors_table.php
             $table->string('profile_pic')->nullable();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();

@@ -19,7 +19,8 @@ class Editor extends Authenticatable
         $this->attributes['categories_id'] = json_encode($categories);
     }
 
-    public function getEditorCategoriesAttribute(){
+    public function getEditorCategoriesAttribute()
+    {
         $caregoryIds = json_decode($this->categories_id);
         return Category::whereIn('id', $caregoryIds)->get(['id','name']);
     }
