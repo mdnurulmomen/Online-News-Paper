@@ -11,7 +11,7 @@ class Setting extends Model
     }
 
     public function setCategoryPriorityAttribute($idCategories = array()){
-        $this->categories_priority = json_encode($idCategories);
+        $this->index_categories = json_encode($idCategories);
     }
 
     public function getNewsHeadlinesAttribute(){
@@ -26,9 +26,13 @@ class Setting extends Model
         return $subHeadlines;
     }
 
-    public function getPrioritizedCategoriesAttribute(){
-        $prioritizedCategories = json_decode($this->categories_priority);
-        // $prioritizedCategoryNews = News::whereIn('category_id', $prioritizedCategories)->orderByRaw('FIELD(id,'.implode(',',$prioritizedCategories).')')->get();
+    public function getFrontCategoriesAttribute(){
+        $prioritizedCategories = json_decode($this->index_categories);
         return $prioritizedCategories;
+    }
+
+    public function getFooterCategoriesAttribute(){
+        // $footerCategories = json_decode($this->footer_categories);
+        // return $footerCategories;
     }
 }
