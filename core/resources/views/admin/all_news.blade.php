@@ -2,7 +2,7 @@
 @extends('admin.layout.app')
 @section('contents')
 
-        <h2 class="mb-4"> Post List </h2>
+        <h2 class="mb-4"> News List </h2>
         <div class="card mb-4">
             <div class="card-body">
                 <table class="table table-hover text-center" cellspacing="0" width="100%">
@@ -29,9 +29,36 @@
                             </td>
                             <td>
                                 <a href="{{ route('admin.edit.news', [$news->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit"><i class="fa fa-fw fa-edit"></i></a>
-                                <a href="{{ route('admin.delete.news', $news->id) }}" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete"><i class="fa fa-fw fa-trash"></i></a>
+
+                                <a data-toggle="modal" data-target="#myModal{{$news->id}}" class="btn btn-icon btn-pill btn-danger delete_button" data-toggle="tooltip" title="delete">
+                                    <i class="fa fa-fw fa-trash"></i>
+                                </a>
                             </td>
                         </tr>
+
+                        <div id="myModal{{$news->id}}" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <form action="{{route('admin.delete.news',$news->id)}}" method="POST">
+                                    @method('delete')    
+                                    @csrf
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Confirmation</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <p>Are You Sure ??</p>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-success">Yes</button>
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     @endforeach
                     </tbody>
                 </table>
@@ -40,4 +67,8 @@
             {{ $allNews->onEachSide(5)->links() }}
             </div>
         </div>
+
+  
+
 @stop
+

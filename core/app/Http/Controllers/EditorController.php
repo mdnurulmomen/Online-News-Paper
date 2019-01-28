@@ -12,29 +12,32 @@ use Intervention\Image\Facades\Image;
 
 class EditorController extends Controller
 {
-    public function showLoginForm(){
+    public function showLoginForm()
+    {
         return view('editor.login');
     }
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         if(Auth::guard('editor')->attempt(['username'=>$request->username, 'password'=>$request->password])){
             return redirect()->route('editor.home');
         }
         return redirect()->back()->withErrors('Wrong Username or Password');
     }
 
-    public function homeMethod(){
+    public function homeMethod()
+    {
         return view('editor.layout.app');
     }
 
-    public function showProfileForm(){
-        $currentEditor =  Auth::guard('editor')->user();
-        $profileData = array('firstname'=>$currentEditor->firstname, 'lastname'=>$currentEditor->lastname, 'username'=>$currentEditor->username, 'email'=>$currentEditor->email, 'picpath'=>$currentEditor->picpath, 'phone'=>$currentEditor->phone, 'address'=>$currentEditor->address, 'city'=>$currentEditor->city, 'state'=>$currentEditor->state, 'country'=>$currentEditor->country);
-        return view('editor.profile', $profileData);
+    public function showProfileForm()
+    {
+        $Editor =  Auth::guard('editor')->user();
+        return view('editor.profile', compact('Editor'));
     }
 
-    public function submitProfileForm(Request $request){
-
+    public function submitProfileForm(Request $request)
+    {
         $profileToUpdate = Auth::guard('editor')->user();
 
         $request->validate([
@@ -43,26 +46,35 @@ class EditorController extends Controller
             'phone'=>'nullable|numeric',
         ]);
 
-        if($request->has('picpath')){
-            $originImageFile = $request->file('picpath');
-            $imageObject = Image::make($originImageFile);
-            $imageObject->resize(150, 150)->save('assets/editor/images/'.$originImageFile->hashname());
+        $profileToUpdate->firstname = $request->firstname;
+        $profileToUpdate->lastname = $request->lastname;
+        $profileToUpdate->email = $request->email;
+
+        if($request->has('profile_pic')){
+            $originImageFile = $request->file('profile_pic');
+            $imageObject = Image::make($originImageFile)->encode('jpg');
+            $imageObject->resize(200, 200)->save('assets/editor/images/'.$originImageFile->hashname());
+
+            $profileToUpdate->profile_pic = $originImageFile->hashname());
         }
 
-        if(isset($originImageFile))
-            $profileToUpdate->update(['firstname'=>$request->firstname, 'lastName'=>$request->lastname, 'email'=>$request->email, 'picpath'=>$originImageFile->hashname(), 'phone'=>$request->phone, 'address'=>$request->address, 'city'=>$request->city, 'country'=>$request->country]);
-        else
-            $profileToUpdate->update($request->all());
+        $profileToUpdate->phone = $request->phone;
+        $profileToUpdate->address = $request->address;
+        $profileToUpdate->city = $request->city;
+        $profileToUpdate->country = $request->country;
+        
+        $profileToUpdate->save();
 
-
-        return redirect()->back()->with('updateMsg', 'Profile Successfully Updated');
+        return redirect()->back()->with('success', 'Profile Successfully Updated');
     }
 
-    public function showPasswordForm(){
+    public function showPasswordForm()
+    {
         return view('editor.password');
     }
 
-    public function submitPasswordForm(Request $request){
+    public function submitPasswordForm(Request $request)
+    {
         $request->validate([
             'currentPassword' => 'required',
             'password' => 'required|confirmed',
@@ -78,8 +90,10 @@ class EditorController extends Controller
         return redirect()->back()->withErrors('Current Password is Wrong');
     }
 
-    public function showAllNews(){
+    public function showAllNews()
+    {
         $currentEditor = Auth::guard('editor')->user();
+        
         $editorCategories = json_decode($currentEditor->category_id);
 
         $allNews = News::all()->whereIn('category_id', $editorCategories);
@@ -94,7 +108,8 @@ class EditorController extends Controller
         return view('editor.edit_news', compact('newsToUpdate', 'allCategories'));
     }
 
-    public function submitNewsEditForm(Request $request, $newsId){
+    public function submitNewsEditForm(Request $request, $newsId)
+    {
         $request->validate([
             'category'=>'required',
             'title'=>'required',
@@ -123,12 +138,14 @@ class EditorController extends Controller
         return redirect()->back()->with('updateMsg', 'News is Updated');
     }
 
-    public function newsDeleteMethod($newsId){
+    public function newsDeleteMethod($newsId)
+    {
         News::destroy($newsId);
         return redirect()->back()->with('updateMsg', 'News is Deleted');
     }
 
-    public function logout(){
+    public function logout()
+    {
         Auth::logout();
         return redirect()->route('editor.login');
     }

@@ -30,8 +30,6 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth:admin'], function (){
     Route::get('settings/categories/footer', 'AdminController@showFooterCategoriesForm')->name('admin.settings.footer_categories');
     Route::put('settings/categories/footer', 'AdminController@submitFooterCategoriesForm')->name('admin.settings.footer_categories.submit');
 
-    Route::get('create/news', 'AdminController@showCreateNewsForm')->name('admin.create.news');
-    Route::put('create/news', 'AdminController@submitCreateNewsForm')->name('admin.created.news.submit');
 
     Route::get('create/video', 'AdminController@showCreateVideoForm')->name('admin.create.video');
     Route::put('create/video', 'AdminController@submitCreateVideoForm')->name('admin.created.video.submit');
@@ -49,30 +47,31 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth:admin'], function (){
 
     Route::get('create/category', 'AdminController@showCreateCategoryForm')->name('admin.create.category');
     Route::put('create/category', 'AdminController@submitCreateCategoryForm')->name('admin.created.category.submit');
-    Route::get('create/editor', 'AdminController@showCreateEditorForm')->name('admin.create.editor');
-    Route::put('create/editor', 'AdminController@submitCreateEditorForm')->name('admin.created.editor.submit');
-    Route::get('create/reporter', 'AdminController@showCreateReporterForm')->name('admin.create.reporter');
-    Route::put('create/reporter', 'AdminController@submitCreateReporterForm')->name('admin.created.reporter.submit');
-
     Route::get('categories/all', 'AdminController@showAllCategories')->name('admin.view.categories');
     Route::get('category/{categoryId}/edit', 'AdminController@showCategoryEditForm')->name('admin.edit.category');
     Route::put('category/{categoryId}/edit', 'AdminController@submitCategoryEditForm')->name('admin.edited.category.submit');
     Route::delete('category/delete/{categoryId}', 'AdminController@categoryDeleteMethod')->name('admin.delete.category');
 
+    Route::get('create/editor', 'AdminController@showCreateEditorForm')->name('admin.create.editor');
+    Route::put('create/editor', 'AdminController@submitCreateEditorForm')->name('admin.created.editor.submit');
     Route::get('editors/all', 'AdminController@showAllEditors')->name('admin.view.editors');
     Route::get('editor/{editorId}/edit', 'AdminController@showEditorEditForm')->name('admin.edit.editor');
     Route::put('editor/{editorId}/edit', 'AdminController@submitEditorEditForm')->name('admin.edited.editor.submit');
-    Route::get('editor/delete/{editorId}', 'AdminController@editorDeleteMethod')->name('admin.delete.editor');
+    Route::delete('editor/delete/{editorId}', 'AdminController@editorDeleteMethod')->name('admin.delete.editor');
 
+    Route::get('create/reporter', 'AdminController@showCreateReporterForm')->name('admin.create.reporter');
+    Route::put('create/reporter', 'AdminController@submitCreateReporterForm')->name('admin.created.reporter.submit');
     Route::get('reporters/all', 'AdminController@showAllReporters')->name('admin.view.reporters');
     Route::get('reporter/{reporterId}/edit', 'AdminController@showReporterEditForm')->name('admin.edit.reporter');
     Route::put('reporter/{reporterId}/edit', 'AdminController@submitReporterEditForm')->name('admin.edited.reporter.submit');
-    Route::get('reporter/delete/{reporterId}', 'AdminController@reporterDeleteMethod')->name('admin.delete.reporter');
+    Route::delete('reporter/delete/{reporterId}', 'AdminController@reporterDeleteMethod')->name('admin.delete.reporter');
 
+    Route::get('create/news', 'AdminController@showCreateNewsForm')->name('admin.create.news');
+    Route::put('create/news', 'AdminController@submitCreateNewsForm')->name('admin.created.news.submit');
     Route::get('news/all', 'AdminController@showAllNews')->name('admin.view.news');
     Route::get('news/edit/{newsId}', 'AdminController@showNewsEditForm')->name('admin.edit.news');
     Route::put('news/edit/{newsId}', 'AdminController@submitNewsEditForm')->name('admin.edited.news.submit');
-    Route::get('news/delete/{newsId}', 'AdminController@newsDeleteMethod')->name('admin.delete.news');
+    Route::delete('news/delete/{newsId}', 'AdminController@newsDeleteMethod')->name('admin.delete.news');
 
     Route::get('logout', 'AdminController@logout')->name('admin.logout');
 });
@@ -93,7 +92,7 @@ Route::group(['prefix'=>'editor', 'middleware'=>'auth:editor'], function(){
     Route::get('news/all', 'EditorController@showAllNews')->name('editor.view.news');
     Route::get('news/edit/{newsId}', 'EditorController@showNewsEditForm')->name('editor.edit.news');
     Route::put('news/edit/{newsId}', 'EditorController@submitNewsEditForm')->name('editor.edited.news.submit');
-    Route::get('news/delete/{newsId}', 'EditorController@newsDeleteMethod')->name('editor.delete.news');
+    Route::delete('news/delete/{newsId}', 'EditorController@newsDeleteMethod')->name('editor.delete.news');
 
     Route::get('logout', 'EditorController@logout')->name('editor.logout');
 });
@@ -105,7 +104,6 @@ Route::group(['prefix'=>'reporter', 'middleware'=>'guest:reporter'], function ()
 
 Route::group(['prefix'=>'reporter', 'middleware'=>'auth:reporter'], function(){
     Route::get('home', 'ReporterController@homeMethod')->name('reporter.home');
-
     Route::get('update/profile', 'ReporterController@showProfileForm')->name('reporter.update.profile');
     Route::put('update/profile', 'ReporterController@submitProfileForm')->name('reporter.updated.profile.submit');
     Route::get('update/password', 'ReporterController@showPasswordForm')->name('reporter.update.password');
@@ -113,11 +111,9 @@ Route::group(['prefix'=>'reporter', 'middleware'=>'auth:reporter'], function(){
 
     Route::get('create/news', 'ReporterController@showCreateNewsForm')->name('reporter.create.news');
     Route::put('create/news', 'ReporterController@submitCreateNewsForm')->name('reporter.created.news.submit');
-
     Route::get('view/news', 'ReporterController@showAllNews')->name('reporter.view.news');
     Route::get('edit/news/{newsId}', 'ReporterController@showNewsEditForm')->name('reporter.edit.news');
     Route::put('edit/news/{newsId}', 'ReporterController@submitNewsEditForm')->name('reporter.edited.news.submit');
-
     Route::get('logout', 'ReporterController@logout')->name('reporter.logout');
 });
 

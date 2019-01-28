@@ -27,10 +27,40 @@
                             <input type="checkbox" @if($image->status==0) checked @endif disabled>Unpublished
                         </td>
                         <td>
-                            <a href="{{ route('admin.edit.image', [$image->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit"><i class="fa fa-fw fa-edit"></i></a>
-                            <a href="{{ route('admin.delete.image', $image->id) }}" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete"><i class="fa fa-fw fa-trash"></i></a>
+                            <a href="{{ route('admin.edit.image', [$image->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit">
+                                <i class="fa fa-fw fa-edit"></i>
+                            </a>
+
+                            <a data-toggle="modal" data-target="#myModal{{ $image->id }}" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete">
+                                <i class="fa fa-fw fa-trash"></i>
+                            </a>
+                            
                         </td>
                     </tr>
+
+                    <div class="modal fade" id="myModal{{ $image->id }}" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Confirmation</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <form action="{{ route('admin.delete.image', $image->id) }}" method="POST">
+                                    @method('delete')
+                                    @csrf
+                                    <div class="modal-body">
+                                        <p>Are You Sure ??</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success">Yes</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
                 @endforeach
                 </tbody>
             </table>

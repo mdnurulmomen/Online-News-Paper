@@ -25,11 +25,36 @@
                                 <a href="{{ route('admin.edit.category',  $category->id) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit">
                                     <i class="fa fa-fw fa-edit"></i>
                                 </a>
-                                <a href="{{ route('admin.delete.category', $category->id) }}" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete">
+
+                                <a data-toggle="modal" data-target="#myModal{{ $category->id }}" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete">
                                     <i class="fa fa-fw fa-trash"></i>
                                 </a>
                             </td>
                         </tr>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal{{ $category->id }}" role="dialog">
+                            <div class="modal-dialog">
+                                <form action="{{ route('admin.delete.category', $category->id) }}" method="POST">
+                                    @method('delete')
+                                    @csrf
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Confirmation</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are You Sure ??</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-success">Yes</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </form> 
+                            </div>
+                        </div>
+
                     @endforeach
                     </tbody>
                 </table>

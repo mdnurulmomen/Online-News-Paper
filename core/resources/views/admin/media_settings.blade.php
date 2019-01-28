@@ -40,7 +40,7 @@
                     <br>
                     <div class="form-group row">
                         <div class="col-sm-3">
-                            <label class="col-form-label" for="validationServer02">Post Verification :</label>
+                            <label class="col-form-label" for="validationServer02">News Verification :</label>
                             <input type="checkbox" name="news_verification" @if($settings->news_verification==1) checked @endif  data-toggle="toggle" data-on="Allowed" data-off="Not Allowed" data-onstyle="success" data-offstyle="danger">
                         </div>
                         <div class="col-sm-3">

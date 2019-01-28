@@ -285,7 +285,7 @@ class AdminController extends Controller
             return view('admin.create_news', compact('allCategories'));
         }
 
-        return redirect()->back()->withErrors('Please Make Category');
+        return redirect()->back()->withErrors('Please Make Category First');
     }
 
     public function submitCreateNewsForm(Request $request)
@@ -357,6 +357,7 @@ class AdminController extends Controller
 
         $request->status=='on' ? $newsToUpdate->status = 1 : $newsToUpdate->status = 0;
         $newsToUpdate->updated_admin_id = $currentAdmin->id;
+        
         $newsToUpdate->save();
 
         return redirect()->route('admin.edit.news', $newsToUpdate->id)->with('success', 'News is updated');

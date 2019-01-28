@@ -30,10 +30,39 @@
                                 <input type="checkbox" @if($video->status==0) checked @endif disabled>Unpublished
                             </td>
                             <td>
-                                <a href="{{ route('admin.edit.video', [$video->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit"><i class="fa fa-fw fa-edit"></i></a>
-                                <a href="{{ route('admin.delete.video', $video->id) }}" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete"><i class="fa fa-fw fa-trash"></i></a>
+                                <a href="{{ route('admin.edit.video', [$video->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit">
+                                    <i class="fa fa-fw fa-edit"></i>
+                                </a>
+
+                                <a data-toggle="modal" data-target="#myModal{{ $video->id }}" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete">
+                                    <i class="fa fa-fw fa-trash"></i>
+                                </a>
                             </td>
                         </tr>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal{{ $video->id }}" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Confirmation</h4>
+                                    </div>
+                                    <form action="{{ route('admin.delete.video', $video->id) }}" method="POST">
+                                        @method('delete')
+                                        @csrf
+                                        <div class="modal-body">
+                                            <p>Are You Sure ??</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-success">Yes</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     @endforeach
                     </tbody>
                 </table>
