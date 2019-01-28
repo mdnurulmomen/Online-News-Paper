@@ -4,9 +4,6 @@
 <div class="content p-4">
     <h2 class="mb-4"> News Setting </h2>
     <div class="card mb-4">
-        <div class="card-header bg-white font-weight-bold">
-            News Updating Form
-        </div>
         <legend class="text-center">
             <img src="{{ asset('assets/front/images/news/'.$newsToUpdate->preview) }}" class="img-thumbnail" alt="No Image">
         </legend>
@@ -16,11 +13,13 @@
                 @csrf
                 <fieldset class="form-group">
                     <div class="row">
-                        <legend class="col-form-label col-sm-2 pt-0">Categories Selection:</legend>
+                        <legend class="col-form-label col-sm-2 pt-0">
+                            <strong>Categories Selection: </strong>
+                        </legend>
                         <div class="col-sm-10">
                             <select name="categoryId" class="form-control">
                                 @foreach($allCategories as $category)
-                                    <option value="{{ $category->id }}" @if($category->id==$newsToUpdate->category_id) selected @endif>{{ $category->name }}</option>
+                                    <option value="{{ $category->id }}" @if($category->id == $newsToUpdate->category_id) selected @endif > {{ $category->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -59,4 +58,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        bkLib.onDomLoaded(function () {
+            new nicEditor({iconsPath: '../../../assets/admin/images/nicEditorIcons.gif'}).panelInstance('textArea');
+        });
+    });
+</script>
 @stop

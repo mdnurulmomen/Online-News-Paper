@@ -4,9 +4,6 @@
     <div class="content p-4">
         <h2 class="mb-4"> Password Setting </h2>
         <div class="card mb-4">
-            <div class="card-header bg-white font-weight-bold">
-                Password Form
-            </div>
             <div class="card-body">
                 <form method="post" action = "{{ route('admin.updated.password.submit') }}">
                     @csrf

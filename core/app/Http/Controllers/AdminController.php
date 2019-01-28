@@ -380,8 +380,7 @@ class AdminController extends Controller
         $request->validate([
             'title' => 'required',
             'preview' => 'nullable|image',
-            'url' => 'required',
-            'status' => 'required',
+            'url' => 'required'
         ]);
 
         $currentUser = Auth::guard('admin')->user();
@@ -599,8 +598,13 @@ class AdminController extends Controller
 
     public function showCreateEditorForm()
     {
-        $allCategories = Category::all(['id', 'name']);
-        return view('admin.create_editor', compact('allCategories'));
+        $allCategories = Category::all();
+
+        if(!$allCategories->isEmpty()){
+            return view('admin.create_editor', compact('allCategories'));
+        }
+
+        return redirect()->back()->withErrors('Please Create Category First');
     }
 
     public function submitCreateEditorForm(Request $request)

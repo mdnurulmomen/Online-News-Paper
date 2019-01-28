@@ -1,5 +1,5 @@
 
-@extends('admin.layout.app')
+@extends('editor.layout.app')
 @section('contents')
 <div class="content p-4">
     <h2 class="mb-4"> Image Setting </h2>
@@ -9,7 +9,7 @@
         </div>
 
         <div class="card-body">
-            <form method="POST" action = "{{ route('admin.edited.image.submit', $imageToUpdate->id) }}" enctype="multipart/form-data">
+            <form method="POST" action = "{{ route('editor.edited.image.submit', $imageToUpdate->id) }}" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <div class="form-group row">

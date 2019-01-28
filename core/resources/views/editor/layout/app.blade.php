@@ -35,7 +35,9 @@
 <div class="d-flex">
     <div class="sidebar sidebar-dark bg-dark">
         <ul class="list-unstyled">
-            <li class="active"><a href="{{route('editor.home')}}"><i class="fa fa-fw fa-tachometer-alt"></i> Dashboard</a></li>
+            <li class="active">
+                <a href="{{route('editor.home')}}"><i class="fa fa-fw fa-tachometer-alt"></i> Dashboard</a>
+            </li>
             <li>
                 <a href="#view" data-toggle="collapse">
                     <i class="fa fa-fw fa-cube"></i> News
@@ -44,7 +46,22 @@
                     <li><a href="{{route('editor.view.news')}}">View All News</a></li>
                 </ul>
             </li>
-            <li><a href="#"><i class="fa fa-fw fa-table"></i> Datatables</a></li>
+            <li>
+                <a href="#image" data-toggle="collapse">
+                    <i class="fa fa-fw fa-cube"></i> Image
+                </a>
+                <ul id="image" class="list-unstyled collapse">
+                    <li><a href="{{route('editor.view.images')}}">View Images</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#video" data-toggle="collapse">
+                    <i class="fa fa-fw fa-cube"></i> Video
+                </a>
+                <ul id="video" class="list-unstyled collapse">
+                    <li><a href="{{ route('editor.view.videos') }}">View Videos</a></li>
+                </ul>
+            </li>
         </ul>
     </div>
 
@@ -61,17 +78,13 @@
 <script src="{{ asset('assets/editor/js/toastr.min.js') }}"></script>
 <script src="{{ asset('assets/editor/js/bootstrap-toggle.min.js') }}"></script>
 <script src="{{asset('assets/editor/js/nicEdit.js')}}" type="text/javascript"></script>
-<script>
-    bkLib.onDomLoaded(function () {
-        new nicEditor({iconsPath: '../../assets/editor/images/nicEditorIcons.gif'}).panelInstance('textArea');
-    });
-</script>
+
 <script>
     (function ($) {
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
-            @if(session()->has('updateMsg'))
-            toastr.success("{{ session('updateMsg') }}", "Success")
+            @if(session()->has('success'))
+            toastr.success("{{ session('success') }}", "Success")
             @endif
             @if($errors->any())
             @foreach($errors->all() as $error)

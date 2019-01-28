@@ -92,7 +92,15 @@ Route::group(['prefix'=>'editor', 'middleware'=>'auth:editor'], function(){
     Route::get('news/all', 'EditorController@showAllNews')->name('editor.view.news');
     Route::get('news/edit/{newsId}', 'EditorController@showNewsEditForm')->name('editor.edit.news');
     Route::put('news/edit/{newsId}', 'EditorController@submitNewsEditForm')->name('editor.edited.news.submit');
-    Route::delete('news/delete/{newsId}', 'EditorController@newsDeleteMethod')->name('editor.delete.news');
+    // Route::delete('news/delete/{newsId}', 'EditorController@newsDeleteMethod')->name('editor.delete.news');
+
+    Route::get('images/all', 'EditorController@showAllImages')->name('editor.view.images');
+    Route::get('image/edit/{imageId}', 'EditorController@showImageEditForm')->name('editor.edit.image');
+    Route::put('image/edit/{imageId}', 'EditorController@submitImageEditForm')->name('editor.edited.image.submit');
+
+    Route::get('video/all', 'EditorController@showAllVideos')->name('editor.view.videos');
+    Route::get('video/edit/{videoId}', 'EditorController@showVideoEditForm')->name('editor.edit.video');
+    Route::put('video/edit/{videoId}', 'EditorController@submitVideoEditForm')->name('editor.edited.video.submit');
 
     Route::get('logout', 'EditorController@logout')->name('editor.logout');
 });

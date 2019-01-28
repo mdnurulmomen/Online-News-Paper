@@ -25,8 +25,9 @@
                                 <label class="checkbox-inline"><input type="radio" @if($news->status==0) checked @endif disabled>Unpublished</label>
                             </td>
                             <td>
-                                <a href="{{ route('editor.edit.news', [$news->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit"><i class="fa fa-fw fa-edit"></i></a>
-                                <a href="{{ route('editor.delete.news', $news->id) }}" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete"><i class="fa fa-fw fa-trash"></i></a>
+                                <a href="{{ route('editor.edit.news', [$news->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit">
+                                    <i class="fa fa-fw fa-edit"></i>
+                                </a>
                             </td>
                         </tr>
                     @endforeach

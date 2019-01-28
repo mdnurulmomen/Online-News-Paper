@@ -40,9 +40,15 @@
         </div>
     </div>
     <script>
-    function backgroundColor () {
-        var inputSelected = document.getElementsByName("color")[0];
-        inputSelected.style.backgroundColor = document.getElementsByName("color")[0].value;
-    }
+        function backgroundColor () {
+            var inputSelected = document.getElementsByName("color")[0];
+            inputSelected.style.backgroundColor = document.getElementsByName("color")[0].value;
+        }
+    
+        $(document).ready(function() {
+            bkLib.onDomLoaded(function () {
+                new nicEditor({iconsPath: '../../assets/admin/images/nicEditorIcons.gif'}).panelInstance('textArea');
+            });
+        });
     </script>
 @stop

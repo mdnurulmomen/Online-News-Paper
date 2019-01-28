@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Category;
-use App\Editor;
 use App\News;
+use App\Video;
+use App\Editor;
+use App\Image as ImageModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -32,8 +34,8 @@ class EditorController extends Controller
 
     public function showProfileForm()
     {
-        $Editor =  Auth::guard('editor')->user();
-        return view('editor.profile', compact('Editor'));
+        $editor =  Auth::guard('editor')->user();
+        return view('editor.profile', compact('editor'));
     }
 
     public function submitProfileForm(Request $request)
@@ -42,7 +44,7 @@ class EditorController extends Controller
 
         $request->validate([
             'email'=>'nullable|email|unique:editors,email,'.$profileToUpdate->id,
-            'picpath'=>'nullable|image',
+            'profile_pic'=>'nullable|image',
             'phone'=>'nullable|numeric',
         ]);
 
@@ -55,7 +57,7 @@ class EditorController extends Controller
             $imageObject = Image::make($originImageFile)->encode('jpg');
             $imageObject->resize(200, 200)->save('assets/editor/images/'.$originImageFile->hashname());
 
-            $profileToUpdate->profile_pic = $originImageFile->hashname());
+            $profileToUpdate->profile_pic = $originImageFile->hashname();
         }
 
         $profileToUpdate->phone = $request->phone;
@@ -65,7 +67,7 @@ class EditorController extends Controller
         
         $profileToUpdate->save();
 
-        return redirect()->back()->with('success', 'Profile Successfully Updated');
+        return redirect()->back()->with('success', 'Profile is Updated');
     }
 
     public function showPasswordForm()
@@ -84,7 +86,7 @@ class EditorController extends Controller
 
         if(Hash::check($request->currentPassword, $profileToUpdate->password)){
             $profileToUpdate->password = Hash::make($request->password);
-            return redirect()->back()->with('updateMsg', 'Password is Updated');
+            return redirect()->back()->with('success', 'Password is Updated');
         }
 
         return redirect()->back()->withErrors('Current Password is Wrong');
@@ -94,7 +96,7 @@ class EditorController extends Controller
     {
         $currentEditor = Auth::guard('editor')->user();
         
-        $editorCategories = json_decode($currentEditor->category_id);
+        $editorCategories = json_decode($currentEditor->categories_id);
 
         $allNews = News::all()->whereIn('category_id', $editorCategories);
 
@@ -104,44 +106,132 @@ class EditorController extends Controller
     public function showNewsEditForm($newsId)
     {
         $newsToUpdate = News::find($newsId);
-        $allCategories = Category::all('id', 'name');
+        $currentEditor = Auth::guard('editor')->user();
+        $editorCategories = json_decode($currentEditor->categories_id);
+        $allCategories = Category::all()->whereIn('id', $editorCategories);
+
         return view('editor.edit_news', compact('newsToUpdate', 'allCategories'));
     }
 
     public function submitNewsEditForm(Request $request, $newsId)
     {
         $request->validate([
-            'category'=>'required',
+            'categoryId'=>'required',
             'title'=>'required',
             'description'=>'required',
-            'picpath'=>'nullable|image',
+            'preview'=>'nullable|image',
         ]);
 
         $currentEditor = Auth::guard('editor')->user();
 
         $newsToUpdate = News::find($newsId);
-        $newsToUpdate->category_id = $request->category;
+        $newsToUpdate->category_id = $request->categoryId;
         $newsToUpdate->title = $request->title;
         $newsToUpdate->description = $request->description;
 
-        if($request->has('picpath')){
-            $originalImage = $request->file('picpath');
-            $imageInterventionObj = Image::make($originalImage);
-            $imageInterventionObj->resize('300', '300')->save('assets/front/images/'.$originalImage->hashName());
-            $newsToUpdate->picpath = $originalImage->hashName();
+        if($request->has('preview')){
+            $originalImage = $request->file('preview');
+            $imageInterventionObj = Image::make($originalImage)->encode('jpg');
+            $imageInterventionObj->resize('640', '360')->save('assets/front/images/'.$originalImage->hashName());
+            $newsToUpdate->preview = $originalImage->hashName();
         }
 
-        ($request->status=='on') ? $newsToUpdate->status = 1 : $newsToUpdate->status = 0;
+        $request->status=='on' ? $newsToUpdate->status = 1 : $newsToUpdate->status = 0;
         $newsToUpdate->updated_editor_id = $currentEditor->id;
+
         $newsToUpdate->save();
 
-        return redirect()->back()->with('updateMsg', 'News is Updated');
+        return redirect()->back()->with('success', 'News is Updated');
     }
 
     public function newsDeleteMethod($newsId)
     {
         News::destroy($newsId);
-        return redirect()->back()->with('updateMsg', 'News is Deleted');
+        return redirect()->back()->with('success', 'News is Deleted');
+    }
+
+
+    public function showAllImages()
+    {
+        $allImages = ImageModel::orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->paginate(15);
+        return view('editor.all_images', compact('allImages'));
+    }
+
+    public function showImageEditForm($imageId)
+    {
+        $imageToUpdate = ImageModel::findOrFail($imageId);
+        return view('editor.edit_image', compact('imageToUpdate'));
+    }
+
+    public function submitImageEditForm(Request $request, $imageId)
+    {
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'preview' => 'image',
+        ]);
+
+        $currentEditor = Auth::guard('editor')->user();
+
+        $imageToUpdate = ImageModel::findOrFail($imageId);
+        $imageToUpdate->title = $request->title;
+        $imageToUpdate->description = $request->description;
+
+        if($request->hasfile('preview')){
+
+            $originalImage = $request->file('preview');
+            $imageInterventionObj = Image::make($originalImage)->encode('jpg');
+            $imageInterventionObj->resize('640', '360')->save('assets/front/images/previews/'.$originalImage->hashName());
+            $imageToUpdate->preview = $originalImage->hashName();
+        }
+
+        $imageToUpdate->updated_editor_id = $currentEditor->id;
+        $request->status=='on' ? $imageToUpdate->status = 1 : $imageToUpdate->status = 0;
+
+        $imageToUpdate->save();
+
+        return redirect()->route('editor.edit.image', $imageToUpdate->id)->with('success', 'Video is updated');
+    }
+
+
+    public function showAllVideos()
+    {
+        $allVideos = Video::orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->paginate(15);
+        return view('editor.all_videos', compact('allVideos'));
+    }
+
+    public function showVideoEditForm($videoId)
+    {
+        $videoToUpdate = Video::findOrFail($videoId);
+        return view('editor.edit_video', compact('videoToUpdate'));
+    }
+
+    public function submitVideoEditForm(Request $request, $videoId)
+    {
+        $request->validate([
+            'title' => 'required',
+            'url' => 'required',
+            'preview' => 'nullable|image',
+        ]);
+
+        $currentEditor = Auth::guard('editor')->user();
+
+        $videoToUpdate = Video::findOrFail($videoId);
+        $videoToUpdate->title = $request->title;
+        $videoToUpdate->url = $request->url;
+
+        if($request->has('preview')){
+            $originalImage = $request->file('preview');
+            $imageInterventionObj = Image::make($originalImage)->encode('jpg');
+            $imageInterventionObj->resize('640', '360')->save('assets/front/images/video/'.$originalImage->hashName());
+            $videoToUpdate->preview = $originalImage->hashName();
+        }
+
+        $request->status=='on' ? $videoToUpdate->status = 1 : $videoToUpdate->status = 0;
+        $videoToUpdate->updated_editor_id = $currentEditor->id;
+        $videoToUpdate->save();
+
+        return redirect()->route('editor.edit.video', $videoToUpdate->id)->with('success', 'Video is updated');
     }
 
     public function logout()

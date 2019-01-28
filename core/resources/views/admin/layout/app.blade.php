@@ -132,10 +132,6 @@
 
     <script>
         $(document).ready(function() {
-            bkLib.onDomLoaded(function () {
-                new nicEditor({iconsPath: '../../assets/admin/images/nicEditorIcons.gif'}).panelInstance('textArea');
-            });
-
             $('[data-toggle="tooltip"]').tooltip();
             @if(session()->has('success'))
             toastr.success("{{ session('success') }}", "Success")

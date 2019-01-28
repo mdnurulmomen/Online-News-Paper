@@ -41,4 +41,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        bkLib.onDomLoaded(function () {
+            new nicEditor({iconsPath: '../../assets/admin/images/nicEditorIcons.gif'}).panelInstance('textArea');
+        });
+    });
+</script>
 @stop
