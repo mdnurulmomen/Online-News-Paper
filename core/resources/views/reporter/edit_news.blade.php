@@ -18,7 +18,7 @@
                     <div class="row">
                         <label class="col-form-label col-sm-2 pt-0">Categories Selection:</label>
                         <div class="col-sm-10">
-                            <select name="category" class="form-control">
+                            <select name="categoryId" class="form-control">
                             @foreach($allCategories as $category)
                                 <option value="{{$category->id}}" @if($category->id==$newsToUpdate->category->id) selected @endif>{{$category->name}}
                             @endforeach

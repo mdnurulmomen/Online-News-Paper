@@ -12,45 +12,50 @@ use Intervention\Image\Facades\Image;
 
 class ReporterController extends Controller
 {
-    public function showLoginForm(){
+    public function showLoginForm()
+    {
         return view('reporter.login');
     }
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         if(Auth::guard('reporter')->attempt(['username'=>$request->username, 'password'=>$request->password])){
             return redirect()->route('reporter.home');
         }
         return redirect()->back()->withErrors('Wrong Username or Password');
     }
 
-    public function homeMethod(){
+    public function homeMethod()
+    {
         return view('reporter.layout.app');
     }
 
-    public function showProfileForm(){
-        $currentReporter =  Auth::guard('reporter')->user();
-
-        $profileData = array('firstname'=>$currentReporter->firstname, 'lastname'=>$currentReporter->lastname, 'username'=>$currentReporter->username, 'email'=>$currentReporter->email, 'picpath'=>$currentReporter->picpath, 'phone'=>$currentReporter->phone, 'address'=>$currentReporter->address, 'city'=>$currentReporter->city, 'state'=>$currentReporter->state, 'country'=>$currentReporter->country);
-        return view('reporter.profile', $profileData);
+    public function showProfileForm()
+    {
+        $reporter =  Auth::guard('reporter')->user();
+        return view('reporter.profile', compact('reporter'));
     }
 
-    public function submitProfileForm(Request $request){
+    public function submitProfileForm(Request $request)
+    {
 
         $profileToUpdate = Auth::guard('reporter')->user();
+
         $request->validate([
             'email'=>'nullable|email|unique:reporters,email,'.$profileToUpdate->id,
-            'picpath'=>'nullable|image',
+            'profile_pic'=>'nullable|image',
             'phone'=>'nullable|numeric',
         ]);
+
         $profileToUpdate->firstname = $request->firstname;
         $profileToUpdate->lastname = $request->lastname;
         $profileToUpdate->email = $request->email;
 
-        if($request->has('picpath')){
-            $originImageFile = $request->file('picpath');
-            $imageObject = Image::make($originImageFile);
-            $imageObject->resize(150, 150)->save('assets/reporter/images/'.$originImageFile->hashname());
-            $profileToUpdate->picpath = $originImageFile->hashName();
+        if($request->has('profile_pic')){
+            $originImageFile = $request->file('profile_pic');
+            $imageObject = Image::make($originImageFile)->encode('jpg');
+            $imageObject->resize(200, 200)->save('assets/reporter/images/'.$originImageFile->hashname());
+            $profileToUpdate->profile_pic = $originImageFile->hashName();
         }
 
         $profileToUpdate->phone = $request->phone;
@@ -58,14 +63,17 @@ class ReporterController extends Controller
         $profileToUpdate->city = $request->city;
         $profileToUpdate->country = $request->country;
         $profileToUpdate->save();
-        return redirect()->back()->with('updateMsg', 'Profile Successfully Updated');
+
+        return redirect()->back()->with('success', 'Profile Successfully Updated');
     }
 
-    public function showPasswordForm(){
+    public function showPasswordForm()
+    {
         return view('reporter.password');
     }
 
-    public function submitPasswordForm(Request $request){
+    public function submitPasswordForm(Request $request)
+    {
         $request->validate([
             'currentPassword' => 'required',
             'password' => 'required|confirmed',
@@ -75,24 +83,25 @@ class ReporterController extends Controller
 
         if(Hash::check($request->currentPassword, $profileToUpdate->password)){
             $profileToUpdate->password = Hash::make($request->password);
-            return redirect()->back()->with('updateMsg', 'Password is Updated');
+            return redirect()->back()->with('success', 'Password is Updated');
         }
 
         return redirect()->back()->withErrors('Current Password is Wrong');
     }
 
-    public function showCreateNewsForm(){
-        $allCategories = Category::all('id', 'name');
-        $username = Auth::guard('reporter')->user()->username;
-        return view('reporter.create_news', compact('allCategories', 'username'));
+    public function showCreateNewsForm()
+    {
+        $allCategories = Category::all();
+        return view('reporter.create_news', compact('allCategories'));
     }
 
-    public function submitCreateNewsForm(Request $request){
+    public function submitCreateNewsForm(Request $request)
+    {
         $request->validate([
             'category'=>'required',
             'title'=>'required',
             'description'=>'required',
-            'picpath'=>'required|image',
+            'preview'=>'required|image',
         ]);
 
         $currentUser = Auth::guard('reporter')->user();
@@ -103,38 +112,41 @@ class ReporterController extends Controller
         $newNews->title = $request->title;
         $newNews->description = $request->description;
 
-        if($request->has('picpath')){
-            $originalImage = $request->file('picpath');
-            $imageInterventionObj = Image::make($originalImage);
-            $imageInterventionObj->resize('300', '300')->save('assets/front/images/'.$originalImage->hashName());
-            $newNews->picpath = $originalImage->hashName();
+        if($request->has('preview')){
+            $originalImage = $request->file('preview');
+            $imageInterventionObj = Image::make($originalImage)->encode('jpg');
+            $imageInterventionObj->resize('640', '360')->save('assets/front/images/'.$originalImage->hashName());
+            $newNews->preview = $originalImage->hashName();
         }
 
         $statusPermission = Setting::first()->newsverification;
         ($statusPermission==1) ? $newNews->status=0 : $newNews->status=1;
 
         $newNews->save();
-        return redirect()->back()->with('updateMsg', 'News is Added');
+        return redirect()->back()->with('success', 'News is Added');
     }
 
-    public function showAllNews(){
+    public function showAllNews()
+    {
         $currentUser = Auth::guard('reporter')->user();
         $allNews = News::all()->where('created_reporter_id', $currentUser->id);
         return view('reporter.all_news', compact('allNews'));
     }
 
-    public function showNewsEditForm($newsId){
+    public function showNewsEditForm($newsId)
+    {
         $newsToUpdate = News::find($newsId);
-        $allCategories = Category::all('id', 'name');
+        $allCategories = Category::all();
         return view('reporter.edit_news', compact(['allCategories', 'newsToUpdate']));
     }
 
-    public function submitNewsEditForm(Request $request, $newsId){
+    public function submitNewsEditForm(Request $request, $newsId)
+    {
         $request->validate([
             'category' => 'required',
             'title' => 'required',
             'description' => 'required',
-            'picpath' => 'nullable|image',
+            'preview' => 'nullable|image',
         ]);
 
         $newsToUpdate = News::find($newsId);
@@ -143,11 +155,11 @@ class ReporterController extends Controller
         $newsToUpdate->title = $request->title;
         $newsToUpdate->description = $request->description;
 
-        if($request->has('picpath')){
-            $originalImage = $request->file('picpath');
-            $imageInterventionObj = Image::make($originalImage);
+        if($request->has('preview')){
+            $originalImage = $request->file('preview');
+            $imageInterventionObj = Image::make($originalImage)->encode('jpg');
             $imageInterventionObj->resize('300', '300')->save('assets/front/images/'.$originalImage->hashName());
-            $newsToUpdate->picpath = $originalImage->hashName();
+            $newsToUpdate->preview = $originalImage->hashName();
         }
 
         $settings = Setting::first();
@@ -155,10 +167,11 @@ class ReporterController extends Controller
 
         $newsToUpdate->save();
 
-        return redirect()->back()->with('updateMsg', 'News is Updated');
+        return redirect()->back()->with('success', 'News is Updated');
     }
 
-    public function logout(){
+    public function logout()
+    {
         Auth::logout();
         return redirect()->route('reporter.login');
     }
