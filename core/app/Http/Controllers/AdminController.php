@@ -177,11 +177,11 @@ class AdminController extends Controller
             'news_id.*'=>'nullable|exists:news,id'
         ]);
 
+        $headlines = array_values(array_filter($request->news_id));
+
         $settings = Setting::first();
-        
-        $headlines = array_filter($request->news_id);
-        return $headlines;
         $settings->settings_headlines = $headlines;
+        
         $settings->save();
 
         return redirect()->back()->with('success', 'Headlines are Updated');
@@ -208,9 +208,11 @@ class AdminController extends Controller
             'news_id.*'=>'nullable|exists:news,id'
         ]);
 
+        $subHeadlines = array_values(array_filter($request->news_id));
+        
         $settings = Setting::first();
-        $subHeadlines = array_filter($request->news_id);
         $settings->settings_sub_headlines = $subHeadlines;
+
         $settings->save();
 
         return redirect()->back()->with('success', 'Sub Headlines are Updated');
@@ -236,7 +238,7 @@ class AdminController extends Controller
             'categories_id.*'=>'nullable|exists:categories,id'
         ]);
 
-        $categories_id = array_filter($request->categories_id);
+        $categories_id = array_values(array_filter($request->categories_id));
         
         $settings = Setting::first();
         $settings->category_priority = $categories_id;
@@ -266,7 +268,7 @@ class AdminController extends Controller
             'categories_id.*'=>'nullable|exists:categories,id'
         ]);
 
-        $categories_id = array_filter($request->categories_id);
+        $categories_id = array_values(array_filter($request->categories_id));
         
         $settings = Setting::first();
         $settings->category_footer = $categories_id;

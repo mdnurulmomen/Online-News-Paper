@@ -1,7 +1,7 @@
 @extends('admin.layout.app')
 @section('contents')
     <div class="content p-4">
-        <h2 class="mb-4"> Headline Settings </h2>
+        <h2 class="mb-4"> Sub Headline Settings </h2>
         <div class="card mb-4">
 
             <div class="card-body text-center">

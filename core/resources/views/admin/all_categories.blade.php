@@ -22,8 +22,12 @@
                             <td>{{ $category->url }}</td>
                             <td>{{ $category->name_parent }}</td>
                             <td>
-                                <a href="{{ route('admin.edit.category',  $category->id) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit"><i class="fa fa-fw fa-edit"></i></a>
-                                <a href="{{ route('admin.delete.category', $category->id) }}" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete"><i class="fa fa-fw fa-trash"></i></a>
+                                <a href="{{ route('admin.edit.category',  $category->id) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit">
+                                    <i class="fa fa-fw fa-edit"></i>
+                                </a>
+                                <a href="{{ route('admin.delete.category', $category->id) }}" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete">
+                                    <i class="fa fa-fw fa-trash"></i>
+                                </a>
                             </td>
                         </tr>
                     @endforeach

@@ -38,14 +38,14 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth:admin'], function (){
     Route::get('video/all', 'AdminController@showAllVideos')->name('admin.view.videos');
     Route::get('video/edit/{videoId}', 'AdminController@showVideoEditForm')->name('admin.edit.video');
     Route::put('video/edit/{videoId}', 'AdminController@submitVideoEditForm')->name('admin.edited.video.submit');
-    Route::get('video/delete/{videoId}', 'AdminController@videoDeleteMethod')->name('admin.delete.video');
+    Route::delete('video/delete/{videoId}', 'AdminController@videoDeleteMethod')->name('admin.delete.video');
 
     Route::get('create/image', 'AdminController@showCreateImageForm')->name('admin.create.image');
     Route::put('create/image', 'AdminController@submitCreateImageForm')->name('admin.created.image.submit');
     Route::get('images/all', 'AdminController@showAllImages')->name('admin.view.images');
     Route::get('image/edit/{imageId}', 'AdminController@showImageEditForm')->name('admin.edit.image');
     Route::put('image/edit/{imageId}', 'AdminController@submitImageEditForm')->name('admin.edited.image.submit');
-    Route::get('image/delete/{imageId}', 'AdminController@imageDeleteMethod')->name('admin.delete.image');
+    Route::delete('image/delete/{imageId}', 'AdminController@imageDeleteMethod')->name('admin.delete.image');
 
     Route::get('create/category', 'AdminController@showCreateCategoryForm')->name('admin.create.category');
     Route::put('create/category', 'AdminController@submitCreateCategoryForm')->name('admin.created.category.submit');
@@ -57,7 +57,7 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth:admin'], function (){
     Route::get('categories/all', 'AdminController@showAllCategories')->name('admin.view.categories');
     Route::get('category/{categoryId}/edit', 'AdminController@showCategoryEditForm')->name('admin.edit.category');
     Route::put('category/{categoryId}/edit', 'AdminController@submitCategoryEditForm')->name('admin.edited.category.submit');
-    Route::get('category/delete/{categoryId}', 'AdminController@categoryDeleteMethod')->name('admin.delete.category');
+    Route::delete('category/delete/{categoryId}', 'AdminController@categoryDeleteMethod')->name('admin.delete.category');
 
     Route::get('editors/all', 'AdminController@showAllEditors')->name('admin.view.editors');
     Route::get('editor/{editorId}/edit', 'AdminController@showEditorEditForm')->name('admin.edit.editor');
