@@ -41,11 +41,28 @@
                     <i class="fa fa-fw fa-cube"></i> News
                 </a>
                 <ul id="view" class="list-unstyled collapse">
-                    <li><a href="{{route('reporter.create.news')}}">Create News</a></li>
-                    <li><a href="{{route('reporter.view.news')}}">View All News</a></li>
+                    <li><a href="{{ route('reporter.create.news') }}">Create News</a></li>
+                    <li><a href="{{ route('reporter.view.news') }}">View All News</a></li>
                 </ul>
             </li>
-            <li><a href="#"><i class="fa fa-fw fa-table"></i> Datatables</a></li>
+            <li>
+                <a href="#image" data-toggle="collapse">
+                    <i class="fa fa-fw fa-cube"></i> Image
+                </a>
+                <ul id="image" class="list-unstyled collapse">
+                    <li><a href="{{ route('reporter.create.image') }}">Create Images</a></li>
+                    <li><a href="{{ route('reporter.view.images') }}">View Images</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#video" data-toggle="collapse">
+                    <i class="fa fa-fw fa-cube"></i> Video
+                </a>
+                <ul id="video" class="list-unstyled collapse">
+                    <li><a href="{{ route('reporter.create.video') }}">Create Videos</a></li>
+                    <li><a href="{{ route('reporter.view.videos') }}">View Videos</a></li>
+                </ul>
+            </li>
         </ul>
     </div>
 

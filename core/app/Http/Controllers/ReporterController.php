@@ -120,7 +120,7 @@ class ReporterController extends Controller
         }
 
         $statusPermission = Setting::first()->newsverification;
-        ($statusPermission==1) ? $newNews->status=0 : $newNews->status=1;
+        $statusPermission==1 ? $newNews->status=0 : $newNews->status=1;
 
         $newNews->save();
         return redirect()->back()->with('success', 'News is Added');
@@ -168,6 +168,90 @@ class ReporterController extends Controller
         $newsToUpdate->save();
 
         return redirect()->back()->with('success', 'News is Updated');
+    }
+
+    public function showAllImages()
+    {
+        $allImages = ImageModel::orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->paginate(15);
+        return view('reporter.all_images', compact('allImages'));
+    }
+
+    public function showImageEditForm($imageId)
+    {
+        $imageToUpdate = ImageModel::findOrFail($imageId);
+        return view('reporter.edit_image', compact('imageToUpdate'));
+    }
+
+    public function submitImageEditForm(Request $request, $imageId)
+    {
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'preview' => 'image',
+        ]);
+
+        $currentReporter = Auth::guard('editor')->user();
+
+        $imageToUpdate = ImageModel::findOrFail($imageId);
+        $imageToUpdate->title = $request->title;
+        $imageToUpdate->description = $request->description;
+
+        if($request->hasfile('preview')){
+
+            $originalImage = $request->file('preview');
+            $imageInterventionObj = Image::make($originalImage)->encode('jpg');
+            $imageInterventionObj->resize('640', '360')->save('assets/front/images/previews/'.$originalImage->hashName());
+            $imageToUpdate->preview = $originalImage->hashName();
+        }
+
+        $statusPermission = Setting::first()->newsverification;
+        $statusPermission==1 ? $imageToUpdate->status=0 : $imageToUpdate->status=1;
+
+        $imageToUpdate->save();
+
+        return redirect()->route('reporter.edit.image', $imageToUpdate->id)->with('success', 'Image is updated');
+    }
+
+
+    public function showAllVideos()
+    {
+        $allVideos = Video::orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->paginate(15);
+        return view('reporter.all_videos', compact('allVideos'));
+    }
+
+    public function showVideoEditForm($videoId)
+    {
+        $videoToUpdate = Video::findOrFail($videoId);
+        return view('reporter.edit_video', compact('videoToUpdate'));
+    }
+
+    public function submitVideoEditForm(Request $request, $videoId)
+    {
+        $request->validate([
+            'title' => 'required',
+            'url' => 'required',
+            'preview' => 'nullable|image',
+        ]);
+
+        $currentEditor = Auth::guard('reporter')->user();
+
+        $videoToUpdate = Video::findOrFail($videoId);
+        $videoToUpdate->title = $request->title;
+        $videoToUpdate->url = $request->url;
+
+        if($request->has('preview')){
+            $originalImage = $request->file('preview');
+            $imageInterventionObj = Image::make($originalImage)->encode('jpg');
+            $imageInterventionObj->resize('640', '360')->save('assets/front/images/video/'.$originalImage->hashName());
+            $videoToUpdate->preview = $originalImage->hashName();
+        }
+
+        $statusPermission = Setting::first()->newsverification;
+        $statusPermission==1 ? $videoToUpdate->status=0 : $videoToUpdate->status=1;
+
+        $videoToUpdate->save();
+
+        return redirect()->route('reporter.edit.video', $videoToUpdate->id)->with('success', 'Video is updated');
     }
 
     public function logout()

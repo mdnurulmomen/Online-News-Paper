@@ -122,6 +122,20 @@ Route::group(['prefix'=>'reporter', 'middleware'=>'auth:reporter'], function(){
     Route::get('view/news', 'ReporterController@showAllNews')->name('reporter.view.news');
     Route::get('edit/news/{newsId}', 'ReporterController@showNewsEditForm')->name('reporter.edit.news');
     Route::put('edit/news/{newsId}', 'ReporterController@submitNewsEditForm')->name('reporter.edited.news.submit');
+
+
+    Route::get('create/image', 'ReporterController@showCreateImageForm')->name('reporter.create.image');
+    Route::get('images/all', 'ReporterController@showAllImages')->name('reporter.view.images');
+    Route::get('image/edit/{imageId}', 'ReporterController@showImageEditForm')->name('reporter.edit.image');
+    Route::put('image/edit/{imageId}', 'ReporterController@submitImageEditForm')->name('reporter.edited.image.submit');
+
+    Route::get('create/video', 'ReporterController@showCreateVideoForm')->name('reporter.create.video');
+    Route::get('video/all', 'ReporterController@showAllVideos')->name('reporter.view.videos');
+    Route::get('video/edit/{videoId}', 'ReporterController@showVideoEditForm')->name('reporter.edit.video');
+    Route::put('video/edit/{videoId}', 'ReporterController@submitVideoEditForm')->name('reporter.edited.video.submit');
+
+
+
     Route::get('logout', 'ReporterController@logout')->name('reporter.logout');
 });
 
