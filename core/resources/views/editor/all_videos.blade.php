@@ -24,7 +24,7 @@
                             <td>
                                 <img src="{{ asset('assets/front/images/video/'.$video->preview) }}" width="120" alt="No Image">
                             </td>
-                            <td>{{ $video->videoaddress }}</td>
+                            <td>{{ $video->url }}</td>
                             <td>
                                 <input type="checkbox" @if($video->status==1) checked @endif disabled>Published
                                 <input type="checkbox" @if($video->status==0) checked @endif disabled>Unpublished

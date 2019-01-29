@@ -51,10 +51,8 @@
 </div>
 
 <script>
-    $(document).ready(function() {
-        bkLib.onDomLoaded(function () {
-            new nicEditor({iconsPath: '../../assets/reporter/images/nicEditorIcons.gif'}).panelInstance('textArea');
-        });
+    bkLib.onDomLoaded(function () {
+        new nicEditor({iconsPath: '../../assets/reporter/images/nicEditorIcons.gif'}).panelInstance('textArea');
     });
 </script>
 @stop

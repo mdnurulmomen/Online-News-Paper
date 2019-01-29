@@ -10,6 +10,13 @@
     <link rel="stylesheet" href="{{ asset('assets/reporter/css/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/reporter/css/bootstrap-toggle.min.css') }}">
 
+    <script src="{{ asset('assets/reporter/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/reporter/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/reporter/js/bootadmin.min.js') }}"></script>
+    <script src="{{ asset('assets/reporter/js/toastr.min.js') }}"></script>
+    <script src="{{ asset('assets/reporter/js/bootstrap-toggle.min.js') }}"></script>
+    <script src="{{asset('assets/reporter/js/nicEdit.js')}}" type="text/javascript"></script>
+
     <title>Dashboard | Online News Admin Panel</title>
 </head>
 <body class="bg-light">
@@ -42,7 +49,7 @@
                 </a>
                 <ul id="view" class="list-unstyled collapse">
                     <li><a href="{{ route('reporter.create.news') }}">Create News</a></li>
-                    <li><a href="{{ route('reporter.view.news') }}">View All News</a></li>
+                    <li><a href="{{ route('reporter.view.news') }}">View News</a></li>
                 </ul>
             </li>
             <li>
@@ -73,17 +80,8 @@
     </div>
 </div>
 
-<script src="{{ asset('assets/reporter/js/jquery.min.js') }}"></script>
-<script src="{{ asset('assets/reporter/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('assets/reporter/js/bootadmin.min.js') }}"></script>
-<script src="{{ asset('assets/reporter/js/toastr.min.js') }}"></script>
-<script src="{{ asset('assets/reporter/js/bootstrap-toggle.min.js') }}"></script>
-<script src="{{asset('assets/reporter/js/nicEdit.js')}}" type="text/javascript"></script>
-<script>
-    bkLib.onDomLoaded(function () {
-        new nicEditor({iconsPath: '../../assets/reporter/images/nicEditorIcons.gif'}).panelInstance('textArea');
-    });
-</script>
+
+
 <script>
     (function ($) {
         $(document).ready(function () {

@@ -193,7 +193,7 @@ class EditorController extends Controller
 
         $imageToUpdate->save();
 
-        return redirect()->route('editor.edit.image', $imageToUpdate->id)->with('success', 'Video is updated');
+        return redirect()->route('editor.edit.image', $imageToUpdate->id)->with('success', 'Image is updated');
     }
 
 
