@@ -23,6 +23,12 @@ class Setting extends Model
         return $subHeadlines;
     }
 
+    public function getMenuCategoriesAttribute()
+    {
+        $headerCategories = json_decode($this->header_categories);
+        return $headerCategories;
+    }
+
     public function getFrontCategoriesAttribute()
     {
         $prioritizedCategories = json_decode($this->index_categories);
@@ -43,6 +49,11 @@ class Setting extends Model
     public function setSettingsSubHeadlinesAttribute($subHeadlines = array())
     {
         $this->sub_headlines = json_encode($subHeadlines);
+    }
+
+    public function setMenuCategoriesAttribute($idCategories = array())
+    {
+        $this->header_categories = json_encode($idCategories);
     }
 
     public function setCategoryPriorityAttribute($idCategories = array())

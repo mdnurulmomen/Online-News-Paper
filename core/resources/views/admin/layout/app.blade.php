@@ -100,6 +100,7 @@
                     <ul id="category" class="list-unstyled collapse">
                         <li><a href="{{ route('admin.create.category') }}">Create Category</a></li>
                         <li><a href="{{ route('admin.view.categories') }}">View Categories</a></li>
+                        <li><a href="{{ route('admin.settings.menu_categories') }}">Menu Categories</a></li>
                         <li><a href="{{ route('admin.settings.index_categories') }}">Front Categories</a></li>
                         <li><a href="{{ route('admin.settings.footer_categories') }}">Footer Categories</a></li>
                     </ul>

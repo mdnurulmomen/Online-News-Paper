@@ -27,10 +27,10 @@
                     <div class="row mb-3">
                         <div class="col-sm-12">
                             <a href="{{ url('news/'.array_first($headlines)->id) }}"> 
-                                @if(file_exists('assets/front/images/news-img/'.array_first($headlines)->picpath))
-                                    <img src="{{ asset('assets/front/images/news-img/'.array_first($headlines)->picpath) }}" class="img-fluid" alt="Responsive image">
+                                @if(file_exists('assets/front/images/news/'.array_first($headlines)->preview))
+                                    <img src="{{ asset('assets/front/images/news/'.array_first($headlines)->preview) }}" class="img-fluid" alt="Responsive image">
                                 @else
-                                    <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
+                                    <img src="{{ asset('assets/front/images/setting/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
                                 @endif
                                 <div class="captionUpper">
                                     {{ array_first($headlines)->title }}
@@ -45,10 +45,10 @@
                             <div class="col-sm-6">
                                 <div class="bg-white">
                                     <a href="{{ url('news/'.$value->id) }}"> 
-                                        @if( file_exists('assets/front/images/news-img/'.$value->picpath) )
-                                            <img src="{{ asset('assets/front/images/news-img/'.$value->picpath) }}" class="img-fluid" alt="Responsive image">
+                                        @if( file_exists('assets/front/images/news/'.$value->preview) )
+                                            <img src="{{ asset('assets/front/images/news/'.$value->preview) }}" class="img-fluid" alt="Responsive image">
                                         @else
-                                            <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
+                                            <img src="{{ asset('assets/front/images/setting/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
                                         @endif
                                            
                                         <div class="title">
@@ -73,10 +73,10 @@
                         <a href="{{ url('news/'.$subHeadline->id) }}"> 
                             <div class="parallal">
                                 <div class="image">
-                                    @if(file_exists('assets/front/images/news-img/'.$subHeadline->picpath))
-                                        <img src="{{ asset('assets/front/images/news-img/'.$subHeadline->picpath) }}" class="img-fluid pull-left" src="" alt="Responsive image">
+                                    @if(file_exists('assets/front/images/news/'.$subHeadline->preview))
+                                        <img src="{{ asset('assets/front/images/news/'.$subHeadline->preview) }}" class="img-fluid pull-left" src="" alt="Responsive image">
                                     @else
-                                        <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
+                                        <img src="{{ asset('assets/front/images/setting/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
                                     @endif
                                 </div>
                                 <div class="title">
@@ -113,13 +113,11 @@
     
     <div class="media-wrapper">
         <div class="container-fluid">
-
-            <div class="row categoryName">
-                Images & Videos 
-            </div>
-            
             <div class="row">
                 <div class="col-md-8">
+                    <div class="categoryName">
+                        Images 
+                    </div>
                     <div class="row mb-3">
                         <div class="imageDiv">
                             <div class="title">
@@ -127,26 +125,25 @@
                             </div>
                             
                             <div class="image"> 
-                            @if(file_exists('assets/front/images/image-img/'.array_first($allImages)->preview))
-                                <img src="{{ asset('assets/front/images/image-img/'.array_first($allImages)->preview) }}" class="img-fluid" alt="Responsive image">
+                            @if(file_exists('assets/front/images/previews/'.array_first($allImages)->preview))
+                                <img src="{{ asset('assets/front/images/previews/'.array_first($allImages)->preview) }}" class="img-fluid" alt="Responsive image">
                             @else
-                                <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
+                                <img src="{{ asset('assets/front/images/setting/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
                             @endif
                             </div> 
                         </div>
 
                     </div>
                     <div class="row mb-3">
-                        @foreach($allImages as $key=>$value)
+                        @foreach($allImages as $key => $value)
                         @if($key > 0)
                         <div class="col-md-3">
                             <a href="{{ url('image/'.$value->id) }}">
-                                @if(file_exists('assets/front/images/image-img/'.$value->preview))
-                                    <img src="{{ asset('assets/front/images/image-img/'.$value->preview) }}" class="img-fluid" alt="Responsive image">
+                                @if( file_exists ('assets/front/images/previews/'.$value->preview) )
+                                    <img src="{{ asset('assets/front/images/previews/'.$value->preview) }}" class="img-fluid" alt="Responsive image">
                                 @else
-                                    <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
-                                @endif
-                                
+                                    <img src="{{ asset('assets/front/images/setting/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
+                                @endif 
                                 <div class="title">
                                     {{ $value->title }}
                                 </div>
@@ -157,6 +154,9 @@
                     </div>
                 </div>
                 <div class="col-md-4 Video">
+                    <div class="categoryName">
+                        Videos 
+                    </div>
                     <div class="mb-3">
                         <a href="{{ url('video/'.array_first($allVideos)->id) }}"> 
                             <div class="embed-responsive embed-responsive-16by9">
@@ -207,10 +207,10 @@
                         <div class="col-md-4 mb-3">
                             <a href="{{ url('news/'.$value->id) }}"> 
                                 <div class="bg-white"> 
-                                @if(file_exists('assets/front/images/news-img/'.$value->picpath))
-                                    <img src="{{ asset('assets/front/images/news-img/'.$value->picpath) }}" class="img-fluid" alt="Responsive image">
+                                @if(file_exists('assets/front/images/news/'.$value->preview))
+                                    <img src="{{ asset('assets/front/images/news/'.$value->preview) }}" class="img-fluid" alt="Responsive image">
                                 @else
-                                    <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}" class="img-fluid" alt="Responsive image">
+                                    <img src="{{ asset('assets/front/images/setting/'.$allSettings->defaultpic) }}" class="img-fluid" alt="Responsive image">
                                 @endif
                                     <div class="title">
                                         {{ $value->title }}
@@ -219,7 +219,7 @@
                             </a>
                         </div>
 
-                            @if($key>0 && $key%3==0)
+                            @if($key>0 && ($key+1)%3==0)
                                 </div><div class="row">
                             @endif
 
@@ -241,10 +241,10 @@
                         <div class="col-md-6">
                             <a href="{{ url('news/'.array_first($categorizedNews[1])->id) }}"> 
                                 <div class="bg-white"> 
-                                @if(file_exists('assets/front/images/news-img/'.array_first($categorizedNews[1])->picpath))
-                                    <img src="{{ asset('assets/front/images/news-img/'.array_first($categorizedNews[1])->picpath) }}" class="img-fluid" alt="Responsive image">
+                                @if(file_exists('assets/front/images/news/'.array_first($categorizedNews[1])->preview))
+                                    <img src="{{ asset('assets/front/images/news/'.array_first($categorizedNews[1])->preview) }}" class="img-fluid" alt="Responsive image">
                                 @else
-                                    <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}" class="img-fluid" alt="Responsive image">
+                                    <img src="{{ asset('assets/front/images/setting/'.$allSettings->defaultpic) }}" class="img-fluid" alt="Responsive image">
                                 @endif
                                     <div class="title">
                                        {{ array_first($categorizedNews[1])->title }} 
@@ -263,10 +263,10 @@
                             <a href="{{ url('news/'.$value->id) }}">     
                                 <div class="parallal">
                                     <div class="image">
-                                        @if(file_exists('assets/front/images/news-img/'.$value->picpath))
-                                            <img src="{{ asset('assets/front/images/news-img/'.$value->picpath) }}" class="img-fluid" alt="Responsive image">
+                                        @if(file_exists('assets/front/images/news/'.$value->preview))
+                                            <img src="{{ asset('assets/front/images/news/'.$value->preview) }}" class="img-fluid" alt="Responsive image">
                                         @else
-                                            <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}" class="img-fluid" alt="Responsive image">
+                                            <img src="{{ asset('assets/front/images/setting/'.$allSettings->defaultpic) }}" class="img-fluid" alt="Responsive image">
                                         @endif
                                     </div>
                                     <div class="title">
@@ -300,10 +300,10 @@
                     <a href="{{ url('news/'.$thirdCategorizedNews->id) }}"> 
                         <div class="parallal">
                             <div class="image">
-                            @if(file_exists('assets/front/images/news-img/'.$thirdCategorizedNews->picpath))
-                                <img src="{{ asset('assets/front/images/news-img/'.$thirdCategorizedNews->picpath) }}" class="img-fluid" alt="Responsive image">
+                            @if(file_exists('assets/front/images/news/'.$thirdCategorizedNews->preview))
+                                <img src="{{ asset('assets/front/images/news/'.$thirdCategorizedNews->preview) }}" class="img-fluid" alt="Responsive image">
                             @else
-                                <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->defaultpic) }}" class="img-fluid" alt="Responsive image">
+                                <img src="{{ asset('assets/front/images/setting/'.$allSettings->defaultpic) }}" class="img-fluid" alt="Responsive image">
                             @endif
                             </div>
                             <div class="title">
@@ -333,10 +333,10 @@
                             <a href="{{ url('news/'.$value->id) }}"> 
                                 <div class="parallal">
                                     <div class="image">
-                                        @if(file_exists('assets/front/images/news-img/'.$value->picpath))
-                                            <img src="{{ asset('assets/front/images/news-img/'.$value->picpath) }}" class="img-fluid" alt="Responsive image">
+                                        @if(file_exists('assets/front/images/news/'.$value->preview))
+                                            <img src="{{ asset('assets/front/images/news/'.$value->preview) }}" class="img-fluid" alt="Responsive image">
                                         @else
-                                            <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
+                                            <img src="{{ asset('assets/front/images/setting/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
                                         @endif
                                     </div>
                                     <div class="title">

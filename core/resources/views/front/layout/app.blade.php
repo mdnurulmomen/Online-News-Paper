@@ -235,7 +235,7 @@
         }
 
         .footer-menu li{
-            padding: 3%;
+            padding: 6%;
         }
 
         .footer-menu a{
@@ -361,7 +361,7 @@
                 <div class="row text-center">
                     <nav class="navbar navbar-expand-lg navbar-light bg-light" id="menuNav"> 
                         <a class="navbar-brand" href="{{ url('/') }}">
-                            <img src="{{asset('assets/front/images/setting-img/'.$allSettings->logo)}}">
+                            <img src="{{asset('assets/front/images/setting/'.$allSettings->logo)}}">
                         </a>
 
                         <div class="collapse navbar-collapse">
@@ -436,7 +436,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-sm-2">
-                        <ul style="list-style-type: circle;">
+                        <ul style="">
                         @foreach($footerCategories as $key=>$category)
                             <li>
                                 <a href="{{$category->url}}">

@@ -92,7 +92,7 @@ class AdminController extends Controller
         ]);
 
         $profileToUpdate = Auth::guard('admin')->user();
-        
+
         if(Hash::check($request->currentPassword, $profileToUpdate->password))
         {
             Auth::guard('admin')->user()->password = Hash::make($request->password);
@@ -217,6 +217,37 @@ class AdminController extends Controller
         $settings->save();
 
         return redirect()->back()->with('success', 'Sub Headlines are Updated');
+    }
+
+    public function showMenuCategoriesForm()
+    {   
+        $settings = Setting::firstOrFail();
+        $headerCategories = $settings->menu_categories;
+        
+//        ->orderByRaw('FIELD(id,5,3,7,1,6,12,8)')
+        if(!empty($headerCategories)){    
+            $headerCategories = Category::whereIn('id', $headerCategories)->orderByRaw('FIELD(id, '.implode(',', $headerCategories).')')->get();
+            
+            return view('admin.menu_categories', compact('headerCategories'));
+        }
+
+        return redirect()->back()->withErrors('No Front Category is Set yet');
+    }
+
+    public function submitMenuCategoriesForm(Request $request)
+    {
+        $request->validate([
+            'categories_id.*'=>'nullable|exists:categories,id'
+        ]);
+
+        $categories_id = array_values(array_filter($request->categories_id));
+        
+        $settings = Setting::first();
+        $settings->menu_categories = $categories_id;
+        
+        $settings->save();
+
+        return redirect()->back()->with('success', 'Front Categories are Updated');
     }
 
     public function showFrontCategoriesForm()

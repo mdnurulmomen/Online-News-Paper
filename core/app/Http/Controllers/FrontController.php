@@ -28,7 +28,7 @@ class FrontController extends Controller
 
         $allVideos = Video::orderBy('created_at', 'DESC')->take(3)->get();
 
-        $categoryPrioritized = $allSettings->prioritized_categories;
+        $categoryPrioritized = $allSettings->front_categories;
         $categoryNames = Category::whereIn('id', $categoryPrioritized)->orderByRaw('FIELD(id,'.implode(',',$categoryPrioritized).')')->get();
 
         foreach ($categoryPrioritized as $key => $value) {
@@ -37,7 +37,7 @@ class FrontController extends Controller
             // $categorizedNews[] = News::where('category_id', $value)->where('status', 1)->get();
         }
 
-        $footerCategories = Category::all()->whereIn('id', json_decode($allSettings->footer_categories));
+        $footerCategories = Category::whereIn('id', json_decode($allSettings->categories_footer))->get();
 
         return view('front.index', compact('allSettings', 'allCategories', 'headerCategories', 'headlines', 'subHeadlines', 'allImages', 'allVideos', 'categoryNames', 'categorizedNews', 'footerCategories'));
     }

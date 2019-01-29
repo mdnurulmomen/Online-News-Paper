@@ -20,7 +20,7 @@
                     <tr>
                         <td>{{ $image->id }}</td>
                         <td>{{ $image->title }}</td>
-                        <td>{{ $image->description }}</td>
+                        <td>{{ str_limit($image->description, 60) }}</td>
                         
                         <td>
                             <input type="checkbox" @if($image->status==1) checked @endif disabled>Published

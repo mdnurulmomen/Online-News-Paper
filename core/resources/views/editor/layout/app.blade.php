@@ -10,6 +10,13 @@
     <link rel="stylesheet" href="{{ asset('assets/editor/css/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/editor/css/bootstrap-toggle.min.css') }}">
 
+    <script src="{{ asset('assets/editor/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/editor/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/editor/js/bootadmin.min.js') }}"></script>
+    <script src="{{ asset('assets/editor/js/toastr.min.js') }}"></script>
+    <script src="{{ asset('assets/editor/js/bootstrap-toggle.min.js') }}"></script>
+    <script src="{{asset('assets/editor/js/nicEdit.js')}}" type="text/javascript"></script>
+
     <title>Dashboard | Online News Admin Panel</title>
 </head>
 <body class="bg-light">
@@ -71,13 +78,6 @@
 
     </div>
 </div>
-
-<script src="{{ asset('assets/editor/js/jquery.min.js') }}"></script>
-<script src="{{ asset('assets/editor/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('assets/editor/js/bootadmin.min.js') }}"></script>
-<script src="{{ asset('assets/editor/js/toastr.min.js') }}"></script>
-<script src="{{ asset('assets/editor/js/bootstrap-toggle.min.js') }}"></script>
-<script src="{{asset('assets/editor/js/nicEdit.js')}}" type="text/javascript"></script>
 
 <script>
     (function ($) {

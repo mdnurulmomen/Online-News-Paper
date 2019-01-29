@@ -24,8 +24,12 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth:admin'], function (){
     Route::get('settings/headlines/sub', 'AdminController@showSubHeadlinesSettingForm')->name('admin.settings_sub_headlines');
     Route::put('settings/headlines/sub', 'AdminController@submitSubHeadlinesSettingForm')->name('admin.settings_sub_headlines_submit');
 
+    Route::get('settings/categories/menu', 'AdminController@showMenuCategoriesForm')->name('admin.settings.menu_categories');
+    Route::put('settings/categories/menu', 'AdminController@submitMenuCategoriesForm')->name('admin.settings.menu_categories.submit');
+
     Route::get('settings/categories/front', 'AdminController@showFrontCategoriesForm')->name('admin.settings.index_categories');
     Route::put('settings/categories/front', 'AdminController@submitFrontCategoriesForm')->name('admin.settings.index_categories.submit');
+
 
     Route::get('settings/categories/footer', 'AdminController@showFooterCategoriesForm')->name('admin.settings.footer_categories');
     Route::put('settings/categories/footer', 'AdminController@submitFooterCategoriesForm')->name('admin.settings.footer_categories.submit');
