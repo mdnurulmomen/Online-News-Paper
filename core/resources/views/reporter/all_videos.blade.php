@@ -1,5 +1,5 @@
 
-@extends('editor.layout.app')
+@extends('reporter.layout.app')
 @section('contents')
 
         <h2 class="mb-4"> Video List </h2>
@@ -24,13 +24,13 @@
                             <td>
                                 <img src="{{ asset('assets/front/images/video/'.$video->preview) }}" width="120" alt="No Image">
                             </td>
-                            <td>{{ $video->videoaddress }}</td>
+                            <td>{{ $video->url }}</td>
                             <td>
                                 <input type="checkbox" @if($video->status==1) checked @endif disabled>Published
                                 <input type="checkbox" @if($video->status==0) checked @endif disabled>Unpublished
                             </td>
                             <td>
-                                <a href="{{ route('editor.edit.video', [$video->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit">
+                                <a href="{{ route('reporter.edit.video', [$video->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit">
                                     <i class="fa fa-fw fa-edit"></i>
                                 </a>
                             </td>

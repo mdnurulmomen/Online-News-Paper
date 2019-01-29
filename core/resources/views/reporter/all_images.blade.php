@@ -1,5 +1,5 @@
 
-@extends('editor.layout.app')
+@extends('reporter.layout.app')
 @section('contents')
 
     <h2 class="mb-4"> Image's List </h2>
@@ -20,14 +20,14 @@
                     <tr>
                         <td>{{ $image->id }}</td>
                         <td>{{ $image->title }}</td>
-                        <td>{{ $image->description }}</td>
+                        <td>{{ str_limit($image->description, 60) }}</td>
                         
                         <td>
                             <input type="checkbox" @if($image->status==1) checked @endif disabled>Published
                             <input type="checkbox" @if($image->status==0) checked @endif disabled>Unpublished
                         </td>
                         <td>
-                            <a href="{{ route('editor.edit.image', [$image->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit">
+                            <a href="{{ route('reporter.edit.image', [$image->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit">
                                 <i class="fa fa-fw fa-edit"></i>
                             </a>
                         </td>

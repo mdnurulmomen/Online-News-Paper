@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\News;
+use App\Video;
 use App\Setting;
+use App\Image as ImageModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -38,7 +40,6 @@ class ReporterController extends Controller
 
     public function submitProfileForm(Request $request)
     {
-
         $profileToUpdate = Auth::guard('reporter')->user();
 
         $request->validate([
@@ -101,7 +102,7 @@ class ReporterController extends Controller
             'category'=>'required',
             'title'=>'required',
             'description'=>'required',
-            'preview'=>'required|image',
+            'preview'=>'nullable|image',
         ]);
 
         $currentUser = Auth::guard('reporter')->user();
@@ -115,14 +116,15 @@ class ReporterController extends Controller
         if($request->has('preview')){
             $originalImage = $request->file('preview');
             $imageInterventionObj = Image::make($originalImage)->encode('jpg');
-            $imageInterventionObj->resize('640', '360')->save('assets/front/images/'.$originalImage->hashName());
+            $imageInterventionObj->resize('640', '360')->save('assets/front/images/news/'.$originalImage->hashName());
             $newNews->preview = $originalImage->hashName();
         }
 
-        $statusPermission = Setting::first()->newsverification;
+        $statusPermission = Setting::first()->news_verification;
         $statusPermission==1 ? $newNews->status=0 : $newNews->status=1;
 
         $newNews->save();
+
         return redirect()->back()->with('success', 'News is Added');
     }
 
@@ -130,6 +132,7 @@ class ReporterController extends Controller
     {
         $currentUser = Auth::guard('reporter')->user();
         $allNews = News::all()->where('created_reporter_id', $currentUser->id);
+
         return view('reporter.all_news', compact('allNews'));
     }
 
@@ -143,7 +146,7 @@ class ReporterController extends Controller
     public function submitNewsEditForm(Request $request, $newsId)
     {
         $request->validate([
-            'category' => 'required',
+            'categoryId' => 'required',
             'title' => 'required',
             'description' => 'required',
             'preview' => 'nullable|image',
@@ -151,28 +154,69 @@ class ReporterController extends Controller
 
         $newsToUpdate = News::find($newsId);
 
-        $newsToUpdate->category_id = $request->category;
+        $newsToUpdate->category_id = $request->categoryId;
         $newsToUpdate->title = $request->title;
         $newsToUpdate->description = $request->description;
 
         if($request->has('preview')){
             $originalImage = $request->file('preview');
             $imageInterventionObj = Image::make($originalImage)->encode('jpg');
-            $imageInterventionObj->resize('300', '300')->save('assets/front/images/'.$originalImage->hashName());
+            $imageInterventionObj->resize('640', '360')->save('assets/front/images/news/'.$originalImage->hashName());
             $newsToUpdate->preview = $originalImage->hashName();
         }
 
         $settings = Setting::first();
-        ($settings->newsverification==0) ? $newsToUpdate->status = 1 :$newsToUpdate->status =0;
+        $settings->news_verification == 0 ? $newsToUpdate->status = 1 :$newsToUpdate->status =0;
 
         $newsToUpdate->save();
 
         return redirect()->back()->with('success', 'News is Updated');
     }
 
+    public function showCreateImageForm()
+    {
+        return view('reporter.create_image');
+    }
+
+    public function submitCreateImageForm(Request $request)
+    {
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'preview' => 'image'
+        ]);
+
+        $currentUser = Auth::guard('reporter')->user();
+
+        $newImage = new ImageModel();
+        $newImage->created_reporter_id = $currentUser->id;
+        $newImage->title = $request->title;
+        $newImage->description = $request->description;
+
+        if($request->hasfile('preview')){
+
+            $originalImage = $request->file('preview');
+            $imageInterventionObj = Image::make($originalImage)->encode('jpg');
+            $imageInterventionObj->resize('640', '360')->save('assets/front/images/previews/'.$originalImage->hashName());
+
+            $newImage->preview = $originalImage->hashName();
+        }
+
+        $settings = Setting::first();
+        $settings->news_verification == 0 ? $newImage->status = 1 :$newImage->status =0;
+        
+        $newImage->save();
+        
+        return redirect()->back()->with('success', 'New Image is Added');
+    }
+
+
     public function showAllImages()
     {
-        $allImages = ImageModel::orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->paginate(15);
+        $currentUser = Auth::guard('reporter')->user();
+
+        $allImages = ImageModel::where('created_reporter_id', $currentUser->id)->orderBy('created_at', 'DESC')->paginate(15);
+
         return view('reporter.all_images', compact('allImages'));
     }
 
@@ -204,7 +248,7 @@ class ReporterController extends Controller
             $imageToUpdate->preview = $originalImage->hashName();
         }
 
-        $statusPermission = Setting::first()->newsverification;
+        $statusPermission = Setting::first()->news_verification;
         $statusPermission==1 ? $imageToUpdate->status=0 : $imageToUpdate->status=1;
 
         $imageToUpdate->save();
@@ -212,10 +256,48 @@ class ReporterController extends Controller
         return redirect()->route('reporter.edit.image', $imageToUpdate->id)->with('success', 'Image is updated');
     }
 
+    public function showCreateVideoForm()
+    {
+        return view('reporter.create_video');
+    }
+
+    public function submitCreateVideoForm(Request $request)
+    {
+        $request->validate([
+            'title' => 'required',
+            'preview' => 'nullable|image',
+            'url' => 'required'
+        ]);
+
+        $currentUser = Auth::guard('reporter')->user();
+
+        $newVideo = new Video();
+        $newVideo->created_reporter_id = $currentUser->id;
+        $newVideo->title = $request->title;
+
+        if($request->has('preview')){
+            $originalImage = $request->file('preview');
+            $imageInterventionObj = Image::make($originalImage)->encode('jpg');
+            $imageInterventionObj->resize('640', '360')->save('assets/front/images/video/'.$originalImage->hashName());
+            $newVideo->preview = $originalImage->hashName();
+        }
+
+        $newVideo->url = $request->url;
+
+        $statusPermission = Setting::first()->news_verification;
+        $statusPermission==1 ? $newVideo->status=0 : $newVideo->status=1;
+
+        $newVideo->save();
+
+        return redirect()->back()->with('success', 'New Video is Added');
+    }
 
     public function showAllVideos()
     {
-        $allVideos = Video::orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->paginate(15);
+        $currentUser = Auth::guard('reporter')->user();
+
+        $allVideos = Video::where('created_reporter_id', $currentUser->id)->orderBy('created_at', 'DESC')->paginate(15);
+
         return view('reporter.all_videos', compact('allVideos'));
     }
 
@@ -246,7 +328,7 @@ class ReporterController extends Controller
             $videoToUpdate->preview = $originalImage->hashName();
         }
 
-        $statusPermission = Setting::first()->newsverification;
+        $statusPermission = Setting::first()->news_verification;
         $statusPermission==1 ? $videoToUpdate->status=0 : $videoToUpdate->status=1;
 
         $videoToUpdate->save();
@@ -256,7 +338,7 @@ class ReporterController extends Controller
 
     public function logout()
     {
-        Auth::logout();
+        Auth::guard('reporter')->logout();
         return redirect()->route('reporter.login');
     }
 }

@@ -9,7 +9,7 @@
                     <thead>
                     <tr>
                         <th>Category</th>
-                        <th>Post Title </th>
+                        <th>News Title </th>
                         <th>Description</th>
                         <th>Status</th>
                         <th class="actions">Actions</th>

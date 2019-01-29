@@ -92,6 +92,7 @@ class AdminController extends Controller
         ]);
 
         $profileToUpdate = Auth::guard('admin')->user();
+        
         if(Hash::check($request->currentPassword, $profileToUpdate->password))
         {
             Auth::guard('admin')->user()->password = Hash::make($request->password);
@@ -226,6 +227,7 @@ class AdminController extends Controller
 //        ->orderByRaw('FIELD(id,5,3,7,1,6,12,8)')
         if(!empty($prioritizedCategories)){    
             $prioritizedCategoryDetails = Category::whereIn('id', $prioritizedCategories)->orderByRaw('FIELD(id, '.implode(',', $prioritizedCategories).')')->get();
+            
             return view('admin.index_categories', compact('prioritizedCategoryDetails'));
         }
 

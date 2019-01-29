@@ -85,7 +85,8 @@ class EditorController extends Controller
         $profileToUpdate = Auth::guard('editor')->user();
 
         if(Hash::check($request->currentPassword, $profileToUpdate->password)){
-            $profileToUpdate->password = Hash::make($request->password);
+
+            Auth::guard('admin')->user()->password = Hash::make($request->password);
             return redirect()->back()->with('success', 'Password is Updated');
         }
 
@@ -105,9 +106,11 @@ class EditorController extends Controller
 
     public function showNewsEditForm($newsId)
     {
-        $newsToUpdate = News::find($newsId);
+        $newsToUpdate = News::findOrFail($newsId);
+
         $currentEditor = Auth::guard('editor')->user();
         $editorCategories = json_decode($currentEditor->categories_id);
+
         $allCategories = Category::all()->whereIn('id', $editorCategories);
 
         return view('editor.edit_news', compact('newsToUpdate', 'allCategories'));
@@ -132,7 +135,7 @@ class EditorController extends Controller
         if($request->has('preview')){
             $originalImage = $request->file('preview');
             $imageInterventionObj = Image::make($originalImage)->encode('jpg');
-            $imageInterventionObj->resize('640', '360')->save('assets/front/images/'.$originalImage->hashName());
+            $imageInterventionObj->resize('640', '360')->save('assets/front/images/news/'.$originalImage->hashName());
             $newsToUpdate->preview = $originalImage->hashName();
         }
 

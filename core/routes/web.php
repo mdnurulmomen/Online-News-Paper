@@ -125,11 +125,14 @@ Route::group(['prefix'=>'reporter', 'middleware'=>'auth:reporter'], function(){
 
 
     Route::get('create/image', 'ReporterController@showCreateImageForm')->name('reporter.create.image');
+    Route::put('create/image', 'ReporterController@submitCreateImageForm')->name('reporter.created.image.submit');
     Route::get('images/all', 'ReporterController@showAllImages')->name('reporter.view.images');
     Route::get('image/edit/{imageId}', 'ReporterController@showImageEditForm')->name('reporter.edit.image');
     Route::put('image/edit/{imageId}', 'ReporterController@submitImageEditForm')->name('reporter.edited.image.submit');
 
+
     Route::get('create/video', 'ReporterController@showCreateVideoForm')->name('reporter.create.video');
+    Route::put('create/video', 'ReporterController@submitCreateVideoForm')->name('reporter.created.video.submit');
     Route::get('video/all', 'ReporterController@showAllVideos')->name('reporter.view.videos');
     Route::get('video/edit/{videoId}', 'ReporterController@showVideoEditForm')->name('reporter.edit.video');
     Route::put('video/edit/{videoId}', 'ReporterController@submitVideoEditForm')->name('reporter.edited.video.submit');

@@ -1,5 +1,5 @@
 
-@extends('editor.layout.app')
+@extends('reporter.layout.app')
 @section('contents')
 <div class="content p-4">
     <h2 class="mb-4"> Image Setting </h2>
@@ -9,7 +9,7 @@
         </div>
 
         <div class="card-body">
-            <form method="POST" action = "{{ route('editor.edited.image.submit', $imageToUpdate->id) }}" enctype="multipart/form-data">
+            <form method="POST" action = "{{ route('reporter.edited.image.submit', $imageToUpdate->id) }}" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <div class="form-group row">
@@ -24,7 +24,7 @@
                         <textarea id="textArea" name="description" class="form-control form-control-lg" placeholder="Description of Image" rows="5" required> {{$imageToUpdate->description}} </textarea>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group row mb-4">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Preview:</label>
                     <div class="col-sm-3">
                         <img src="{{ asset('assets/front/images/previews/'.$imageToUpdate->preview) }}" class="img-thumbnail img-fluid" alt="No Image">
@@ -33,12 +33,7 @@
                         <input type="file" name="preview" class="form-control form-control-lg" accept="image/*" placeholder="choose new preview">
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Status:</label>
-                    <div class="col-sm-10">
-                        <input type="checkbox" name="status" @if($imageToUpdate->status==1) checked @endif  data-toggle="toggle" data-on="Published" data-off="Unpublished" data-onstyle="success" data-offstyle="danger">
-                    </div>
-                </div>
+        
                 <div class="form-group row">
                     <div class="col-sm-12">
                         <button type="submit" class="btn btn-block btn-lg btn-primary">Update</button>
@@ -52,7 +47,7 @@
 <script>
     $(document).ready(function() {
         bkLib.onDomLoaded(function () {
-            new nicEditor({iconsPath: '../../assets/editor/images/nicEditorIcons.gif'}).panelInstance('textArea');
+            new nicEditor({iconsPath: '../../../assets/reporter/images/nicEditorIcons.gif'}).panelInstance('textArea');
         });
     });
 </script>
