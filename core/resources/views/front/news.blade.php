@@ -12,7 +12,7 @@
     <div class="categoryName-wrapper">
         <div class="container-fluid">
             <div class="categoryName">
-                {{ $categoryName }}
+                {{ $specificNewsDetails->category->name }}
                 <hr>
             </div> 
         </div>
@@ -25,13 +25,13 @@
             <div class="row">
                 <div class="col-md-7">
                     <div class="title">
-                        {{ $specificNewsDetails->title }} {{ $specificNewsDetails->id }}
+                        {{ $specificNewsDetails->title }} 
                     </div>
                     <div class="newsDetails">
-                        @if(file_exists('assets/front/images/news-img/'.$specificNewsDetails->picpath))
-                            <img src="{{ asset('assets/front/images/news-img/'.$specificNewsDetails->picpath) }}" class="img-fluid" alt="Responsive image">
+                        @if(file_exists('assets/front/images/news/'.$specificNewsDetails->preview))
+                            <img src="{{ asset('assets/front/images/news/'.$specificNewsDetails->preview) }}" class="img-fluid" alt="Responsive image">
                         @else
-                            <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
+                            <img src="{{ asset('assets/front/images/setting/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
                         @endif
 
                         <div class="description">
@@ -49,19 +49,19 @@
                     </div>
                     
                     @foreach($moreRelatedNews as $key => $relatedNews)
-                       
+
                     @if($key < 6)
                     <a href="{{ url('news/'.$relatedNews->id) }}"> 
                         <div class="parallal">
                             <div class="image">
-                                @if(file_exists('assets/front/images/news-img/'.$relatedNews->picpath))
-                                    <img src="{{ asset('assets/front/images/news-img/'.$relatedNews->picpath) }}" class="img-fluid pull-left" src="" alt="Responsive image">
+                                @if(file_exists('assets/front/images/news/'.$relatedNews->preview))
+                                    <img src="{{ asset('assets/front/images/news/'.$relatedNews->preview) }}" class="img-fluid pull-left" src="" alt="Responsive image">
                                 @else
-                                    <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
+                                    <img src="{{ asset('assets/front/images/setting/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
                                 @endif
                             </div>
                             <div class="title">
-                                {{ $relatedNews->title }}
+                                {{ str_limit($relatedNews->title, 25) }}
                             </div>
                         </div>
                     </a>
@@ -100,9 +100,11 @@
                         <div class="item-box-light-lg">
                             <h2 class="title">Leave Your Comment</h2>
 
-                            <form action="{{ route('user.comment.submit') }}" method="post">
+                            <form action="{{ route('user.comment_submit') }}" method="post">
                                 @csrf  
-                                <input type="hidden" name="user" value="{{ Auth::user()->id }}">
+                                <input type="hidden" name="userId" value="{{ Auth::user()->id }}">
+                                <input type="hidden" name="commentableType" value="App\News">
+                                <input type="hidden" name="commentableId" value="{{ $specificNewsDetails->id }}">
 
                                 <div class="form-group">
                                     <textarea placeholder="Your Message*" class="textarea form-control" name="body" id="form-message" rows="8" cols="20"></textarea>
@@ -122,38 +124,26 @@
                     </div>
                     @endif
 
-
                     @foreach($specificNewsDetails->comments as $comment)
-                    <div class="parallal">
-                        <div class="image">
-                            @if(file_exists('assets/front/images/users-img/'.$comment->relatedUser->picpath))
-                                <img src="{{ asset('assets/front/images/users-img/'.$comment->relatedUser->picpath) }}" class="img-fluid pull-left" src="" alt="Responsive image">
-                            @else
-                                <i class="fas fa-user"></i>
-                            @endif
+
+                    <div class="comment-list-item pt-2 ">
+                        <div class="float-left pr-3 mb-3 user-avatar">
+                            <i class="fas fa-user"></i>
                         </div>
-                        <div class="title">
-                            {{ $comment->relatedUser->username }}
-                        </div>
-                        <div class="description">
+                        <div class="comment">
                             {{ $comment->body }}
                         </div>
+                        <div>
+                            On <small>{{ $comment->created_at->format('jS F Y') }}</small>
+                        </div>
+                        
                     </div>
+
                     <hr>
+
                     @endforeach
 
                 </div>
-            </div>
-
-           
-            
-                
-            
-
-            
-
-            <div class="row">
-                
             </div>
 
          </div>
@@ -169,14 +159,14 @@
                     <div class="bg-white">
                         
                         <a href="{{ url('news/'.$relatedNews->id) }}">    
-                            @if(file_exists('assets/front/images/news-img/'.$relatedNews->picpath))
-                                <img src="{{ asset('assets/front/images/news-img/'.$relatedNews->picpath) }}" class="img-fluid pull-left" src="" alt="Responsive image">
+                            @if(file_exists('assets/front/images/news/'.$relatedNews->preview))
+                                <img src="{{ asset('assets/front/images/news/'.$relatedNews->preview) }}" class="img-fluid pull-left" src="" alt="Responsive image">
                             @else
-                                <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
+                                <img src="{{ asset('assets/front/images/setting/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
                             @endif
                             
                             <div class="title">
-                                {{ $relatedNews->title }}
+                                {{ str_limit($relatedNews->title, 25) }}
                             </div> 
                         </a>
 

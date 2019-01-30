@@ -22,7 +22,7 @@
                             <td>{{ $category->url }}</td>
                             <td>{{ $category->name_parent }}</td>
                             <td>
-                                <a href="{{ route('admin.edit.category',  $category->id) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit">
+                                <a href="{{ route('admin.edit_category',  $category->id) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit">
                                     <i class="fa fa-fw fa-edit"></i>
                                 </a>
 
@@ -35,7 +35,7 @@
                         <!-- Modal -->
                         <div class="modal fade" id="myModal{{ $category->id }}" role="dialog">
                             <div class="modal-dialog">
-                                <form action="{{ route('admin.delete.category', $category->id) }}" method="POST">
+                                <form action="{{ route('admin.delete_category', $category->id) }}" method="POST">
                                     @method('delete')
                                     @csrf
                                     <div class="modal-content">

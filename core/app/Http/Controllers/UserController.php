@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Comment;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -52,18 +53,18 @@ class UserController extends Controller
             'username' => 'required||unique:users,username|max:255',
             'password' => 'required',
             'email' => 'nullable|email|unique:reporters,email',
-            'picpath' => 'nullable|image',
+            'profile_pic' => 'nullable|image',
         ]);
     }
 
     protected function create($request)
     {
-        if($request->has('profile_pic')){
+        /*if($request->has('profile_pic')){
             $originalImageFile = $request->profile_pic;
-            $imageObject = Image::make($originalImageFile);
-            $imageObject->resize(150, 150)->save('assets/user/images/'.$originalImageFile->hashname());
+            $imageObject = Image::make($originalImageFile)->encode('jpg');
+            $imageObject->resize(200, 200)->save('assets/user/images/'.$originalImageFile->hashname());
             // $newReporter->picpath = $originalImageFile->hashname();
-        }
+        }*/
 
         return User::create([
             'firstname' => $request['firstname'],
@@ -80,13 +81,22 @@ class UserController extends Controller
 
     use RegistersUsers;
 
-    public function submitCommentForm(Request $request, $newsId, $userId){
+    public function submitCommentForm(Request $request){
     	
     	$request->validate([
     		'body' => 'required'
     	]);
+        
+       
+        $newComment = new Comment();
+        $newComment->body = $request->body;
+        $newComment->commentable_id = $request->commentableId;
+        $newComment->commentable_type = $request->commentableType;
+        $newComment->user_id = $request->userId;
 
+        $newComment->save();
 
+        return redirect()->back()->with('success', 'Your Comment is Posted');
     }
 
     /**

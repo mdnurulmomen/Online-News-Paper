@@ -27,7 +27,7 @@
                                 <label class="checkbox-inline"><input type="checkbox" @if($news->status==0) checked @endif disabled>Unpublished</label>
                             </td>
                             <td>
-                                <a href="{{ route('reporter.edit.news', [$news->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit"><i class="fa fa-fw fa-edit"></i></a>
+                                <a href="{{ route('reporter.edit_news', [$news->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit"><i class="fa fa-fw fa-edit"></i></a>
                             </td>
                         </tr>
                     @endforeach

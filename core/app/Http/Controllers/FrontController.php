@@ -57,7 +57,7 @@ class FrontController extends Controller
 
         $headerCategories = Category::whereIn('id', json_decode($allSettings->header_categories))->get();
 
-        $footerCategories = Category::whereIn('id', json_decode($allSettings->footer_categories))->get();
+        $footerCategories = Category::whereIn('id', json_decode($allSettings->categories_footer))->get();
 
         return view('front.category_news', compact('allSettings', 'allCategories', 'headerCategories', 'categoryName', 'allRelatedNews', 'footerCategories'));
     }
@@ -69,11 +69,11 @@ class FrontController extends Controller
         $headerCategories = Category::whereIn('id', json_decode($allSettings->header_categories))->get();
         
         $specificNewsDetails = News::where('id', $newsId)->first();
-        $categoryName = $specificNewsDetails->category->name;
+        // $categoryName = $specificNewsDetails->category->name;
 
         $moreRelatedNews = News::where('category_id', $specificNewsDetails->category_id)->where('id', '!=', $specificNewsDetails->id)->where('status', 1)->orderBy('created_at', 'DESC')->get();
 
-        $footerCategories = Category::whereIn('id', json_decode($allSettings->footer_categories))->get();
+        $footerCategories = Category::whereIn('id', json_decode($allSettings->categories_footer))->get();
 
         return view('front.news', compact('allSettings', 'allCategories', 'headerCategories', 'categoryName', 'specificNewsDetails', 'moreRelatedNews', 'footerCategories'));
     }
@@ -86,7 +86,7 @@ class FrontController extends Controller
 
         $specificImageDetails = Image::where('id', $imageId)->first();
         
-        $footerCategories = Category::all()->whereIn('id', json_decode($allSettings->footer_categories));
+        $footerCategories = Category::whereIn('id', json_decode($allSettings->categories_footer))->get();
 
         return view('front.image', compact('allSettings', 'allCategories', 'headerCategories', 'specificImageDetails', 'footerCategories'));
     }
@@ -98,11 +98,11 @@ class FrontController extends Controller
         $headerCategories = Category::select('id', 'name', 'url')->whereIn('id', json_decode($allSettings->header_categories))->get();
 
         $specificVideoDetails = Video::where('id', $videoId)->first();
-        $recentVideoDetails = Video::select()->orderBy('created_at', 'DESC')->take(6)->get();
+        $recentVideoDetails = Video::orderBy('created_at', 'DESC')->take(6)->get();
 
-        $allRelatedComments = Comment::select('description', 'user_id')->where('id', $specificVideoDetails->id)->get();
+        $allRelatedComments = Comment::where('id', $specificVideoDetails->id)->get();
 
-        $footerCategories = Category::all()->whereIn('id', json_decode($allSettings->footer_categories));
+        $footerCategories = Category::whereIn('id', json_decode($allSettings->categories_footer));
 
         return view('front.video', compact('allSettings', 'allCategories', 'headerCategories', 'specificVideoDetails', 'recentVideoDetails', 'allRelatedComments', 'footerCategories'));
     }

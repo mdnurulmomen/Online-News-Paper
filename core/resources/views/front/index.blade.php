@@ -24,7 +24,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6">
-                    <div class="row mb-3">
+                    <div class="row mb-4">
                         <div class="col-sm-12">
                             <a href="{{ url('news/'.array_first($headlines)->id) }}"> 
                                 @if(file_exists('assets/front/images/news/'.array_first($headlines)->preview))
@@ -33,7 +33,7 @@
                                     <img src="{{ asset('assets/front/images/setting/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
                                 @endif
                                 <div class="captionUpper">
-                                    {{ array_first($headlines)->title }}
+                                    {{ str_limit(array_first($headlines)->title, 25) }}
                                 </div>
                             </a>
                         </div>
@@ -42,7 +42,7 @@
                     <div class="row  mb-3">
                     @foreach($headlines as $key => $value)
                         @if($key > 0)
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 mb-3">
                                 <div class="bg-white">
                                     <a href="{{ url('news/'.$value->id) }}"> 
                                         @if( file_exists('assets/front/images/news/'.$value->preview) )
@@ -52,7 +52,7 @@
                                         @endif
                                            
                                         <div class="title">
-                                           {{ $value->title }}
+                                           {{ str_limit($value->title, 25) }}
                                         </div>
                                     </a>
                                 </div>
@@ -80,7 +80,7 @@
                                     @endif
                                 </div>
                                 <div class="title">
-                                    {{ $subHeadline->title }}
+                                    {{ str_limit($subHeadline->title, 25) }}
                                 </div>
                             </div>
                         </a>
@@ -121,7 +121,9 @@
                     <div class="row mb-3">
                         <div class="imageDiv">
                             <div class="title">
-                                <a href="{{ url('image/'.array_first($allImages)->id) }}"> {{ array_first($allImages)->title }} </a>
+                                <a href="{{ url('image/'.array_first($allImages)->id) }}"> 
+                                    {{ str_limit(array_first($allImages)->title, 25) }} 
+                                </a>
                             </div>
                             
                             <div class="image"> 
@@ -145,7 +147,7 @@
                                     <img src="{{ asset('assets/front/images/setting/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
                                 @endif 
                                 <div class="title">
-                                    {{ $value->title }}
+                                    {{ str_limit($value->title, 25) }}
                                 </div>
                             </a>
                         </div>
@@ -163,7 +165,7 @@
                                 <iframe class="embed-responsive-item" src="{{ array_first($allVideos)->videoaddress }}"  frameborder="0" allowfullscreen></iframe>
                             </div>
                             <div class="title">
-                                {{ array_first($allVideos)->title }} 
+                                {{ str_limit(array_first($allVideos)->title, 25) }} 
                             </div>
                         </a>
                     </div>
@@ -179,7 +181,7 @@
                                 </div>   
                             </div>
                             <div class="title">
-                                {{ $video->title }}
+                                {{ str_limit($video->title, 25) }}
                             </div>
                         </div>
                     </a>                       
@@ -204,7 +206,7 @@
                     <div class="row">
                         @foreach($categorizedNews[0] as $key => $value)
                         @if($key < 6 )
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-4 mb-4">
                             <a href="{{ url('news/'.$value->id) }}"> 
                                 <div class="bg-white"> 
                                 @if(file_exists('assets/front/images/news/'.$value->preview))
@@ -213,7 +215,7 @@
                                     <img src="{{ asset('assets/front/images/setting/'.$allSettings->defaultpic) }}" class="img-fluid" alt="Responsive image">
                                 @endif
                                     <div class="title">
-                                        {{ $value->title }}
+                                        {{ str_limit($value->title, 25) }}
                                     </div>
                                 </div>
                             </a>
@@ -238,7 +240,7 @@
             <div class="row">
                 <div class="col-md-9">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-4">
                             <a href="{{ url('news/'.array_first($categorizedNews[1])->id) }}"> 
                                 <div class="bg-white"> 
                                 @if(file_exists('assets/front/images/news/'.array_first($categorizedNews[1])->preview))
@@ -247,7 +249,7 @@
                                     <img src="{{ asset('assets/front/images/setting/'.$allSettings->defaultpic) }}" class="img-fluid" alt="Responsive image">
                                 @endif
                                     <div class="title">
-                                       {{ array_first($categorizedNews[1])->title }} 
+                                       {{ str_limit(array_first($categorizedNews[1])->title, 25) }} 
                                     </div>
                                     <div class="description">
                                        {{ str_limit(array_first($categorizedNews[1])->description, 60) }} 
@@ -270,7 +272,7 @@
                                         @endif
                                     </div>
                                     <div class="title">
-                                        {{ $value->title }}
+                                        {{ str_limit($value->title, 25) }}
                                     </div>
                                 </div>
                             </a>
@@ -307,7 +309,7 @@
                             @endif
                             </div>
                             <div class="title">
-                                {{ $thirdCategorizedNews->title }}
+                                {{ str_limit($thirdCategorizedNews->title, 25) }}
                             </div>
                         </div>
                     </a>
@@ -340,7 +342,7 @@
                                         @endif
                                     </div>
                                     <div class="title">
-                                        {{ $value->title }}
+                                        {{ str_limit($value->title, 25) }}
                                     </div>
                                 </div>
                             </a>

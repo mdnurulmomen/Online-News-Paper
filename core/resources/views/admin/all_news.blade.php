@@ -28,7 +28,7 @@
                                 <input type="checkbox" @if($news->status==0) checked @endif disabled>Unpublished
                             </td>
                             <td>
-                                <a href="{{ route('admin.edit.news', [$news->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit"><i class="fa fa-fw fa-edit"></i></a>
+                                <a href="{{ route('admin.edit_news', [$news->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit"><i class="fa fa-fw fa-edit"></i></a>
 
                                 <a data-toggle="modal" data-target="#myModal{{$news->id}}" class="btn btn-icon btn-pill btn-danger delete_button" data-toggle="tooltip" title="delete">
                                     <i class="fa fa-fw fa-trash"></i>
@@ -38,7 +38,7 @@
 
                         <div id="myModal{{$news->id}}" class="modal fade" role="dialog">
                             <div class="modal-dialog">
-                                <form action="{{route('admin.delete.news',$news->id)}}" method="POST">
+                                <form action="{{route('admin.delete_news',$news->id)}}" method="POST">
                                     @method('delete')    
                                     @csrf
                                     <div class="modal-content">

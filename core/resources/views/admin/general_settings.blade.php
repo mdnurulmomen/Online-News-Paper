@@ -7,7 +7,7 @@
                 Basic Information
             </div>
             <div class="card-body">
-                <form method="post" action = "{{ route('admin.settings.general.submit') }}">
+                <form method="post" action = "{{ route('admin.settings_general_submit') }}">
                     @csrf
                     @Method('put')
                     <div class="form-group row">

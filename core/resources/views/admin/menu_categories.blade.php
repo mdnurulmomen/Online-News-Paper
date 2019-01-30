@@ -20,7 +20,7 @@
                     </div>
                 </div>
 
-                <form method="post" action="{{route('admin.settings.menu_categories.submit')}}">
+                <form method="post" action="{{route('admin.settings_menu_categories_submit')}}">
                     @csrf
                     @method('put')
                     @for($i=0;$i < count($headerCategories);$i++)

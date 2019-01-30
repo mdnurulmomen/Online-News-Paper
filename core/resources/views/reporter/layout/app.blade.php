@@ -30,8 +30,8 @@
             <li class="nav-item dropdown">
                 <a href="#" id="dd_user" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{\Illuminate\Support\Facades\Auth::guard('reporter')->user()->username}}</a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd_user">
-                    <a href="{{ route('reporter.update.profile') }}" class="dropdown-item">Profile</a>
-                    <a href="{{ route('reporter.update.password') }}" class="dropdown-item">Change Password</a>
+                    <a href="{{ route('reporter.update_profile') }}" class="dropdown-item">Profile</a>
+                    <a href="{{ route('reporter.update_password') }}" class="dropdown-item">Change Password</a>
                     <a href="{{ route('reporter.logout') }}" class="dropdown-item">Logout</a>
                 </div>
             </li>
@@ -48,8 +48,8 @@
                     <i class="fa fa-fw fa-cube"></i> News
                 </a>
                 <ul id="view" class="list-unstyled collapse">
-                    <li><a href="{{ route('reporter.create.news') }}">Create News</a></li>
-                    <li><a href="{{ route('reporter.view.news') }}">View News</a></li>
+                    <li><a href="{{ route('reporter.create_news') }}">Create News</a></li>
+                    <li><a href="{{ route('reporter.view_news') }}">View News</a></li>
                 </ul>
             </li>
             <li>
@@ -57,8 +57,8 @@
                     <i class="fa fa-fw fa-cube"></i> Image
                 </a>
                 <ul id="image" class="list-unstyled collapse">
-                    <li><a href="{{ route('reporter.create.image') }}">Create Images</a></li>
-                    <li><a href="{{ route('reporter.view.images') }}">View Images</a></li>
+                    <li><a href="{{ route('reporter.create_image') }}">Create Images</a></li>
+                    <li><a href="{{ route('reporter.view_images') }}">View Images</a></li>
                 </ul>
             </li>
             <li>
@@ -66,8 +66,8 @@
                     <i class="fa fa-fw fa-cube"></i> Video
                 </a>
                 <ul id="video" class="list-unstyled collapse">
-                    <li><a href="{{ route('reporter.create.video') }}">Create Videos</a></li>
-                    <li><a href="{{ route('reporter.view.videos') }}">View Videos</a></li>
+                    <li><a href="{{ route('reporter.create_video') }}">Create Videos</a></li>
+                    <li><a href="{{ route('reporter.view_videos') }}">View Videos</a></li>
                 </ul>
             </li>
         </ul>

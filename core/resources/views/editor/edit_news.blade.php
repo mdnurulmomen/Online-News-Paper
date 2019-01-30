@@ -8,7 +8,7 @@
             <img src="{{ asset('assets/front/images/news/'.$newsToUpdate->preview) }}" class="img-thumbnail" alt="No Image">
         </legend>
         <div class="card-body">
-            <form method="POST" action = "{{ route('editor.edited.news.submit', $newsToUpdate->id) }}" enctype="multipart/form-data">
+            <form method="POST" action = "{{ route('editor.edited_news_submit', $newsToUpdate->id) }}" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <fieldset class="form-group">

@@ -5,7 +5,7 @@
         <h2 class="mb-4"> Password Setting </h2>
         <div class="card mb-4">
             <div class="card-body">
-                <form method="post" action = "{{ route('reporter.updated.password.submit') }}">
+                <form method="post" action = "{{ route('reporter.updated_password_submit') }}">
                     @csrf
                     <div class="form-group row">
                         <label for="validationServer02" class="col-sm-2 col-form-label"> Current Password: </label>

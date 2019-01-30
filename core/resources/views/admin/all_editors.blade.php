@@ -31,7 +31,7 @@
                             </td>
                             <td>{{ $editor->phone }}</td>
                             <td>
-                                <a href="{{ route('admin.edit.editor', $editor->id) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit">
+                                <a href="{{ route('admin.edit_editor', $editor->id) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit">
                                     <i class="fa fa-fw fa-edit"></i>
                                 </a>
 
@@ -50,7 +50,7 @@
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
 
-                                    <form action="{{ route('admin.delete.editor', $editor->id) }}" method="POST">
+                                    <form action="{{ route('admin.delete_editor', $editor->id) }}" method="POST">
                                         @method('delete')
                                         @csrf
                                         <div class="modal-body">

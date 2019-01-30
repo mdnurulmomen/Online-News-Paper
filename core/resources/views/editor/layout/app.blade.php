@@ -30,8 +30,8 @@
             <li class="nav-item dropdown">
                 <a href="#" id="dd_user" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{\Illuminate\Support\Facades\Auth::guard('editor')->user()->username}}</a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd_user">
-                    <a href="{{ route('editor.update.profile') }}" class="dropdown-item">Profile</a>
-                    <a href="{{ route('editor.update.password') }}" class="dropdown-item">Change Password</a>
+                    <a href="{{ route('editor.update_profile') }}" class="dropdown-item">Profile</a>
+                    <a href="{{ route('editor.update_password') }}" class="dropdown-item">Change Password</a>
                     <a href="{{ route('editor.logout') }}" class="dropdown-item">Logout</a>
                 </div>
             </li>
@@ -50,7 +50,7 @@
                     <i class="fa fa-fw fa-cube"></i> News
                 </a>
                 <ul id="view" class="list-unstyled collapse">
-                    <li><a href="{{route('editor.view.news')}}">View All News</a></li>
+                    <li><a href="{{route('editor.view_news')}}">View All News</a></li>
                 </ul>
             </li>
             <li>
@@ -58,7 +58,7 @@
                     <i class="fa fa-fw fa-cube"></i> Image
                 </a>
                 <ul id="image" class="list-unstyled collapse">
-                    <li><a href="{{route('editor.view.images')}}">View Images</a></li>
+                    <li><a href="{{route('editor.view_images')}}">View Images</a></li>
                 </ul>
             </li>
             <li>
@@ -66,7 +66,7 @@
                     <i class="fa fa-fw fa-cube"></i> Video
                 </a>
                 <ul id="video" class="list-unstyled collapse">
-                    <li><a href="{{ route('editor.view.videos') }}">View Videos</a></li>
+                    <li><a href="{{ route('editor.view_videos') }}">View Videos</a></li>
                 </ul>
             </li>
         </ul>

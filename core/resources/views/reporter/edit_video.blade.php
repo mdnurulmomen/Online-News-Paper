@@ -9,7 +9,7 @@
         </div>
 
         <div class="card-body">
-            <form method="POST" action = "{{ route('reporter.edited.video.submit', $videoToUpdate->id) }}" enctype="multipart/form-data">
+            <form method="POST" action = "{{ route('reporter.edited_video_submit', $videoToUpdate->id) }}" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <div class="form-group row">

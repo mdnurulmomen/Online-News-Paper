@@ -5,7 +5,7 @@
     <h2 class="mb-4"> Creating News </h2>
     <div class="card mb-4">
         <div class="card-body">
-            <form method="POST" action = "{{ route('admin.created.news.submit') }}" enctype="multipart/form-data">
+            <form method="POST" action = "{{ route('admin.created_news_submit') }}" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <fieldset class="form-group">

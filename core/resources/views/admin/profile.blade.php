@@ -7,7 +7,7 @@
             <img src="{{ asset('assets/admin/images/'.$profileData->profile_pic) }}" class="img-thumbnail" alt="No Image">
         </legend>
         <div class="card-body">
-            <form method="post" action= "{{ route('admin.updated.profile.submit') }}" enctype="multipart/form-data">
+            <form method="post" action= "{{ route('admin.updated_profile_submit') }}" enctype="multipart/form-data">
                 @csrf
                 @Method('put')
                 <div class="form-row">

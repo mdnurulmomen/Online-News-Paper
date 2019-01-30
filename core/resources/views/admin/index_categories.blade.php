@@ -20,7 +20,7 @@
                     </div>
                 </div>
 
-                <form method="post" action="{{route('admin.settings.index_categories.submit')}}">
+                <form method="post" action="{{route('admin.settings_index_categories_submit')}}">
                     @csrf
                     @method('put')
                     @for($i=0;$i<count($prioritizedCategoryDetails);$i++)

@@ -393,7 +393,7 @@ class AdminController extends Controller
         
         $newsToUpdate->save();
 
-        return redirect()->route('admin.edit.news', $newsToUpdate->id)->with('success', 'News is updated');
+        return redirect()->route('admin.edit_news', $newsToUpdate->id)->with('success', 'News is updated');
     }
 
     public function newsDeleteMethod($newsId)
@@ -473,7 +473,7 @@ class AdminController extends Controller
         $videoToUpdate->updated_admin_id = $currentAdmin->id;
         $videoToUpdate->save();
 
-        return redirect()->route('admin.edit.video', $videoToUpdate->id)->with('success', 'Video is updated');
+        return redirect()->route('admin.edit_video', $videoToUpdate->id)->with('success', 'Video is updated');
     }
 
     public function videoDeleteMethod($videoId)
@@ -560,7 +560,7 @@ class AdminController extends Controller
 
         $imageToUpdate->save();
 
-        return redirect()->route('admin.edit.image', $imageToUpdate->id)->with('success', 'Video is updated');
+        return redirect()->route('admin.edit_image', $imageToUpdate->id)->with('success', 'Video is updated');
     }
 
     public function imageDeleteMethod($imageId)
@@ -617,7 +617,7 @@ class AdminController extends Controller
         $request->has('parent') ? $categoryToUpdate->parent = $request->parent : $categoryToUpdate->parent = 0;
 
         $categoryToUpdate->save();
-        return redirect()->route('admin.edit.category', $categoryToUpdate->id)->with('success', 'Category is Updated');
+        return redirect()->route('admin.edit_category', $categoryToUpdate->id)->with('success', 'Category is Updated');
     }
 
     public function categoryDeleteMethod($categoryId)
@@ -718,7 +718,7 @@ class AdminController extends Controller
         $profileToUpdate->country = $request->country;
         $profileToUpdate->save();
 
-        return redirect()->route('admin.edit.editor', $profileToUpdate->id)->with('success', 'Profile is Updated');
+        return redirect()->route('admin.edit_editor', $profileToUpdate->id)->with('success', 'Profile is Updated');
     }
 
     public function editorDeleteMethod($editorId)
@@ -806,7 +806,7 @@ class AdminController extends Controller
         $profileToUpdate->country = $request->country;
         $profileToUpdate->save();
 
-        return redirect()->route('admin.edit.reporter', $profileToUpdate->id)->with('success', 'Profile is Updated');
+        return redirect()->route('admin.edit_reporter', $profileToUpdate->id)->with('success', 'Profile is Updated');
     }
 
     public function reporterDeleteMethod($reporterId)

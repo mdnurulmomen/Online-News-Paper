@@ -24,18 +24,18 @@
 
 	<div class="categoryNews-wrapper">
         <div class="container-fluid">
-            <div class="row mb-3">
+            <div class="row mb-5">
                 <div class="col-md-8">
                     <div class="row">
-                        <div class="col-sm-8">
+                        <div class="col-sm-8 mb-4">
                             <a href="{{ url('news/'.array_first($allRelatedNews)->id) }}"> 
-                                @if(file_exists('assets/front/images/news-img/'.array_first($allRelatedNews)->picpath))
-                                    <img src="{{ asset('assets/front/images/news-img/'.array_first($allRelatedNews)->picpath) }}" class="img-fluid" alt="Responsive image">
+                                @if(file_exists('assets/front/images/news/'.array_first($allRelatedNews)->preview))
+                                    <img src="{{ asset('assets/front/images/news/'.array_first($allRelatedNews)->preview) }}" class="img-fluid" alt="Responsive image">
                                 @else
-                                    <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
+                                    <img src="{{ asset('assets/front/images/setting/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
                                 @endif
                                 <div class="captionUpper">
-                                    {{ array_first($allRelatedNews)->title }}
+                                    {{ str_limit(array_first($allRelatedNews)->title, 25) }}
                                 </div>
                             </a>
                         </div>
@@ -44,14 +44,14 @@
                             @foreach($allRelatedNews as $key => $nextNews)
 
                             @if($key>0 && $key < 3)
-                            <a href="{{ url('news/'.$nextNews->id) }}" class="mb-3"> 
-                                @if(file_exists('assets/front/images/news-img/'.$nextNews->picpath))
-                                    <img src="{{ asset('assets/front/images/news-img/'.$nextNews->picpath) }}" class="img-fluid" alt="Responsive image">
+                            <a href="{{ url('news/'.$nextNews->id) }}" class="mb-4"> 
+                                @if(file_exists('assets/front/images/news/'.$nextNews->preview))
+                                    <img src="{{ asset('assets/front/images/news/'.$nextNews->preview) }}" class="img-fluid" alt="Responsive image">
                                 @else
-                                    <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
+                                    <img src="{{ asset('assets/front/images/setting/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
                                 @endif
                                 <div class="captionUpperSecond">
-                                    {{ $nextNews->title }} {{ $key }}
+                                    {{ str_limit($nextNews->title, 25) }} 
                                 </div>
                             </a>
                             <hr>
@@ -62,7 +62,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-4 mb-4">
                     <div class="row">
                         <div class="col-sm-12 ad-wrapper">
                             Space for ad images
@@ -82,16 +82,16 @@
             <div class="row mb-3">
                 @foreach($allRelatedNews as $key => $nextNews)
                     @if($key>2 && $key < 7)
-                    <div class="col-md-3">
+                    <div class="col-md-3 mb-3">
                         <div class="bg-white">
                             <a href="{{ url('news/'.$nextNews->id) }}"> 
-                                @if(file_exists('assets/front/images/news-img/'.$nextNews->picpath))
-                                    <img src="{{ asset('assets/front/images/news-img/'.$nextNews->picpath) }}" class="img-fluid" alt="Responsive image">
+                                @if(file_exists('assets/front/images/news/'.$nextNews->preview))
+                                    <img src="{{ asset('assets/front/images/news/'.$nextNews->preview) }}" class="img-fluid" alt="Responsive image">
                                 @else
-                                    <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
+                                    <img src="{{ asset('assets/front/images/setting/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
                                 @endif
                                 <div class="title">
-                                    {{ $nextNews->title }} {{ $key }}
+                                    {{ str_limit($nextNews->title, 25) }} 
                                 </div>
                             </a>
                         </div>
@@ -105,16 +105,16 @@
                 @foreach($allRelatedNews as $key => $nextNews)
                     
                     @if($key>6 && $key < 11)
-                    <div class="col-md-3">
+                    <div class="col-md-3 mb-3">
                         <div class="bg-white">
                             <a href="{{ url('news/'.$nextNews->id) }}"> 
-                                @if(file_exists('assets/front/images/news-img/'.$nextNews->picpath))
-                                    <img src="{{ asset('assets/front/images/news-img/'.$nextNews->picpath) }}" class="img-fluid" alt="Responsive image">
+                                @if(file_exists('assets/front/images/news/'.$nextNews->preview))
+                                    <img src="{{ asset('assets/front/images/news/'.$nextNews->preview) }}" class="img-fluid" alt="Responsive image">
                                 @else
-                                    <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
+                                    <img src="{{ asset('assets/front/images/setting/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
                                 @endif
                                 <div class="title">
-                                    {{ $nextNews->title }} {{ $key }}
+                                    {{ str_limit($nextNews->title, 25) }}
                                 </div>
                             </a>
                         </div>
@@ -149,14 +149,14 @@
                         <a href="{{ url('news/'.$moreRelatedNews->id) }}"> 
                             <div class="parallal">
                                 <div class="image">
-                                    @if(file_exists('assets/front/images/news-img/'.$moreRelatedNews->picpath))
-                                        <img src="{{ asset('assets/front/images/news-img/'.$moreRelatedNews->picpath) }}" class="img-fluid pull-left" src="" alt="Responsive image">
+                                    @if(file_exists('assets/front/images/news/'.$moreRelatedNews->preview))
+                                        <img src="{{ asset('assets/front/images/news/'.$moreRelatedNews->preview) }}" class="img-fluid pull-left" src="" alt="Responsive image">
                                     @else
-                                        <img src="{{ asset('assets/front/images/setting-img/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
+                                        <img src="{{ asset('assets/front/images/setting/'.$allSettings->default_icon) }}" class="img-fluid" alt="Responsive image">
                                     @endif
                                 </div>
                                 <div class="title">
-                                    {{ $moreRelatedNews->title }} {{ 'allrelated'.$key }}
+                                    {{ str_limit($moreRelatedNews->title, 25) }} 
                                 </div>
                             </div>
                         </a>

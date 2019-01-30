@@ -72,8 +72,8 @@
 
         .captionUpper{
             color: #FFC107;
-            margin-top: -15%;
-            margin-bottom: 15%;
+            margin-top: -36px;
+            margin-bottom: -3%;
             font-weight: bold;
             font-size: 23px;
             word-wrap: break-word;
@@ -89,15 +89,14 @@
 
         .captionUpperSecond{
             color: #fff;
-            padding: 0 0 0px 5px;
-            margin-top: -15%;
-            margin-right: 15px;
-            margin-bottom: 8%;
+            margin-top: -40px; 
             font-weight: bold;
-            font-size: 17px;
+            font-size: 20px;
             word-wrap: break-word;
             background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
-            /*position: absolute;*/
+            position: absolute;
+            padding: 0px 5px 8px 8px;
+            margin-right: 15px;
         }
 
         .captionUpperSecond:hover{
@@ -138,6 +137,7 @@
 
         .media-wrapper .title{
             color:#fff;
+            text-align: center; 
         }
 
         .media-wrapper .title a{
@@ -159,6 +159,7 @@
         }
 
         .parallal {
+            padding: 2%;
             display: flex;
             margin-right: 5px;
             align-self: flex-start;
@@ -177,7 +178,9 @@
             margin-right: 10px;
             position: relative;
             overflow: hidden;
-            /*padding-top: 2%;*/
+            /* padding-top: 2%; */
+            justify-content: center;
+            align-self: center;
         }
 
         .imageDiv{
@@ -332,6 +335,15 @@
             margin-bottom: 10px;
             font-weight: bold;
         }
+
+        .forum-list-item {
+            padding-left: 5px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comment{
+            font-size: 20px;
+        }
     </style>
 
   </head>
@@ -383,11 +395,7 @@
                                         <i class="fas fa-bars" onclick="openMenuList(this)"></i>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="javascript:void(0);">
-                                        <i class="fa fa-search" aria-hidden="true" onclick="openSerachBox()"></i>
-                                    </a>
-                                </li>
+                                
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-user"></i>
@@ -435,8 +443,8 @@
         <div class="footer-menu">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-2">
-                        <ul style="">
+                    <div class="col-6 col-sm-6 col-md-2 ">
+                        <ul style="list-style-type: circle;">
                         @foreach($footerCategories as $key=>$category)
                             <li>
                                 <a href="{{$category->url}}">
@@ -444,7 +452,7 @@
                                 </a>
                             </li>
                             @if($key>0 && ($key+1)%3==0)
-                                </ul></div><div class="col-sm-2"><ul style="list-style-type: circle;">
+                                </ul></div><div class="col-6 col-sm-6 col-md-2"><ul style="list-style-type: circle;">
                            @endif
 
                         @endforeach

@@ -5,7 +5,7 @@
     <h2 class="mb-4"> Create Category </h2>
     <div class="card mb-4">
         <div class="card-body">
-            <form method="POST" action = "{{ route('admin.created.category.submit') }}" enctype="multipart/form-data">
+            <form method="POST" action = "{{ route('admin.created_category_submit') }}" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <div class="form-group row">

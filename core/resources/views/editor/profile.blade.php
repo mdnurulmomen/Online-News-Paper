@@ -7,7 +7,7 @@
             <img src="{{ asset('assets/editor/images/'.$editor->profile_pic) }}" class="img-thumbnail text-right" alt="No Image">
         </legend>
         <div class="card-body">
-            <form method="POST" action = "{{ route('editor.updated.profile.submit') }}" enctype="multipart/form-data">
+            <form method="POST" action = "{{ route('editor.updated_profile_submit') }}" enctype="multipart/form-data">
                 @csrf
                 @Method('put')
                 <div class="form-row">

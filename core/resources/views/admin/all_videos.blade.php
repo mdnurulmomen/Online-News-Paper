@@ -30,7 +30,7 @@
                                 <input type="checkbox" @if($video->status==0) checked @endif disabled>Unpublished
                             </td>
                             <td>
-                                <a href="{{ route('admin.edit.video', [$video->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit">
+                                <a href="{{ route('admin.edit_video', [$video->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit">
                                     <i class="fa fa-fw fa-edit"></i>
                                 </a>
 
@@ -49,7 +49,7 @@
                                         <h4 class="modal-title">Confirmation</h4>
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
-                                    <form action="{{ route('admin.delete.video', $video->id) }}" method="POST">
+                                    <form action="{{ route('admin.delete_video', $video->id) }}" method="POST">
                                         @method('delete')
                                         @csrf
                                         <div class="modal-body">

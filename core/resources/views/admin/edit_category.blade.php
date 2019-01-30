@@ -4,7 +4,7 @@
     <h2 class=""> Updating Category </h2>
     <div class="card">
         <div class="card-body">
-            <form method="POST" action = "{{ route('admin.edited.category.submit', $categoryToUpdate->id) }}" enctype="multipart/form-data">
+            <form method="POST" action = "{{ route('admin.edited_category_submit', $categoryToUpdate->id) }}" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <div class="form-group row">

@@ -20,7 +20,7 @@
                     </div>
                 </div>
 
-                <form method="post" action="{{route('admin.settings.footer_categories.submit')}}">
+                <form method="post" action="{{route('admin.settings_footer_categories_submit')}}">
                     @csrf
                     @method('put')
                     @for($i=0;$i<count($footerCategories);$i++)

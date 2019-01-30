@@ -19,7 +19,7 @@
                         <h5 class="text-capitalize">Category Parent</h5>
                     </div>
                 </div>
-                <form method="post" action="{{route('admin.settings.categories.submit')}}">
+                <form method="post" action="{{route('admin.settings_categories_submit')}}">
                     @csrf
                     @method('put')
                     @for($i=0;$i<count($prioritizedCategoryDetails);$i++)

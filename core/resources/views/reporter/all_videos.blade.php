@@ -30,7 +30,7 @@
                                 <input type="checkbox" @if($video->status==0) checked @endif disabled>Unpublished
                             </td>
                             <td>
-                                <a href="{{ route('reporter.edit.video', [$video->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit">
+                                <a href="{{ route('reporter.edit_video', [$video->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit">
                                     <i class="fa fa-fw fa-edit"></i>
                                 </a>
                             </td>

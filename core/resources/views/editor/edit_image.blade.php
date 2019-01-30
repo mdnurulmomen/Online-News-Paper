@@ -9,7 +9,7 @@
         </div>
 
         <div class="card-body">
-            <form method="POST" action = "{{ route('editor.edited.image.submit', $imageToUpdate->id) }}" enctype="multipart/form-data">
+            <form method="POST" action = "{{ route('editor.edited_image_submit', $imageToUpdate->id) }}" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <div class="form-group row">

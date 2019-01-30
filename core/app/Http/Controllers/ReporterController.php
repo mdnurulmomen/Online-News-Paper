@@ -253,7 +253,7 @@ class ReporterController extends Controller
 
         $imageToUpdate->save();
 
-        return redirect()->route('reporter.edit.image', $imageToUpdate->id)->with('success', 'Image is updated');
+        return redirect()->route('reporter.edit_image', $imageToUpdate->id)->with('success', 'Image is updated');
     }
 
     public function showCreateVideoForm()
@@ -333,7 +333,7 @@ class ReporterController extends Controller
 
         $videoToUpdate->save();
 
-        return redirect()->route('reporter.edit.video', $videoToUpdate->id)->with('success', 'Video is updated');
+        return redirect()->route('reporter.edit_video', $videoToUpdate->id)->with('success', 'Video is updated');
     }
 
     public function logout()

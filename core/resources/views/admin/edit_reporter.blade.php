@@ -7,7 +7,7 @@
             <img src="{{ asset('assets/reporter/images/'.$reporterToUpdate->profile_pic) }}" class="img-thumbnail" alt="No Image">
         </legend>
         <div class="card-body">
-            <form method="POST" action = "{{ route('admin.edited.reporter.submit', $reporterToUpdate->id) }}" enctype="multipart/form-data">
+            <form method="POST" action = "{{ route('admin.edited_reporter_submit', $reporterToUpdate->id) }}" enctype="multipart/form-data">
                 @csrf
                 @Method('put')
                 <div class="form-row">

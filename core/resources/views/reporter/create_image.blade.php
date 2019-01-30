@@ -5,7 +5,7 @@
     <h2 class="mb-4"> Creating Image </h2>
     <div class="card mb-4">
         <div class="card-body">
-            <form method="POST" action = "{{ route('reporter.created.image.submit') }}" enctype="multipart/form-data">
+            <form method="POST" action = "{{ route('reporter.created_image_submit') }}" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <div class="form-group row">

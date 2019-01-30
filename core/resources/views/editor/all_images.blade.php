@@ -27,7 +27,7 @@
                             <input type="checkbox" @if($image->status==0) checked @endif disabled>Unpublished
                         </td>
                         <td>
-                            <a href="{{ route('editor.edit.image', [$image->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit">
+                            <a href="{{ route('editor.edit_image', [$image->id]) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit">
                                 <i class="fa fa-fw fa-edit"></i>
                             </a>
                         </td>

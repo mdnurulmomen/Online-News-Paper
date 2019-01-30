@@ -7,7 +7,7 @@
             Editor Creating Form
         </div>
         <div class="card-body">
-            <form method="POST" action = "{{ route('admin.created.editor.submit') }}" enctype="multipart/form-data">
+            <form method="POST" action = "{{ route('admin.created_editor_submit') }}" enctype="multipart/form-data">
                 @csrf
                 @Method('put')
                 <div class="form-row">

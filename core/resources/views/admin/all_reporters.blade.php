@@ -24,7 +24,7 @@
                             <td> All Categoryies </td>
                             <td>{{ $reporter->phone }}</td>
                             <td>
-                                <a href="{{ route('admin.edit.reporter',  $reporter->id) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit">
+                                <a href="{{ route('admin.edit_reporter',  $reporter->id) }}" class="btn btn-icon btn-pill btn-success" data-toggle="tooltip" title="Edit">
                                     <i class="fa fa-fw fa-edit"></i>
                                 </a>
 
@@ -43,7 +43,7 @@
                                         <h4 class="modal-title">Confirmation</h4>
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
-                                    <form action="{{ route('admin.delete.reporter', $reporter->id) }}" method="POST">
+                                    <form action="{{ route('admin.delete_reporter', $reporter->id) }}" method="POST">
                                         @method('delete')
                                         @csrf
                                         <div class="modal-body">

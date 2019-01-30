@@ -8,7 +8,7 @@
             Profile Creating Form
         </div>
         <div class="card-body">
-            <form method="POST" action = "{{ route('admin.created.reporter.submit') }}" enctype="multipart/form-data">
+            <form method="POST" action = "{{ route('admin.created_reporter_submit') }}" enctype="multipart/form-data">
                 @csrf
                 @Method('put')
                 <div class="form-row">

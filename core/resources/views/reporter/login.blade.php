@@ -17,7 +17,7 @@
             <div class="card card-signin my-5" style="margin-top:10rem!important;">
                 <div class="card-body">
                     <h5 class="card-title text-center">Sign In</h5>
-                    <form method="post" action="{{route('reporter.login.submit')}}" class="form-signin">
+                    <form method="post" action="{{route('reporter.login_submit')}}" class="form-signin">
                         @csrf
                         <div class="form-label-group">
                             <input type="text" name="username" class="form-control" placeholder="username" required autofocus>

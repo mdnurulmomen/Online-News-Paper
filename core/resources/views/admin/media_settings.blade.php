@@ -7,7 +7,7 @@
                 Media Information
             </div>
             <div class="card-body">
-                <form method="post" action = "{{ route('admin.settings.media.submit') }}" enctype="multipart/form-data">
+                <form method="post" action = "{{ route('admin.settings_media_submit') }}" enctype="multipart/form-data">
                     @csrf
                     @Method('put')
                     <div class="form-row row">

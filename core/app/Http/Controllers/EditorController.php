@@ -193,7 +193,7 @@ class EditorController extends Controller
 
         $imageToUpdate->save();
 
-        return redirect()->route('editor.edit.image', $imageToUpdate->id)->with('success', 'Image is updated');
+        return redirect()->route('editor.edit_image', $imageToUpdate->id)->with('success', 'Image is updated');
     }
 
 
@@ -234,7 +234,7 @@ class EditorController extends Controller
         $videoToUpdate->updated_editor_id = $currentEditor->id;
         $videoToUpdate->save();
 
-        return redirect()->route('editor.edit.video', $videoToUpdate->id)->with('success', 'Video is updated');
+        return redirect()->route('editor.edit_video', $videoToUpdate->id)->with('success', 'Video is updated');
     }
 
     public function logout()
