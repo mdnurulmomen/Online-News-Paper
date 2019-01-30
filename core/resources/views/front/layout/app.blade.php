@@ -344,6 +344,15 @@
         .comment{
             font-size: 20px;
         }
+        
+        .user{
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .comment-list-item .fa-user{
+            font-size: 28px;
+        }
     </style>
 
   </head>
