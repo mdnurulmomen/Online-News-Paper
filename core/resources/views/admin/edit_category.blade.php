@@ -10,7 +10,7 @@
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Category Name:</label>
                     <div class="col-sm-10">
-                        <input type="text" name="name" value="{{ $categoryToUpdate->name }}" class="form-control form-control-lg" readonly="true">
+                        <input type="text" name="name" value="{{ $categoryToUpdate->name }}" class="form-control form-control-lg">
                     </div>
                 </div>
                 <div class="form-group row">

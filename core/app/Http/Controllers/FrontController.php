@@ -13,13 +13,11 @@ use Illuminate\Http\Request;
 
 class FrontController extends Controller
 {
-    public function showIndexMethod(){
-
+    public function showIndexMethod()
+    {
         $allSettings = Setting::first();
-
         $allCategories = Category::all();
-
-        $headerCategories = Category::whereIn('id', json_decode($allSettings->header_categories))->get();        
+        $headerCategories = Category::whereIn('id', json_decode($allSettings->header_categories))->take(10)->get();
         
         $headlines = $allSettings->news_headlines->slice(0,7);
         $subHeadlines = $allSettings->news_subheadlines->slice(0,12);
@@ -41,8 +39,8 @@ class FrontController extends Controller
         return view('front.index', compact('allSettings', 'allCategories', 'headerCategories', 'headlines', 'subHeadlines', 'allImages', 'allVideos', 'categoryNames', 'categorizedNews', 'footerCategories'));
     }
 
-    public  function  showCategoryNews($categoryUrl){
-
+    public  function  showCategoryNews($categoryUrl)
+    {
         $categoryDetails = Category::where('url', $categoryUrl)->first();
         $categoryName = $categoryDetails->name;
         $categoryId = $categoryDetails->id;
@@ -53,18 +51,22 @@ class FrontController extends Controller
 
         $allCategories = Category::all();
 
-        $headerCategories = Category::whereIn('id', json_decode($allSettings->header_categories))->get();
+        $headerCategories = Category::whereIn('id', json_decode($allSettings->header_categories))->take(10)->get();
 
         $footerCategories = Category::whereIn('id', json_decode($allSettings->categories_footer))->get();
+
+        if($allRelatedNews->isEmpty()){
+            return abort(404);;
+        }
 
         return view('front.category_news', compact('allSettings', 'allCategories', 'headerCategories', 'categoryName', 'allRelatedNews', 'footerCategories'));
     }
 
-    public  function  showSpecificNews($newsId){
-        
+    public  function  showSpecificNews($newsId)
+    {    
         $allSettings = Setting::first();
         $allCategories = Category::all();
-        $headerCategories = Category::whereIn('id', json_decode($allSettings->header_categories))->get();
+        $headerCategories = Category::whereIn('id', json_decode($allSettings->header_categories))->take(10)->get();
         
         $specificNewsDetails = News::where('id', $newsId)->first();
         // $categoryName = $specificNewsDetails->category->name;
@@ -76,11 +78,11 @@ class FrontController extends Controller
         return view('front.news', compact('allSettings', 'allCategories', 'headerCategories', 'categoryName', 'specificNewsDetails', 'moreRelatedNews', 'footerCategories'));
     }
 
-    public  function  showSpecificImage($imageId){
-
+    public  function  showSpecificImage($imageId)
+    {
         $allSettings = Setting::first();
         $allCategories = Category::all();
-        $headerCategories = Category::select('id', 'name', 'url')->whereIn('id', json_decode($allSettings->header_categories))->get();
+        $headerCategories = Category::select('id', 'name', 'url')->whereIn('id', json_decode($allSettings->header_categories))->take(10)->get();
 
         $specificImageDetails = Image::where('id', $imageId)->first();
         
@@ -89,11 +91,11 @@ class FrontController extends Controller
         return view('front.image', compact('allSettings', 'allCategories', 'headerCategories', 'specificImageDetails', 'footerCategories'));
     }
 
-    public  function  showSpecificVideo($videoId){
-
+    public  function  showSpecificVideo($videoId)
+    {
         $allSettings = Setting::first();
         $allCategories = Category::all();
-        $headerCategories = Category::select('id', 'name', 'url')->whereIn('id', json_decode($allSettings->header_categories))->get();
+        $headerCategories = Category::select('id', 'name', 'url')->whereIn('id', json_decode($allSettings->header_categories))->take(10)->get();
 
         $specificVideoDetails = Video::where('id', $videoId)->first();
         $recentVideoDetails = Video::orderBy('created_at', 'DESC')->take(6)->get();

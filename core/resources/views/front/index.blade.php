@@ -23,7 +23,7 @@
     <div class="headlines-wrapper">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 mr-2">
                     <div class="row mb-4">
                         <div class="col-sm-12">
                             <a href="{{ url('news/'.array_first($headlines)->id) }}"> 

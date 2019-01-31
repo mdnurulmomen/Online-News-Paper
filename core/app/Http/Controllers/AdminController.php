@@ -584,7 +584,7 @@ class AdminController extends Controller
 
         $newCategory = new Category();
         $newCategory->name = $request->name;
-        $newCategory->url = $request->url;
+        $newCategory->url = strtolower($request->url);
         $request->has('parent') ? $newCategory->parent = $request->parent : $newCategory->parent = 0;
         $newCategory->save();
 
@@ -606,14 +606,15 @@ class AdminController extends Controller
 
     public function submitCategoryEditForm(Request $request, $categoryId)
     {
+        $categoryToUpdate = Category::findOrFail($categoryId);
+
         $request->validate([
-            'name'=>'required',
-            'url'=>'required',
+            'name'=>'required|unique:categories,name,'.$categoryToUpdate->id,
+            'url'=>'required|unique:categories,url,'.$categoryToUpdate->id,
         ]);
 
-        $categoryToUpdate = Category::findOrFail($categoryId);
         $categoryToUpdate->name = $request->name;
-        $categoryToUpdate->url = $request->url;
+        $categoryToUpdate->url = strtolower($request->url);
         $request->has('parent') ? $categoryToUpdate->parent = $request->parent : $categoryToUpdate->parent = 0;
 
         $categoryToUpdate->save();

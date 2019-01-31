@@ -17,7 +17,7 @@
     <style>
 
         body {
-            font-family: Kiron, SolaimanLipi, Arial, Vrinda, FallbackBengaliFont, Helvetica, sans-serif !important;
+            font-family: Arial, Vrinda, FallbackBengaliFont, Helvetica, sans-serif; !important;
             font-size: 16px;
             background: #f0f0ed;
             color: #333;
@@ -237,10 +237,6 @@
             padding: 3% 5% 3% 5%;
         }
 
-        .footer-menu li{
-            padding: 6%;
-        }
-
         .footer-menu a{
             color: #ccc;
             float: left;
@@ -248,6 +244,7 @@
             text-decoration: none;
             font-size: 18px;
             font-weight: bold;
+            padding: 6%;
         }
 
         .footer-menu a:hover{
@@ -392,7 +389,24 @@
             font-weight: bold;
             display: inline-block;
             color: #05691c;
+        } 
+
+        @media only screen and (max-width: 420px) {
+            .navbar img{
+                max-width: 99px;
+            }
         }
+
+        @media only screen and (max-width: 420px) {
+            hr{
+                margin: 4px 0;
+            }
+
+            .parallal {
+                padding: 6px;
+            }
+        }
+
     </style>
 
   </head>
@@ -401,12 +415,12 @@
         <div class="container">
             <div class="row">
                 
-                <div class="col-md-2">
+                <div class="col-4 col-md-2 ">
                 @foreach($allCategories as $key=>$category) 
                 <a href="{{ url('category/'.$category->url) }}"> {{ $category->name }} </a>
 
-                @if($key>0 && $key%3==0)
-                    </div><div class="col-md-2">
+                @if($key>0 && ($key+1)%3==0)
+                    </div><div class="col-4 col-md-2">
                 @endif
 
                 @endforeach
@@ -523,7 +537,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-6 col-sm-6 col-md-2 ">
-                        <ul style="list-style-type: circle;">
+                        <ul style="list-style-type: none;">
                         @foreach($footerCategories as $key=>$category)
                             <li>
                                 <a href="{{$category->url}}">
@@ -531,7 +545,7 @@
                                 </a>
                             </li>
                             @if($key>0 && ($key+1)%3==0)
-                                </ul></div><div class="col-6 col-sm-6 col-md-2"><ul style="list-style-type: circle;">
+                                </ul></div><div class="col-6 col-sm-6 col-md-2"><ul style="list-style-type: none;">
                            @endif
 
                         @endforeach
