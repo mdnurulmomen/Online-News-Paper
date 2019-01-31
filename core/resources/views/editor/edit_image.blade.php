@@ -52,7 +52,7 @@
 <script>
     $(document).ready(function() {
         bkLib.onDomLoaded(function () {
-            new nicEditor({iconsPath: '../../../assets/editor/images/nicEditorIcons.gif'}).panelInstance('textArea');
+            new nicEditor({iconsPath: '{{asset('assets/editor/images/nicEditorIcons.gif')}}'}).panelInstance('textArea');
         });
     });
 </script>

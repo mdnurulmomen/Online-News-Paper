@@ -34,7 +34,6 @@ class FrontController extends Controller
         foreach ($categoryPrioritized as $key => $value) {
 
             $categorizedNews[] = News::where('category_id', $value)->where('status', 1)->orderBy('created_at', 'DESC')->take(6)->get();
-            // $categorizedNews[] = News::where('category_id', $value)->where('status', 1)->get();
         }
 
         $footerCategories = Category::whereIn('id', json_decode($allSettings->categories_footer))->get();
@@ -49,7 +48,6 @@ class FrontController extends Controller
         $categoryId = $categoryDetails->id;
 
         $allRelatedNews = News::where('category_id', $categoryId)->where('status', 1)->orderBy('created_at', 'DESC')->get();
-        // $allRelatedNews = News::select('id', 'title', 'picpath', 'description', 'status', 'created_at')->where('category_id', $categoryId)->where('status', 1)->get();
 
         $allSettings = Setting::first();
 

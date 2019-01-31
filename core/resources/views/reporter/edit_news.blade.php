@@ -63,7 +63,7 @@
 <script>
     $(document).ready(function() {
         bkLib.onDomLoaded(function () {
-            new nicEditor({iconsPath: '../../../assets/reporter/images/nicEditorIcons.gif'}).panelInstance('textArea');
+            new nicEditor({iconsPath: '{{asset('assets/reporter/images/nicEditorIcons.gif')}}'}).panelInstance('textArea');
         });
     });
 </script>

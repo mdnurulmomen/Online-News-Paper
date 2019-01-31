@@ -11,10 +11,6 @@
     <link rel="stylesheet" href="{{ asset('assets/reporter/css/bootstrap-toggle.min.css') }}">
 
     <script src="{{ asset('assets/reporter/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/reporter/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/reporter/js/bootadmin.min.js') }}"></script>
-    <script src="{{ asset('assets/reporter/js/toastr.min.js') }}"></script>
-    <script src="{{ asset('assets/reporter/js/bootstrap-toggle.min.js') }}"></script>
     <script src="{{asset('assets/reporter/js/nicEdit.js')}}" type="text/javascript"></script>
 
     <title>Dashboard | Online News Admin Panel</title>
@@ -80,7 +76,10 @@
     </div>
 </div>
 
-
+<script src="{{ asset('assets/reporter/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('assets/reporter/js/bootadmin.min.js') }}"></script>
+<script src="{{ asset('assets/reporter/js/toastr.min.js') }}"></script>
+<script src="{{ asset('assets/reporter/js/bootstrap-toggle.min.js') }}"></script>
 
 <script>
     (function ($) {

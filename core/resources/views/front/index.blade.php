@@ -118,7 +118,7 @@
                     <div class="categoryName">
                         Images 
                     </div>
-                    <div class="row mb-3">
+                    <div class="row mb-4">
                         <div class="imageDiv">
                             <div class="title">
                                 <a href="{{ url('image/'.array_first($allImages)->id) }}"> 

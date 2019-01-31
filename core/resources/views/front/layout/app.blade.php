@@ -275,8 +275,7 @@
             z-index: 99;
             top: 74px;
             left: 0;
-            /*background-color: #155724;*/
-            background-color: #fff;
+            background-color: #282828;
             overflow-x: hidden;
             transition: 0.5s;
             padding-top: 10px;
@@ -293,7 +292,7 @@
             margin-top:28px;
             text-decoration: none;
             font-size: 15px;
-            color: #000;
+            color: #fff;
             display: block;
             transition: 0.3s;
             font-size: 18px;
@@ -340,10 +339,6 @@
             padding-left: 5px;
             border-bottom: 1px solid #eee;
         }
-
-        .comment{
-            font-size: 20px;
-        }
         
         .user{
             font-size: 20px;
@@ -352,6 +347,51 @@
 
         .comment-list-item .fa-user{
             font-size: 28px;
+        }
+
+        .menuBar .fa-user{
+            top: 5px;
+            position: relative;
+            font-size: 20px;
+        }
+
+        .menuBar {
+            position: relative;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            -ms-flex-align: center;
+            align-items: center;
+            -ms-flex-pack: justify;
+            flex-flow: row nowrap;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+            padding: .5rem 1rem;
+            background-color: #f8f9fa!important;    
+        }
+
+        .menuBar ul {
+            margin: 0;
+            padding: 0;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            padding-left: 0;
+            margin-bottom: 0;
+            list-style: none;
+        }
+
+        .menuBar li {
+            float: left;
+            display: list-item;
+        }
+
+        .menuBar li a {
+            font-weight: bold;
+            display: inline-block;
+            color: #05691c;
         }
     </style>
 
@@ -395,7 +435,36 @@
                             </ul>
                         </div>
                     </nav>
+                    
+                    <div class="menuBar">
+                        <ul>
+                            <li>
+                                <a class="nav-link" href="javascript:void(0);">
+                                    <i class="fas fa-bars" onclick="openMenuList(this)"></i>
+                                </a>
+                            </li>
+                            
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-user"></i>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">Not Fixed</a>
 
+                                    <div class="dropdown-divider"></div>
+
+                                    @if(Auth::check())
+                                    <a href="{{route('user.logout')}}" class="dropdown-item">Logout</a>
+                                    @else
+                                    <a href="{{ route('user.login') }}" class="dropdown-item">Login</a>
+                                    <a href="{{ route('user.register') }}" class="dropdown-item">Register</a>
+                                    @endif
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    {{--
                     <nav class="navbar navbar-expand-lg navbar-light bg-light" id="barNav"> 
                         <div class="collapse navbar-collapse">
                             <ul class="navbar-nav">
@@ -424,7 +493,8 @@
                                 </li>
                             </ul>
                         </div>
-                    </nav>  
+                    </nav>
+                    --}}  
                 </div>
 
                 <div class="row">
@@ -485,39 +555,37 @@
 
     <script type="text/javascript">
         /* Set the width of the side navigation to 100% */
-        function openMenuList(element) {
+        function openMenuList(element) 
+        {
             document.getElementById("menuList").style.width = "100%";
             element.className = element.className.replace("fa-bars", "fa-times");
             element.setAttribute( "onClick", "javascript: closeMenuList(this, 'close');" );
-            // document.getElementsByTagName('body').style.opacity = 0;
-            document.getElementsByClassName('headlines-wrapper')[0].style.opacity = 0.5;
-            document.getElementsByClassName('media-wrapper')[0].style.opacity = 0.5;
-            document.getElementsByClassName('firstPrioritizedCategroy-wrapper')[0].style.opacity = 0.5;
-            document.getElementsByClassName('secondPrioritizedCategory-wrapper')[0].style.opacity = 0.5;
-            document.getElementsByClassName('thirdPrioritizedCategory-wrapper')[0].style.opacity = 0.5;
-            document.getElementsByClassName('fourthPrioritizedCategory-wrapper')[0].style.opacity = 0.5;
         }
 
         /* Set the width of the side navigation to 0 */
-        function closeMenuList(element) {
+        function closeMenuList(element) 
+        {
             document.getElementById("menuList").style.width = "0";
             element.className = element.className.replace("fa-times", "fa-bars");
             element.setAttribute( "onClick", "javascript: openMenuList(this);" );
-
-            // document.getElementsByTagName('body').style.opacity = 0;
-            document.getElementsByClassName('headlines-wrapper')[0].style.opacity = 1;
-            document.getElementsByClassName('media-wrapper')[0].style.opacity = 1;
-            document.getElementsByClassName('firstPrioritizedCategroy-wrapper')[0].style.opacity = 1;
-            document.getElementsByClassName('secondPrioritizedCategory-wrapper')[0].style.opacity = 1;
-            document.getElementsByClassName('thirdPrioritizedCategory-wrapper')[0].style.opacity = 1;
-            document.getElementsByClassName('fourthPrioritizedCategory-wrapper')[0].style.opacity = 1;
         }
 
-        function openSerachBox(){
+        $(document).mouseup(function(e) 
+        {
+            var menuContainer = $("#menuList");
+            // if the target of the click isn't the container nor a descendant of the container
+            if (!menuContainer.is(e.target) && menuContainer.has(e.target).length === 0 && menuContainer.width() > 200) {
+                menuContainer.width(0);
+                $(".fa-times").toggleClass('fa-times fa-bars');
+                $(".fa-bars").attr('onClick', 'javascript: openMenuList(this);');
+            }
+        });
 
+
+        function openSerachBox()
+        {
             var x = document.getElementById("searchForm");
             // var y = document.getElementById('navbar');
-
             if (x.style.display === "none")
             {
                 // y.style.display = "none";
@@ -528,9 +596,14 @@
             }
         }
 
-        function currentDiv(n) {
-            showDivs(slideIndex = n);
-        }
+        $(function() {
+           $("li").click(function() {
+              // remove classes from all
+              $("li").removeClass("active");
+              // add class to the one we clicked
+              $(this).addClass("active");
+           });
+        });
 
         $(document).ready(function () {
             var url = window.location;
@@ -539,6 +612,7 @@
                  return this.href == url;
             }).parent().addClass('active');
         });
+
     </script>
     </body>
 </html>

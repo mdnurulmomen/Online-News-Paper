@@ -130,12 +130,12 @@
                         <div class="float-left pr-3 mb-3 user-avatar">
                             <i class="fas fa-user"></i>
                         </div>
-                        <div class="comment">
-                            {{ $comment->body }}
+                        <div class="user">
+                            {{ $comment->relatedUser->username }}
                         </div>
                         <div>
-                            On <small>{{ $comment->created_at->format('jS F Y') }}</small>
-                        </div>
+                            {{ $comment->body }}
+                        </div> 
                         
                     </div>
 
